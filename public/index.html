@@ -1,0 +1,54 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Just Because</title>
+
+    <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script defer src="https://unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js" charset="utf-8"></script>
+
+    <script
+    defer src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    crossorigin="anonymous"></script>
+
+    <script defer src="./js/app.js" charset="utf-8"></script>
+    <script defer src="./js/controllers/mainCtrl.js" charset="utf-8"></script>
+    <script defer src="./js/controllers/adminCtrl.js" charset="utf-8"></script>
+
+    <link rel="stylesheet" href="./styles/main.css">
+
+  </head>
+  <body ng-app="mainApp" ng-controller="mainCtrl">
+
+    <header>
+
+      <div class="" id="headerLogoDiv">
+
+        <h1>Just Because...</h1>
+        <p>You Matter, Enduring the Struggle, Supporting Your Fight</p>
+
+      </div>
+
+      <div class="" id="headerRibbonDiv">
+
+        <img src="./images/allCancersRibbon.png" alt="">
+        <img src="./images/childhoodCancerRibbon.png" alt="">
+        <img src="./images/leiomyosarcomaRibbon.png" alt="">
+        <img src="./images/melonomaRibbon.png" alt="">
+        <img src="./images/sarcomaRibbon.png" alt="">
+        <img src="./images/bladderRibbon.png" alt="">
+        <img src="./images/colonRibbon.png" alt="">
+        <img src="./images/leukemiaRibbon.png" alt="">
+        <img src="./images/multipleMyeloma.png" alt="">
+        <img src="./images/brainRibbon.png" alt="">
+
+      </div>
+
+    </header>
+
+    <div ui-view class="mainDisplay">
+
+    </div>
+
+  </body>
+</html>
