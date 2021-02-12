@@ -45,6 +45,37 @@ header {
   flex-direction: column;
   /* background: blue; */
 }
+#newCarePackageItemDiv {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+}
+#newCarePackageItemDiv span {
+  display: flex;
+  align-items: center;
+}
+#newCarePackageItemDiv input {
+  height: 50px;
+  margin-left: 10px;
+  margin-right: 30px;
+}
+.numberInputs {
+  width: 50px;
+}
+.submitButtons {
+  width: 100px;
+  margin-top: 20px;
+}
+.validationPrompts {
+  display: none;
+  color: red;
+}
+#newItemImageSpan {
+
+}
+#newItemImageSpan img {
+  height: 120px;
+}
 
 .parentDisplays {
   display: flex;

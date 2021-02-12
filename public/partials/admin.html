@@ -13,16 +13,30 @@
 
     <h1>Care Packages</h1>
 
-    <div class="">
-      <h3>New Care Package</h3>
+    <div class="" id="newCarePackageItemDiv">
+      <h3>New Care Package Item</h3>
       <span>
         <p>Name</p>
-        <input type="text" name="" value="">
+        <input id="newCareItemNameInput" ng-model="newItem.name" type="text" name="" value="">
+        <p class="validationPrompts" id="nameValidationPrompt">Need Name</p>
+        <p>$</p>
+        <input id="newCareItemPriceInput" ng-model="newItem.price" class="numberInputs" type="number" name="" value="">
+        <p class="validationPrompts" id="priceValidationPrompt">Need Price</p>
       </span>
       <span>
-        <p>Price</p>
-        <input type="number" name="" value="">
       </span>
+      <span id="newItemImageSpan">
+        <p class="validationPrompts" id="imageValidationPrompt">Need Image</p>
+        <input id="newImageInput" type="file" ng-model="newItemImageInput">
+        <!-- <button type="button" name="button" ng-click="showImage()">Use</button> -->
+        <!-- <img src="{{newItem.image}}" alt=""> -->
+
+      </span>
+      <p>Description</p>
+      <p class="validationPrompts" id="descriptionValidationPrompt">Description Needed</p>
+      <textarea name="name" rows="8" cols="80" ng-model="newItem.description"></textarea>
+
+      <button id="addCareItemButton" class="submitButtons" type="button" name="button" ng-click="addCareItem()">Add Item</button>
 
     </div>
 
