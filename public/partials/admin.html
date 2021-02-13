@@ -40,6 +40,23 @@
 
     </div>
 
+    <div class="" id="carePackageItemsDiv">
+
+      <div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index">
+
+        <img src="{{item.image}}" alt="">
+        
+        <div class="careItemCellInfoDivs">
+          <p>{{item.name}}</p>
+          <p>${{item.price}}</p>
+
+        </div>
+        <!-- <p>{{item.description}}</p> -->
+
+      </div>
+
+    </div>
+
   </div>
 
   <div class="adminPages" id="newsAdminPage">

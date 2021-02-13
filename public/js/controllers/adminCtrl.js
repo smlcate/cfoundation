@@ -16,8 +16,15 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $http.get('getItems')
     .then(function(res) {
       console.log(res);
+      $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         $scope.careItems.push(JSON.parse(res.data[i].itemData));
+        // if (i == res.data.length -1) {
+        //   for (var j = 0; j < $scope.careItems.length; j++) {
+        //     console.log($scope.careItems[j].image);
+        //     $('#'+j+'CareItemCell').css('background-image','url('+$scope.careItems[j].image+')');
+        //   }
+        // }
       }
       console.log($scope.careItems);
     })
@@ -59,6 +66,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       $http.post('addNewItem', {item:$scope.newItem})
       .then(function(res) {
         console.log(res);
+        getItems();
       })
       .catch(function(err) {
         console.log(err);

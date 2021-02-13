@@ -49,6 +49,7 @@ header {
   display: flex;
   flex-direction: column;
   width: 70vw;
+  padding: 20px;
 }
 #newCarePackageItemDiv span {
   display: flex;
@@ -75,6 +76,36 @@ header {
 }
 #newItemImageSpan img {
   height: 120px;
+}
+#carePackageItemsDiv {
+  border-top: 2px solid lavender;
+  display: flex;
+  flex-direction: row;
+  width: 90vw;
+  justify-content: space-around;
+  padding: 20px;
+}
+.careItemCells {
+  /* width: 100px; */
+  display: flex;
+}
+.careItemCells img {
+  height: 200px;
+
+}
+.careItemCellInfoDivs {
+  position: absolute;
+  color: lavender;
+  /* width: 100%; */
+  height: 200px;
+  /* padding: 20px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.careItemCellInfoDivs p {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
 }
 
 .parentDisplays {
