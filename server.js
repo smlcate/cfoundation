@@ -15,6 +15,9 @@ app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 
 app.post('/addNewItem', server.admin.addNewItem);
+app.post('/editItem', server.admin.editItem);
+app.post('/removeItem', server.admin.removeItem);
+
 
 app.get('/getItems', server.admin.getItems);
 
