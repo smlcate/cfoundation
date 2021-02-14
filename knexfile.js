@@ -5,17 +5,18 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: 'cfoundation',
-      password: 'ncmpTk88'
+      user: 'postgres',
+      database: 'postgres',
+      password: 'postgres'
     }
   },
 
   staging: {
     client: 'pg',
     connection: {
-      database: 'cfoundation',
+      database: 'postgres',
       // user:     'username',
-      password: 'ncmpTk88'
+      password: 'Gabn8899!'
     },
     // pool: {
     //   min: 2,
