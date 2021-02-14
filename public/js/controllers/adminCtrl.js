@@ -1,15 +1,27 @@
 app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  $scope.newItem = {
+  $scope.item = {
     name: '',
-    price: '',
+    price: '', //the price we purchase the product for
     image: '',
-    description: ''
+    description: '',
+    tags:'all'
   }
+
+  $scope.editItemId;
+
+  $scope.mode = 'view';
+  // $scope.editItem = {
+  //   name: '',
+  //   price: '', //the price we purchase the product for
+  //   image: '',
+  //   description: '',
+  //   tags:'all'
+  // }
 
   $scope.careItems = [];
 
-  $scope.newItemImageInput = '';
+  $scope.itemImageInput = '';
 
 
   function getItems() {
@@ -18,7 +30,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log(res);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
-        $scope.careItems.push(JSON.parse(res.data[i].itemData));
+        $scope.careItems.push(JSON.parse(res.data[i].itemData))
+        $scope.careItems[i].id = res.data[i].id;
         // if (i == res.data.length -1) {
         //   for (var j = 0; j < $scope.careItems.length; j++) {
         //     console.log($scope.careItems[j].image);
@@ -36,49 +49,127 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     console.log('hit');
   }
 
-  $scope.addCareItem = function() {
+  $scope.newCareItem = function() {
+    $('.careItemMangementDivs').css('display','none');
+    $('#carePackageItemDiv').css('display','flex');
+    $('#newItemBtn').css('display','none');
+    $('#cancelBtn').css('display','flex');
+    $scope.mode = 'new';
+    $('.careItemTitles').css('display','none');
+    $('#newCareItemTitle').css('display','flex');
+
+    $('.submitButtons').css('display','none');
+    $('#newCareItemButton').css('display','flex');
+  }
+
+  $scope.editCareItem = function(item, index) {
+    $('.careItemMangementDivs').css('display','none');
+    $('#carePackageItemDiv').css('display','flex');
+    $('#cancelBtn').css('display','flex');
+    $('#newItemBtn').css('display','none');
+
+    $scope.mode = 'edit';
+
+    $('.careItemTitles').css('display','none');
+    $('#editCareItemTitle').css('display','flex');
+
+    $scope.item = item;
+    $scope.editItemId = index;
+
+    $('.submitButtons').css('display','none');
+    $('#editCareItemButton').css('display','flex');
+
+    var html = '<img id="itemImage" src="' + $scope.item.image + '" alt="">';
+    $('#itemImage').remove();
+    angular.element($('#itemImageSpan')).append($compile(html)($scope))
+  }
+  $scope.cancel = function() {
+    $('#newItemBtn').css('display','flex');
+    $('#carePackageItemDiv').css('display','flex');
+    $('.careItemMangementDivs').css('display','none');
+    $('#cancelBtn').css('display','none');
+
+    $('#itemImage').remove();
+
+    $('.careItemTitles').css('display','none');
+    $('#careItemTitle').css('display','flex');
+
+    $scope.item = {
+      name: '',
+      price: '', //the price we purchase the product for
+      image: '',
+      description: '',
+      tags:'all'
+    };
+
+    $scope.mode = 'view';
+  }
+  $scope.removeCareItem = function(item, index) {
+    // $scope.mode = 'remove';
+
+    $http.post('removeItem',{item:item})
+    .then(function(res) {
+      getItems();
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+    
+  }
+  $scope.sendCareItem = function(mode) {
 
     $('.validationPrompts').css('display','none');
 
     var validates = true;
 
-    if ($scope.newItem.name == '') {
+    if ($scope.item.name == '') {
       $('#nameValidationPrompt').css('display','flex');
       validates = false;
     }
-    if ($scope.newItem.price == '') {
+    if ($scope.item.price == '') {
       $('#priceValidationPrompt').css('display','flex');
       validates = false;
     }
-    if ($scope.newItem.image == '') {
+    if ($scope.item.image == '') {
       $('#imageValidationPrompt').css('display','flex');
       validates = false;
     }
-    if ($scope.newItem.description == '') {
+    if ($scope.item.description == '') {
       $('#descriptionValidationPrompt').css('display','flex');
       validates = false;
     }
 
     if (validates == true) {
-      console.log($scope.newItem);
+      console.log($scope.item);
       $('.validationPrompts').css('display','none');
 
-      $http.post('addNewItem', {item:$scope.newItem})
-      .then(function(res) {
-        console.log(res);
-        getItems();
-      })
-      .catch(function(err) {
-        console.log(err);
-      })
+      if ($scope.mode == 'new') {
+        $http.post('addNewItem', {item:$scope.item})
+        .then(function(res) {
+          console.log(res);
+          getItems();
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      } else {
+        $http.post('editItem', {item:$scope.item})
+        .then(function(res) {
+          console.log(res);
+          getItems();
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
 
     }
 
   }
 
   $scope.showImage = function() {
-    // console.log($scope.newItemImageInput);
-    // $scope.newItem.image = $scope.newItemImageInput;
+    // console.log($scope.itemImageInput);
+    // $scope.item.image = $scope.itemImageInput;
 
   }
 
@@ -103,11 +194,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         // take dataURL and push onto preview
         var dataURL = reader.result;
 
-        $scope.newItem.image = dataURL;
+        $scope.item.image = dataURL;
 
-        var html = '<img src="' + $scope.newItem.image + '" alt="">';
+        $('#itemImage').remove();
 
-        angular.element($('#newItemImageSpan')).append($compile(html)($scope))
+        var html = '<img id="itemImage" src="' + $scope.item.image + '" alt="">';
+
+        angular.element($('#itemImageSpan')).append($compile(html)($scope))
 
         // urls.push(dataURL);
 
@@ -134,8 +227,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     readUrl(files[0])
     // console.log(this);
     // console.log(e.target.files[0]);
-    // $scope.newItem.image = e.target.files[0];
-    // console.log($scope.newItem.image);
+    // $scope.item.image = e.target.files[0];
+    // console.log($scope.item.image);
     // console.log(JSON.stringify(e.target.files[0]));
     // $('#my-form').ajaxSubmit(options);
 })
@@ -143,8 +236,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   var onFileChanged = function(e) {
     var file = e.target.files[0];
     console.log(file);
-    $scope.newItem.image = JSON.stringify(file);
-    console.log($scope.newItem.image);
+    $scope.item.image = JSON.stringify(file);
+    console.log($scope.item.image);
   }
 
   function start() {

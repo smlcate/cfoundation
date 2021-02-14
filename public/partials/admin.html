@@ -13,31 +13,75 @@
 
     <h1>Care Packages</h1>
 
-    <div class="" id="newCarePackageItemDiv">
-      <h3>New Care Package Item</h3>
+    <div class="careItemMangementDivs" id="carePackageItemDiv">
+      <h3 class="careItemTitles" id="newCareItemTitle" ng-if="mode == 'new'">New Care Item</h3>
+      <h3 class="careItemTitles" id="editCareItemTitle" ng-if="mode == 'edit'">Edit Care Item</h3>
+      <h3 class="careItemTitles" id="careItemTitle" ng-if="mode == 'view'">Care Items</h3>
+
       <span>
         <p>Name</p>
-        <input id="newCareItemNameInput" ng-model="newItem.name" type="text" name="" value="">
+        <input id="careItemNameInput" ng-model="item.name" type="text" name="" value="">
         <p class="validationPrompts" id="nameValidationPrompt">Need Name</p>
         <p>$</p>
-        <input id="newCareItemPriceInput" ng-model="newItem.price" class="numberInputs" type="number" name="" value="">
+        <input id="careItemPriceInput" ng-model="item.price" class="numberInputs" type="number" name="" value="">
         <p class="validationPrompts" id="priceValidationPrompt">Need Price</p>
+        <p>Tags (Use "," to seperate tags)</p>
+        <input type="text" name="" value="" placeholder="all, melanoma, childhood" ng-model="item.tags">
+        <p class="validationPrompts" id="tagValidationPrompt">Need Tag(s)</p>
       </span>
-      <span>
-      </span>
-      <span id="newItemImageSpan">
+      <span id="itemImageSpan">
         <p class="validationPrompts" id="imageValidationPrompt">Need Image</p>
-        <input id="newImageInput" type="file" ng-model="newItemImageInput">
+        <input id="newImageInput" type="file" ng-model="item.ImageInput">
         <!-- <button type="button" name="button" ng-click="showImage()">Use</button> -->
-        <!-- <img src="{{newItem.image}}" alt=""> -->
+        <!-- <img src="{{item.image}}" alt=""> -->
 
       </span>
       <p>Description</p>
       <p class="validationPrompts" id="descriptionValidationPrompt">Description Needed</p>
-      <textarea name="name" rows="8" cols="80" ng-model="newItem.description"></textarea>
+      <textarea name="name" rows="8" cols="80" ng-model="item.description"></textarea>
+
+      <button id="newCareItemButton" class="submitButtons" type="button" name="button" ng-click="sendCareItem('new')">Add Item</button>
+      <button id="editCareItemButton" class="submitButtons" type="button" name="button" ng-click="sendCareItem('edit')">Save Edit</button>
+
+    </div>
+    <!-- <div class="careItemMangementDivs" id="editCarePackageItemDiv">
+      <h3>New Care Package Item</h3>
+      <span>
+        <p>Name</p>
+        <input id="careItemNameInput" ng-model="editItem.name" type="text" name="" value="">
+        <p class="validationPrompts" id="nameValidationPrompt">Need Name</p>
+        <p>$</p>
+        <input id="careItemPriceInput" ng-model="editItem.price" class="numberInputs" type="number" name="" value="">
+        <p class="validationPrompts" id="priceValidationPrompt">Need Price</p>
+        <p>Tags (Use "," to seperate tags)</p>
+        <input type="text" name="" value="" placeholder="all, melanoma, childhood" ng-model="editItem.tags">
+        <p class="validationPrompts" id="tagValidationPrompt">Need Tag(s)</p>
+      </span>
+      <span>
+      </span>
+      <span id="item.ImageSpan">
+        <p class="validationPrompts" id="imageValidationPrompt">Need Image</p>
+        <input id="newImageInput" type="file" ng-model="item.ImageInput"> -->
+        <!-- <button type="button" name="button" ng-click="showImage()">Use</button> -->
+        <!-- <img src="{{editItem.image}}" alt=""> -->
+
+      <!-- </span>
+      <p>Description</p>
+      <p class="validationPrompts" id="descriptionValidationPrompt">Description Needed</p>
+      <textarea name="name" rows="8" cols="80" ng-model="editItem.description"></textarea>
 
       <button id="addCareItemButton" class="submitButtons" type="button" name="button" ng-click="addCareItem()">Add Item</button>
 
+    </div> -->
+    <div class="" id="carePackageToolBar">
+      <div class="" id="carePackageToolBarLeftDiv">
+        <a id="newItemBtn" href="" ng-click="newCareItem()">New Item</a>
+        <a id="cancelBtn" href="" ng-click="cancel()">Cancel</a>
+      </div>
+      <!-- <div class="" id="carePackageToolBarRightDiv">
+        <a href="">New Item</a>
+        <a href="">Cancel</a>
+      </div> -->
     </div>
 
     <div class="" id="carePackageItemsDiv">
@@ -45,12 +89,18 @@
       <div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index">
 
         <img src="{{item.image}}" alt="">
-        
+
         <div class="careItemCellInfoDivs">
           <p>{{item.name}}</p>
           <p>${{item.price}}</p>
 
         </div>
+        <div class="careItemCellHeaders">
+          <a href="" ng-click="removeCareItem(item, $index)">Remove</a>
+          <p>|</p>
+          <a href="" ng-click="editCareItem(item, $index)">Edit</a>
+        </div>
+
         <!-- <p>{{item.description}}</p> -->
 
       </div>
