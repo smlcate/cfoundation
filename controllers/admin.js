@@ -15,6 +15,33 @@ exports.addNewItem = function(req, res, send) {
     res.send(err);
   })
 }
+exports.editItem = function(req, res, send) {
+  console.log(req.body);
+  knex('items')
+  .where({id:req.body.item.id})
+  .update({itemData:JSON.stringify(req.body.item)})
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+exports.removeItem = function(req, res, send) {
+  console.log(req.body);
+  knex('items')
+  .where({id:req.body.item.id})
+  .delete()
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+
 exports.getItems = function(req, res, send) {
   knex('items')
   .select('*')
