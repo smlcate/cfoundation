@@ -5,8 +5,8 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: 'cfoundation',
-      password: 'ncmpTk88'
+      database: process.env.DATABASE,
+      password: process.env.PASSWORD
     }
   },
 
