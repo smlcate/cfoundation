@@ -19,8 +19,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/browse',
       templateUrl: '../partials/browse.html'
   })
-  .state('carepackage', {
-      url: '/carepackage',
+  .state('packages', {
+      url: '/packages',
       templateUrl: '../partials/carepackage.html'
   })
 
