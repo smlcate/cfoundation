@@ -38,7 +38,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
@@ -49,9 +49,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
           $scope.packageCosts.tags[0].cost += data.price;
         }
-        console.log($scope.packageCosts.tags[0].cost);
+        // console.log($scope.packageCosts.tags[0].cost);
         if (i == res.data.length -1) {
-          console.log($scope.packageCosts);
+          // console.log($scope.packageCosts);
           for (var j = 0; j < $scope.careItems.length; j++) {
             var item = $scope.careItems[j];
             var tags = item.tags.split(',');
@@ -62,11 +62,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
                 var tag = tags[k]
                 // var exists = false;
                 for (var l = 0; l < $scope.packageCosts.tags.length; l++) {
-                  console.log(item.name,tag);
+                  // console.log(item.name,tag);
                   if ($scope.packageCosts.tags[l].tag == tag) {
 
                     $scope.packageCosts.tags[l].cost += item.price;
-                    console.log($scope.packageCosts.tags[l].cost);
+                    // console.log($scope.packageCosts.tags[l].cost);
                     l = $scope.packageCosts.tags.length;
                     // exists = true;
                   } else {
@@ -83,13 +83,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
                 }
               }
 
-              console.log(tags);
+              // console.log(tags);
             }
           }
         }
       }
-      console.log($scope.careItems);
-      console.log($scope.packageCosts);
+      // console.log($scope.careItems);
+      // console.log($scope.packageCosts);
     })
   }
 
