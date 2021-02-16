@@ -2,4 +2,20 @@
 
   <h1>browse</h1>
 
+  <div class="" id="ribbonNav">
+
+    <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-repeat="ribbon in ribbons track by $index"><img src="{{ribbon.ribbonData.image}}" alt=""></a>
+
+  </div>
+
+  <div class="" id="browseItemsView">
+
+    <div class="careItemCells" ng-repeat="item in careItemsToDisplay">
+
+      <img src="{{item.image}}" alt="">
+
+    </div>
+
+  </div>
+
 </div>
