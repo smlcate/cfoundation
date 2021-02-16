@@ -57,11 +57,30 @@ header {
 }
 #carePackageSettingsDiv {
   display: flex;
+  flex-direction: column;
 }
 #carePackageSettingsDiv span {
   display: flex;
-  height: 30px;
+  height: 40px;
   align-items:center;
+  margin-left: 30px;
+}
+#carePackageSettingsDiv img {
+  height: 90px;
+}
+#newRibbonImageSpan {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+#ribbonsSpan {
+  height: 90px;
+  padding-left: 30px;
+}
+#ribbonsSpan img {
+  margin-left: -50px;
+  height: 80px;
 }
 #carePackageItemDiv {
   display: none;

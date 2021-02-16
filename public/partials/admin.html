@@ -31,6 +31,20 @@
 
         </span>
       </span>
+      <div id="newRibbonImageSpan">
+        <h3>New Ribbon</h3>
+        <input type="text" name="" value="" ng-model="newRibbon.name">
+        <input id="newRibbonImageInput" type="file" name="" value="">
+        <div id="newRibbonImageDiv">
+
+        </div>
+        <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
+        <!-- <img id="newRibbonImage" src="" alt=""> -->
+        <span id="ribbonsSpan">
+          <img src="{{ribbon.image}}" alt="" ng-repeat="ribbon in ribbons">
+        </span>
+      </div>
+
 
     </div>
 

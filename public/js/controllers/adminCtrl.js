@@ -6,7 +6,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     image: '',
     description: '',
     tags:'all'
-  }
+  };
 
   $scope.carePackagePrice = 0;
 
@@ -17,7 +17,14 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         cost:0
       }
     ]
-  }
+  };
+
+  $scope.newRibbon = {
+    name:'',
+    image:''
+  };
+
+  $scope.ribbons = [];
 
   $scope.editItemId;
 
@@ -103,6 +110,20 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log(err);
     })
   }
+  function getRibbons() {
+    $http.get('getRibbons')
+    .then(function(res) {
+      console.log(res.data);
+      for (var i = 0; i < res.data.length; i++) {
+        $scope.ribbons.push(JSON.parse(res.data[i].ribbonData))
+      }
+      // $scope.ribbons = res.data;
+      console.log($scope.ribbons);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
@@ -113,6 +134,54 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.saveCarePackagePrice = function() {
     $http.post('saveCarePackagePrice', {price:$scope.carePackagePrice})
     .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $('#newRibbonImageInput').click(function(){
+      $(this).attr("value", "");
+      console.log(this);
+  })
+  $('#newRibbonImageInput').change(function(e){
+
+    var files = $('#newRibbonImageInput')[0].files;
+
+    function readUrl(file) {
+      console.log(file);
+      var reader = new FileReader();
+
+      reader.onload = function(){
+
+        // take dataURL and push onto preview
+        var dataURL = reader.result;
+
+        $scope.newRibbon.image = dataURL;
+        console.log($scope.newRibbon);
+        $('#newRibbonImage').remove();
+
+        var html = '<img id="newRibbonImage" src="' + $scope.newRibbon.image + '" alt="">';
+
+        angular.element($('#newRibbonImageDiv')).append($compile(html)($scope))
+
+
+      };
+      reader.readAsDataURL(file);
+
+    }
+
+    readUrl(files[0])
+
+  })
+
+  $scope.addNewRibbon = function() {
+    $http.post('addNewRibbon', {ribbon:$scope.newRibbon})
+    .then(function(res) {
+      // $scope.ribbons = res.data;
+      $scope.ribbons = [];
+      getRibbons();
       console.log(res);
     })
     .catch(function(err) {
@@ -244,17 +313,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   }
 
-  $('input[type=file]').click(function(){
+  $('#newImageInput').click(function(){
       $(this).attr("value", "");
       console.log(this);
   })
-  $('input[type=file]').change(function(e){
+  $('#newImageInput').change(function(e){
 
     var files = $('#newImageInput')[0].files;
-
-    // var urls = [];
-    //
-    // var i = 0;
 
     function readUrl(file) {
 
@@ -273,22 +338,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
         angular.element($('#itemImageSpan')).append($compile(html)($scope))
 
-        // urls.push(dataURL);
-
-
-
-        // $http.post('uploadImage', {data:dataURL})
-        // .then(function(res) {
-        //   // console.log(res.data);
-        // })
-        // .catch(function(err) {
-        //   console.log(err);
-        // })
-        //
-        // if (urls.length < files.length) {
-        //   i++;
-        //   readUrl(files[i])
-        // }
 
       };
       reader.readAsDataURL(file);
@@ -296,13 +345,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
 
     readUrl(files[0])
-    // console.log(this);
-    // console.log(e.target.files[0]);
-    // $scope.item.image = e.target.files[0];
-    // console.log($scope.item.image);
-    // console.log(JSON.stringify(e.target.files[0]));
-    // $('#my-form').ajaxSubmit(options);
-})
+
+  })
 
   var onFileChanged = function(e) {
     var file = e.target.files[0];
@@ -317,6 +361,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     getItems();
     getCarePackagePrice();
+    getRibbons();
 
   }
   start();
