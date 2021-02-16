@@ -22,6 +22,15 @@
         <button type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
         <button type="button" name="button" ng-click="cancelEditCarePackagePrice()">Cancel</button>
       </span>
+      <span>
+        <h3>Costs</h3>
+        <span class="packageCostsDiv" ng-repeat="tag in packageCosts.tags">
+
+          <p>{{tag.tag}}</p>
+          <p>${{tag.cost}}</p>
+
+        </span>
+      </span>
 
     </div>
 
