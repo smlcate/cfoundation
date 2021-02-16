@@ -34,9 +34,10 @@ header {
   display: flex;
   /* flex-direction: row; */
   align-items: center;
-  padding: 5px;
+  padding: 10px;
   /* color: #dcd0ff; */
   color: #ffff63;
+  font-size: 120%;
 
   /* background: #ffff63; */
   background: #dcd0ff;
