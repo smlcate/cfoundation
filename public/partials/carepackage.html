@@ -1,5 +1,23 @@
-<div class="parentDisplays" id="carepackageParentDisplay">
+<div class="parentDisplays" id="carepackageParentDisplay" ng-controller="orderCtrl">
 
-  <h1>care package</h1>
+  <h1>Order</h1>
+
+  <div class="packageDisplays" id="receiverInfoPackageDisplay">
+
+    <span>
+      <p>Name</p>
+      <input type="text" name="" value="">
+    </span>
+    <span>
+      <p>Diognosies</p>
+      <div class="" id="receiverInfoDiognosiesDropdownContainer">
+        <select id="0receiverInfoDiognosiesDropdown" class="receiverInfoDiognosiesDropdowns" ng-model="selectedDiognosies[0]" name="">
+          <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+        </select>
+      </div>
+      <a href="" ng-click="newDiognosis()" ng-if="selectedDiognosies[selectedDiognosies.length-1] != undefined">New Diognosis</a>
+    </span>
+
+  </div>
 
 </div>
