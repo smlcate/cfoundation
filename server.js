@@ -17,6 +17,9 @@ app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 app.post('/saveCarePackagePrice', server.admin.saveCarePackagePrice);
 app.get('/getCarePackagePrice', server.admin.getCarePackagePrice);
 
+app.post('/addNewRibbon', server.admin.addNewRibbon);
+app.get('/getRibbons', server.admin.getRibbons);
+
 
 app.post('/addNewItem', server.admin.addNewItem);
 app.post('/editItem', server.admin.editItem);

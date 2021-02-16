@@ -97,3 +97,26 @@ exports.getItems = function(req, res, send) {
     res.send(err);
   })
 }
+
+exports.addNewRibbon = function(req, res, next) {
+  knex('ribbons')
+  .insert({ribbonData:JSON.stringify(req.body.ribbon)})
+  .then(function(){
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+exports.getRibbons = function(req, res, next) {
+  knex('ribbons')
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
