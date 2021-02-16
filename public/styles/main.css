@@ -34,9 +34,10 @@ header {
   display: flex;
   /* flex-direction: row; */
   align-items: center;
-  padding: 5px;
+  padding: 10px;
   /* color: #dcd0ff; */
   color: #ffff63;
+  font-size: 120%;
 
   /* background: #ffff63; */
   background: #dcd0ff;
@@ -70,6 +71,23 @@ header {
   width: 120px;
   margin-right: -80px;
   filter: drop-shadow(0px 3px 3px #222);
+}
+
+#ribbonNav {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#ribbonNav img {
+  height: 100px;
+}
+#browseItemsView {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80vw;
+  flex-wrap: wrap;
 }
 
 .adminPages {
