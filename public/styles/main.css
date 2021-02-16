@@ -49,6 +49,14 @@ header {
   flex-direction: column;
   /* background: blue; */
 }
+#carePackageSettingsDiv {
+  display: flex;
+}
+#carePackageSettingsDiv span {
+  display: flex;
+  height: 30px;
+  align-items:center;
+}
 #carePackageItemDiv {
   display: none;
   flex-direction: column;

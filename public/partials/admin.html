@@ -13,6 +13,18 @@
 
     <h1>Care Packages</h1>
 
+    <div class="" id="carePackageSettingsDiv">
+
+      <span>
+        <p>Care Package Price  $</p>
+        <input class="numberInputs" min="0"  type="number" name="" value="" ng-model="carePackagePrice">
+        <button type="button" name="button" ng-click="editCarePackagePrice()">Edit</button>
+        <button type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
+        <button type="button" name="button" ng-click="cancelEditCarePackagePrice()">Cancel</button>
+      </span>
+
+    </div>
+
     <div class="careItemMangementDivs" id="carePackageItemDiv">
       <h3 class="careItemTitles" id="newCareItemTitle" ng-if="mode == 'new'">New Care Item</h3>
       <h3 class="careItemTitles" id="editCareItemTitle" ng-if="mode == 'edit'">Edit Care Item</h3>

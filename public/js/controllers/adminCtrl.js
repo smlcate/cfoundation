@@ -8,6 +8,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     tags:'all'
   }
 
+  $scope.carePackagePrice = 0;
+
   $scope.editItemId;
 
   $scope.mode = 'view';
@@ -43,10 +45,31 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
+  function getCarePackagePrice() {
+    $http.get('getCarePackagePrice')
+    .then(function(res) {
+      console.log(res);
+      $scope.carePackagePrice = Number(res.data[0].settingsData);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
     $('#'+p+'AdminPage').css('display','flex');
     console.log('hit');
+  }
+
+  $scope.saveCarePackagePrice = function() {
+    $http.post('saveCarePackagePrice', {price:$scope.carePackagePrice})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
   $scope.newCareItem = function() {
@@ -114,7 +137,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     .catch(function(err) {
       console.log(err);
     })
-    
+
   }
   $scope.sendCareItem = function(mode) {
 
@@ -245,6 +268,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $scope.thisAdminPage('carepackage');
 
     getItems();
+    getCarePackagePrice();
 
   }
   start();
