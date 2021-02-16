@@ -74,13 +74,14 @@ header {
 }
 
 #ribbonNav {
-  width: 100vw;
+  width: 80vw;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 #ribbonNav img {
   height: 100px;
+  filter: drop-shadow(0px 3px 3px #222);
 }
 #browseItemsView {
   display: flex;
