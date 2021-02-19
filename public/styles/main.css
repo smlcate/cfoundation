@@ -91,6 +91,34 @@ header {
   flex-wrap: wrap;
 }
 
+.packageDisplays {
+  width: 80vw;
+  display: none;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+#receiverInfoPackageDisplay {
+  flex-direction: column;
+  display: flex;
+}
+
+#receiverInfoPackageDisplay span {
+  display: flex;
+  align-items: center;
+}
+
+#receiverItemPackageDisplay {
+  justify-content:space-between;
+}
+#recieverCardPackageDisplay {
+  flex-direction: column;
+}
+#recieverCardPackageDisplay textarea {
+  min-height: 150px;
+  font-size: 150%;
+}
+
 .adminPages {
   display: flex;
   flex-direction: column;
@@ -186,7 +214,7 @@ header {
 .careItemCells {
   /* width: 100px; */
   display: flex;
-  max-width: 300px;
+  /* max-width: 300px; */
   margin-right: 20px;
   margin-bottom: 20px;
   border-radius: 3px;
@@ -194,6 +222,7 @@ header {
 }
 .careItemCells img {
   height: 200px;
+  border-radius: 3px;
   /* max-width: 300; */
 }
 .careItemCellHeaders {
