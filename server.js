@@ -1,14 +1,12 @@
-require('dotenv').config();
-
-// var pg = require('pg');
+const env = require('dotenv').config({path:'./.env'});
 
 var express = require('express');
 var app = express();
-// var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
 var server = {
-  admin: require('./controllers/admin.js')
+  admin: require('./controllers/admin.js'),
+  orders: require('./controllers/orders.js')
 }
 
 app.use(express.static('public'));
@@ -20,6 +18,11 @@ app.get('/getCarePackagePrice', server.admin.getCarePackagePrice);
 app.post('/addNewRibbon', server.admin.addNewRibbon);
 app.get('/getRibbons', server.admin.getRibbons);
 
+app.post('/newOrder', server.orders.newOrder);
+app.get('/getOrders', server.orders.getOrders);
+
+
+// app.get('/createCheckoutSession', server.orders.createCheckoutSession);
 
 app.post('/addNewItem', server.admin.addNewItem);
 app.post('/editItem', server.admin.editItem);

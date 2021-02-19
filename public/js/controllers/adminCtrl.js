@@ -41,6 +41,16 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.itemImageInput = '';
 
+  function getOrders() {
+    $http.get('getOrders')
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
 
   function getItems() {
     $http.get('getItems')
@@ -362,6 +372,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     getItems();
     getCarePackagePrice();
     getRibbons();
+    getOrders();
 
   }
   start();
