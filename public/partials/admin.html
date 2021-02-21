@@ -4,6 +4,7 @@
   <div class="" id="adminNav">
 
     <a href="" ng-click="thisAdminPage('carepackage')">Care Packages</a>
+    <a href="" ng-click="thisAdminPage('orders')">Orders</a>
     <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a>
 
@@ -41,7 +42,7 @@
         <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
         <!-- <img id="newRibbonImage" src="" alt=""> -->
         <span id="ribbonsSpan">
-          <img src="{{ribbon.image}}" alt="" ng-repeat="ribbon in ribbons">
+
         </span>
       </div>
 
@@ -121,27 +122,32 @@
 
     <div class="" id="carePackageItemsDiv">
 
-      <div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index">
+    </div>
 
-        <img src="{{item.image}}" alt="">
+  </div>
 
-        <div class="careItemCellInfoDivs">
-          <p>{{item.name}}</p>
-          <p>${{item.price}}</p>
+  <div class="adminPages" id="ordersAdminPage">
+    <h1>Orders</h1>
 
+    <button type="button" name="button" ng-click="buildOrderCSV()">To CSV</button>
+    <div class="" id="ordersDisplay">
+
+      <div class="orderCells" ng-repeat="order in orders">
+        <div class="orderCellRecipientDivs">
+          <p>{{order.orderData.recipient.name}}</p>
+          <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diognosies">
+            <p>{{dio.name}}</p>
+          </div>
         </div>
-        <div class="careItemCellHeaders">
-          <a href="" ng-click="removeCareItem(item, $index)">Remove</a>
-          <p>|</p>
-          <a href="" ng-click="editCareItem(item, $index)">Edit</a>
+        <div class="orderCellShippingDivs">
+          <p>{{order.orderData.shipping.address}}, </p>
+          <p> {{order.orderData.shipping.city}}, </p>
+          <p> {{order.orderData.shipping.state}}</p>
+          <p ng-if="order.orderData.shipping.room != ''">{{order.orderData.shipping.room}}</p>
         </div>
-
-        <!-- <p>{{item.description}}</p> -->
-
       </div>
 
     </div>
-
   </div>
 
   <div class="adminPages" id="newsAdminPage">

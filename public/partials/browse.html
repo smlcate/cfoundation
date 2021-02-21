@@ -4,15 +4,17 @@
 
   <div class="" id="ribbonNav">
 
-    <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-repeat="ribbon in ribbons track by $index"><img src="{{ribbon.ribbonData.image}}" alt=""></a>
+    <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-if="ribbons.length > 0" ng-repeat="ribbon in ribbons track by $index">
+      <img ng-if="ribbon" src="{{ribbon.ribbonData.image}}" alt="">
+    </a>
 
   </div>
 
   <div class="" id="browseItemsView">
 
-    <div class="careItemCells" ng-repeat="item in careItemsToDisplay">
+    <div class="careItemCells"  ng-if="careItemsToDisplay.length > 0" ng-repeat="item in careItemsToDisplay">
 
-      <img src="{{item.image}}" alt="">
+      <img ng-if="item != null && item != undefined" src="{{item.image}}" alt="">
 
     </div>
 

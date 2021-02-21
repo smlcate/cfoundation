@@ -63,6 +63,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
           ribbon = $scope.ribbons[j].ribbonData;
           $scope.ribbonsToShow.push(ribbon);
           console.log($scope.ribbonsToShow);
+          buildDisplays();
+
         }
       }
     }
@@ -137,12 +139,14 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
   }
 
+  
 
   function start() {
 
     if ($scope.careItems.length == 0) {
       getItems();
     }
+
 
     // buildItemDisplay('all');
   }

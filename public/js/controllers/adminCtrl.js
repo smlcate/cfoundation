@@ -19,6 +19,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     ]
   };
 
+  $scope.orders = [];
+
   $scope.newRibbon = {
     name:'',
     image:''
@@ -41,10 +43,49 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.itemImageInput = '';
 
+  function buildDisplays() {
+
+    console.log('HIIIIIT');
+
+    var html = '<img src="{{ribbon.image}}" alt="" ng-repeat="ribbon in ribbons">';
+    angular.element($('#ribbonsSpan')).append($compile(html)($scope))
+
+    html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
+    angular.element($('#carePackageItemsDiv')).append($compile(html)($scope))
+
+  }
+
+  function buildOrderCSV() {
+    console.log('hit 2');
+    var orders = $scope.orders;
+    var rows = [
+        ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height"]
+    ];
+
+    for (var i = 0; i < orders.length; i++) {
+      var shipping = orders[i].orderData.shipping;
+      var recipient = orders[i].orderData.recipient;
+      rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20"]);
+      if (i == orders.length - 1) {
+        let csvContent = "data:text/csv;charset=utf-8,"
+        + rows.map(e => e.join(",")).join("\n");
+
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+
+      }
+    }
+
+  }
+
   function getOrders() {
     $http.get('getOrders')
     .then(function(res) {
       console.log(res.data);
+      for (var i = 0; i < res.data.length; i++) {
+        res.data[i].orderData = JSON.parse(res.data[i].orderData);
+        $scope.orders.push(res.data[i]);
+      }
     })
     .catch(function(err) {
       console.log(err);
@@ -93,6 +134,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
                         cost:$scope.packageCosts.tags[0].cost + item.price
 
                       })
+                      if (j == $scope.careItems.length-1 && k == tags.length-1) {
+                        buildDisplays();
+                      }
                       l = $scope.packageCosts.tags.length;
                     }
                     // console.log($scope.packageCosts.tags);
@@ -102,6 +146,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
               // console.log(tags);
             }
+
           }
         }
       }
@@ -365,6 +410,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     console.log($scope.item.image);
   }
 
+  $scope.buildOrderCSV = function() {
+    console.log('hit');
+    buildOrderCSV();
+  }
+
   function start() {
 
     $scope.thisAdminPage('carepackage');
@@ -373,7 +423,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     getCarePackagePrice();
     getRibbons();
     getOrders();
-
+    if ($scope.careItems.length > 0) {
+    }
   }
   start();
 
