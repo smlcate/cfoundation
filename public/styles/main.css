@@ -357,6 +357,7 @@ span {
   display: flex;
   flex-direction: row;
   background: #f7f5ff;
+  font-family: ariel;
 }
 
 #donationAmountInputDiv {
