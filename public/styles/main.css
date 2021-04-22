@@ -422,6 +422,7 @@ span {
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  color: #C4B0ff;
 }
 #donationDetailsCarePackAmountSelectDiv span p {
   font-size: 30px;
