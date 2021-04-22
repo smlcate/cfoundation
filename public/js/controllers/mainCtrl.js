@@ -25,7 +25,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       }
     }
   }
-  
+
   function getRibbons() {
     $http.get('getRibbons')
     .then(function(res) {
@@ -126,7 +126,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     $('#headerNav a').css('color','#ffff63');
 
     $('#'+p+'Anc').css('background','#ffff63');
-    $('#'+p+'Anc').css('color','#dcd0ff');
+    $('#'+p+'Anc').css('color','#C4B0FF');
   }
 
 

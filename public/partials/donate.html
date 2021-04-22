@@ -1,0 +1,98 @@
+<div class="parentDisplays" id="donateParentDisplay" ng-controller="donateCtrl">
+
+  <div class="donationDivs" id="donationDetailsDiv">
+
+    <div class="" id="donationDetailsTopDiv">
+
+      <div class="" id="donationDetailsDonationTypeDiv">
+
+        <p>Donations:</p>
+        <span>
+          <p id="oneTimeText">One-Time</p>
+          <div class="toggle-container">
+            <input type="checkbox" ng-model="donations.inputs.monthly" ng-change="selectDonationType()" />
+            <div class="slider round"></div>
+          </div>
+          <p id="monthlyText">Monthly</p>
+        </span>
+
+      </div>
+
+      <div class="" id="donationAmountInputDiv">
+
+        <p>$</p>
+        <input id="donationAmountInput" type="number" min="0" name="" value="" ng-model="donations.inputs.amount">
+
+      </div>
+
+    </div>
+    <div class="" id="donationDetailsBottomDiv">
+
+      <p>Donate Packages</p>
+
+      <div class="" id="donationDetailsCarePackAmountSelectDiv">
+
+        <a id="1CarePackAnc" href="" ng-click="selectCarePackAmounts(1)" >1</a>
+        <a id="3CarePackAnc" href="" ng-click="selectCarePackAmounts(3)" >3</a>
+        <a id="5CarePackAnc" href="" ng-click="selectCarePackAmounts(5)" >5</a>
+        <a id="10CarePackAnc" href="" ng-click="selectCarePackAmounts(10)" >10</a>
+        <a id="15CarePackAnc" href="" ng-click="selectCarePackAmounts(15)" >15</a>
+        <a id="20CarePackAnc" href="" ng-click="selectCarePackAmounts(20)" >20</a>
+        <a id="30CarePackAnc" href="" ng-click="selectCarePackAmounts(30)" >30</a>
+        <a id="50CarePackAnc" href="" ng-click="selectCarePackAmounts(50)" >50</a>
+        <a id="75CarePackAnc" href="" ng-click="selectCarePackAmounts(75)" >75</a>
+        <a id="100CarePackAnc" href="" ng-click="selectCarePackAmounts(100)" >100</a>
+
+
+        <span>
+          <p>Other:</p>
+          <input type="number" name="" value="" ng-model="donations.inputs.otherPackAmount">
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="donationDivs" id="donationBillingDiv">
+
+    <span>
+      <!-- <p>Email</p> -->
+      <input type="text" name="" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+    </span>
+    <span>
+      <!-- <p>Full Name</p> -->
+      <input type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+    </span>
+
+    <p id="donationBillingSelectHeader">Payment Type</p>
+
+    <div class="" id="donationBillingSelectNav">
+
+      <a href="" id="creditTypeAnc" ng-click="selectBillingType('credit')">Credit/Debit</a>
+      <a href="" id="paypalTypeAnc" ng-click="selectBillingType('paypal')">Pay-Pal</a>
+      <a href="" id="otherTypeAnc" ng-click="selectBillingType('other')">Other Payment Options</a>
+
+    </div>
+
+    <div class="donationBillingTypeDivs" id="creditBillingDiv">
+
+
+
+      <form id="payment-form">
+        <div id="card-element">
+          <!-- Elements will create input elements here -->
+        </div>
+
+        <!-- We'll put the error messages in this element -->
+        <div id="card-errors" role="alert"></div>
+
+        <button id="submit" ng-click="sendOrder()">Submit Payment</button>
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
