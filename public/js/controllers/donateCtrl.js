@@ -15,6 +15,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   var checkoutButton = document.getElementById('checkout-button');
 
+  function setDonationAmount() {
+    $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.packageCosts.tags[0].cost;
+    console.log($scope.donations.inputs.amount);
+  }
+
 
   $scope.donations = {
     inputs: {
@@ -28,6 +33,8 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
       }
     }
   }
+
+  $scope.careItems = [];
 
   $scope.carePackagePrice = 0;
 
@@ -60,6 +67,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   }
 
   $scope.selectCarePackAmounts = function(amnt) {
+    console.log(amnt);
     $scope.donations.inputs.packs = amnt;
     $('#donationDetailsCarePackAmountSelectDiv a').css('color','#C4B0FF');
     $('#donationDetailsCarePackAmountSelectDiv a').css('background','#f7f5ff');
@@ -70,9 +78,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   }
 
   function getItems() {
+    console.log('hit');
     $http.get('getItems')
     .then(function(res) {
       // console.log(res);
+      console.log('hittt');
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
@@ -85,6 +95,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
         }
         // console.log($scope.packageCosts.tags[0].cost);
         if (i == res.data.length -1) {
+          console.log('hit');
           // console.log($scope.packageCosts);
           for (var j = 0; j < $scope.careItems.length; j++) {
             var item = $scope.careItems[j];
@@ -109,10 +120,12 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                         tag:tag,
                         cost:$scope.packageCosts.tags[0].cost + item.price
 
+
                       })
                       if (j == $scope.careItems.length-1 && k == tags.length-1) {
                         // buildDisplays();
                         console.log($scope.carePackagePrice);
+                        console.log('hit');
                         $scope.selectCarePackAmounts(1);
                       }
                       l = $scope.packageCosts.tags.length;
@@ -123,6 +136,8 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
               }
 
               // console.log(tags);
+            } else if(j == $scope.careItems.length-1) {
+              $scope.selectCarePackAmounts(1);
             }
 
           }
@@ -133,10 +148,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     })
   }
 
-  function setDonationAmount() {
-    $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.packageCosts.tags[0].cost;
-    console.log($scope.donations.inputs.amount);
-  }
 
   function init() {
     $scope.changePage('donate');

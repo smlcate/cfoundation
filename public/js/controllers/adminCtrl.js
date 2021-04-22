@@ -135,6 +135,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
                       })
                       if (j == $scope.careItems.length-1 && k == tags.length-1) {
+                        console.log('hit');
                         buildDisplays();
                       }
                       l = $scope.packageCosts.tags.length;
@@ -145,6 +146,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               }
 
               // console.log(tags);
+            } else if(j == $scope.careItems.length-1) {
+              buildDisplays();
             }
 
           }
