@@ -1,6 +1,5 @@
 body {
-  font-family: Times, Times New Roman, serif;
-  display: flex;
+  font-family: 'Open Sans',Helvetica,Arial,sans-serif;  display: flex;
   flex-direction: column;
   padding: 0px;
   width: 100vw;
@@ -356,27 +355,42 @@ span {
 #donateParentDisplay {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   background: #f7f5ff;
-  font-family: ariel;
+  /* font-family: ariel; */
 }
 
 #donationAmountInputDiv {
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   width: 100px;
   height: 50px;
-  background: white;
+  /* background: white; */
   font-size: 30px;
   /* padding: 5px; */
+  border-bottom: 2px solid grey;
 }
+
+#donationAmountInputDiv input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 #donationAmountInput {
   border: none;
   width:80px;
   height: inherit;
   font-size: 30px;
+  border: none;
+  background: #f7f5ff;
+  padding: 0px;
+  display: flex;
+  align-items: flex-end;
+  padding-left: 5px;
 }
 
 #donationDetailsTopDiv {
@@ -412,10 +426,12 @@ span {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  color: #4E3B86;
 }
 #donationDetailsCarePackAmountSelectDiv a {
   width: 80px;
   height: 80px;
+  padding: 5px;
   border: 1px solid grey;
   margin-bottom: 10px;
   font-size: 50px;
@@ -427,13 +443,19 @@ span {
 }
 #donationDetailsCarePackAmountSelectDiv span p {
   font-size: 30px;
-  margin-left: 12px;
+  /* margin-left: 12px; */
+  color: #4E3B86;
+  width: 95px;
 }
 #donationDetailsCarePackAmountSelectDiv input {
   width: 100px;
   height: 70px;
   font-size: 40px;
-
+  color: #4E3B86;
+  border: none;
+  border-bottom: 2px solid grey;
+  background: inherit;
+  padding: 5px;
 }
 #donationDetailsDiv {
   width: 400px;
@@ -449,8 +471,10 @@ span {
 #donationBillingSelectNav {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  border-top: 2px solid grey;
+  justify-content: space-around;
+  /* border-top: 2px solid grey; */
+  border-bottom: 3px solid #C4B0FF;
+
   /* padding: 10px; */
   /* margin-top: -1px; */
   margin-bottom:-2px;
@@ -461,7 +485,7 @@ span {
   margin-top: -2px;
   text-decoration:none;
   padding: 10px;
-  border-top: 2px solid #C4B0ff;
+  /* border-top: 2px solid #C4B0ff; */
   margin-top: 0px;
   position: relative;
   display: flex;
@@ -476,13 +500,48 @@ span {
   margin-left: -50%;
   opacity: .8;
 }
+.donationBillingCheckboxSpans {
+  height: 40px;
+  padding-left: 20px;
+}
+#donationBillingAnonCheckboxSpan input {
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+}
+#payment-form {
+  display: flex;
+  flex-direction: column;
+  /* padding: 20px; */
+}
+#payment-form button {
+  margin-top: 20px;
+  /* width: 100px; */
+  height: 60px;
+  background: #C4B0FF;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+  color: #f7f5ff;
+}
 
+#creditBillingDiv {
+
+}
+
+.donationBillingTypeDivs span a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: #C4B0FF;
+  filter: drop-shadow(0px 1px 1px black);
+}
 .donationDivs {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background: #f7f5ff;
+  /* background: #f7f5ff; */
   width: 50%;
+  color: #4E3B86;
 }
 
 .donationDivs span {
@@ -493,7 +552,17 @@ span {
   height: 40px;
   width: 100%;
   font-size: 30px;
-
+}
+.donationDivs a {
+  /* filter: drop-shadow(0px 1px 1px black); */
+}
+#donationBillingHeaderDiv {
+  color: #4E3B86;
+}
+#donationBillingDiv {
+  /* padding: 20px; */
+  justify-content: flex-start;
+  min-height: 70vh;
 }
 #donationBillingDiv input {
   margin-bottom: 2px;
@@ -504,6 +573,25 @@ span {
   display: flex;
   align-items: flex-end;
   padding-left: 5px;
+}
+.donationBillingTypeDivs {
+  padding: 20px;
+  flex-direction: column;
+  /* background: rgba(196, 176, 255, 0.6); */
+}
+.donationBillingTypeDivs p {
+  font-size: 80%;
+}
+
+#paypalBillingDiv {
+}
+#paypalBillingHeader {
+  width: 90%;
+  font-size: 150%;
+  text-align: center;
+}
+.paypal-button-number-1 {
+  display: none;
 }
 
 .toggle-container {
@@ -544,6 +632,7 @@ span {
   background-color: #C4B0FF;
   transition: 0.2s;
   pointer-events: none;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.9);
 }
 
 .slider::after {
@@ -556,6 +645,15 @@ span {
   transition: 0.2s;
   pointer-events: none;
   color: #fff;
+}
+card {
+  font-size: 30px;
+}
+#card-element {
+  /* height: 40px; */
+  /* width: 300px; */
+  /* font-size: 30px; */
+  border-bottom: 2px solid grey;
 }
 
 input:checked + .slider {
@@ -571,7 +669,8 @@ input:checked + .slider:after {
 
 .slider.round {
   border-radius: 34px;
-  background-image: url('');
+  /* background-image: url(''); */
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.8);
 }
 
 .slider.round:before {

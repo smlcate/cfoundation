@@ -21,7 +21,7 @@
       <div class="" id="donationAmountInputDiv">
 
         <p>$</p>
-        <input id="donationAmountInput" type="number" min="0" name="" value="" ng-model="donations.inputs.amount">
+        <input id="donationAmountInput" type="number" min="0" step="0.01" name="" value="" ng-model="donations.inputs.amount" ng-change="changeAmount()">
 
       </div>
 
@@ -46,8 +46,23 @@
 
         <span>
           <p>Other:</p>
-          <input type="number" name="" value="" ng-model="donations.inputs.otherPackAmount">
+          <input type="number" name="" value="" ng-model="donations.inputs.packs" ng-change="otherPacks()">
         </span>
+
+      </div>
+
+      <div class="" id="donationDetailsSummaryDiv">
+
+        <span>
+
+          <p class="variableDonationTexts" id="oneTimeDonationSummaryText">One-time donation of</p>
+          <p class="variableDonationTexts" id="monthlyDonationSummaryText">Monthly donations of</p>
+          <p ng-if="donations.inputs.packs == 1">{{donations.inputs.packs}} Care Pack</p>
+          <p ng-if="donations.inputs.packs > 1">{{donations.inputs.packs}} Care Packs</p>
+
+        </span>
+        <p ng-if="donations.rolloverAmount != 0"> plus ${{donations.rolloverAmount}}</p>
+        <p>For a total of ${{donations.inputs.amount}}</p>
 
       </div>
 
@@ -57,14 +72,9 @@
 
   <div class="donationDivs" id="donationBillingDiv">
 
-    <span>
-      <!-- <p>Email</p> -->
-      <input type="text" name="" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
-    </span>
-    <span>
-      <!-- <p>Full Name</p> -->
-      <input type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
-    </span>
+    <div class="" id="donationBillingHeaderDiv">
+      <h2>Donate and help support someone through their struggle today</h2>
+    </div>
 
     <p id="donationBillingSelectHeader">Payment Type</p>
 
@@ -72,12 +82,38 @@
 
       <a href="" id="creditTypeAnc" ng-click="selectBillingType('credit')">Credit/Debit</a>
       <a href="" id="paypalTypeAnc" ng-click="selectBillingType('paypal')">Pay-Pal</a>
-      <a href="" id="otherTypeAnc" ng-click="selectBillingType('other')">Other Payment Options</a>
+      <a href="" id="otherTypeAnc" ng-click="selectBillingType('other')">Other Ways To Give</a>
 
     </div>
 
-    <div class="donationBillingTypeDivs" id="creditBillingDiv">
 
+
+
+    <div class="donationBillingTypeDivs" id="creditBillingDiv">
+      <span>
+        <p>Already have an account?</p>
+        <a href="">Log in</a>
+      </span>
+      <span>
+        <!-- <p>Email</p> -->
+        <input type="text" name="" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+      </span>
+      <span>
+        <!-- <p>Email</p> -->
+        <input type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.password" placeholder="Password" autocomplete="new-password">
+      </span>
+      <span ng-if="donations.inputs.billing.password != ''">
+        <!-- <p>Email</p> -->
+        <input type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.confirmPassword" placeholder="Confirm Password" autocomplete="new-password">
+      </span>
+      <span>
+        <!-- <p>Full Name</p> -->
+        <input type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+      </span>
+      <span class="donationBillingCheckboxSpans" id="donationBillingAnonCheckboxSpan">
+        <input type="checkbox" name="" value="" ng-model="donations.inputs.anon">
+        <p><i>Donate anonymously</i></p>
+      </span>
 
 
       <form id="payment-form">
@@ -88,9 +124,30 @@
         <!-- We'll put the error messages in this element -->
         <div id="card-errors" role="alert"></div>
 
-        <button id="submit" ng-click="sendOrder()">Submit Payment</button>
+        <button id="submit" ng-click="sendDonation()">Please Enter Valid Name and Email address</button>
       </form>
 
+    </div>
+
+    <div class="donationBillingTypeDivs" id="paypalBillingDiv">
+      <p id="paypalBillingHeader">Please click on the link below and follow the instructions provided to complete your <b ng-if="donations.inputs.monthly == true">Monthly</b> <b>${{donations.totalAmount}}</b> donation.</p>
+      <span>
+        <!-- <p>Email</p> -->
+        <input type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.password" placeholder="Password" autocomplete="new-password">
+      </span>
+      <span ng-if="donations.inputs.billing.password != ''">
+        <!-- <p>Email</p> -->
+        <input type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.confirmPassword" placeholder="Confirm Password" autocomplete="new-password">
+      </span>
+      <span class="donationBillingCheckboxSpans" id="donationBillingAnonCheckboxSpan">
+        <input type="checkbox" name="" value="" ng-model="donations.inputs.anon">
+        <p><i>Donate anonymously</i></p>
+      </span>
+      <div id="paypal-button-container"></div>
+    </div>
+
+    <div class="donationBillingTypeDivs" id="otherBillingDiv">
+      <p>Other</p>
     </div>
 
   </div>

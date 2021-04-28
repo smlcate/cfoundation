@@ -7,6 +7,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   var style = {
     base: {
       color: "#32325d",
+      fontSize: "30px",
     }
   };
 
@@ -15,21 +16,44 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   var checkoutButton = document.getElementById('checkout-button');
 
+  paypal.Buttons().render('#paypal-button-container');
+
   function setDonationAmount() {
-    $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.packageCosts.tags[0].cost;
+    $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.carePackagePrice;
+    $scope.donations.totalAmount = $scope.donations.inputs.amount;
     console.log($scope.donations.inputs.amount);
+  }
+
+  function getCarePackagePrice() {
+    if ($scope.carePackagePrice == 0) {
+      $http.get('getCarePackagePrice')
+      .then(function(res) {
+        console.log(res);
+        $scope.carePackagePrice = Number(res.data[0].settingsData);
+        setDonationAmount();
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    } else {
+      setDonationAmount();
+    }
   }
 
 
   $scope.donations = {
+    rolloverAmount:0,
+    totalAmount:10,
     inputs: {
       monthly:false,
       amount:10,
       packs:1,
-      otherPackAmount:1,
+      anon:false,
       billing: {
         fullName:'',
         email:'',
+        password:'',
+        confirmPassword:''
       }
     }
   }
@@ -51,31 +75,70 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   $scope.selectDonationType = function() {
     console.log($scope.donations);
 
-    $('.donationDivs span p').css('color','black');
+    $('.donationDivs span p').css('color','#4E3B86');
+
+    $('#donationDetailsSummaryDiv .variableDonationTexts').css('display','none');
 
     if ($scope.donations.inputs.monthly == false) {
       $('#oneTimeText').css('color','#C4B0FF');
+      $('#oneTimeDonationSummaryText').css('display','flex');
     } else {
       $('#monthlyText').css('color','#C4B0FF');
+      $('#monthlyDonationSummaryText').css('display','flex');
+
     }
 
   }
 
   $scope.selectBillingType = function(t) {
-    $('#donationBillingSelectNav a').css('color','black');
-    $('#'+t+'TypeAnc').css('color','#C4B0FF');
+    $('#donationBillingSelectNav a').css('color','#C4B0FF');
+    $('#donationBillingSelectNav a').css('background','#f7f5ff');
+    // $('#donationBillingSelectNav a').css('filter','none');
+    $('.donationBillingTypeDivs').css('display','none');
+
+
+    $('#'+t+'TypeAnc').css('color','f7f5ff');
+    $('#'+t+'TypeAnc').css('background','#C4B0FF');
+    // $('#'+t+'TypeAnc').css('filter','drop-shadow(0px 1px 1px black)');
+    $('#'+t+'BillingDiv').css('display','flex');
+
+
   }
 
   $scope.selectCarePackAmounts = function(amnt) {
     console.log(amnt);
     $scope.donations.inputs.packs = amnt;
+    $scope.donations.rolloverAmount = 0;
     $('#donationDetailsCarePackAmountSelectDiv a').css('color','#C4B0FF');
     $('#donationDetailsCarePackAmountSelectDiv a').css('background','#f7f5ff');
     $('#'+amnt+'CarePackAnc').css('color','#f7f5ff');
     $('#'+amnt+'CarePackAnc').css('background','#C4B0FF');
 
-    setDonationAmount();
+    getCarePackagePrice();
   }
+
+  $scope.changeAmount = function() {
+    console.log($scope.carePackagePrice);
+    console.log($scope.donations.inputs.amount / $scope.carePackagePrice);
+    var packs = (($scope.donations.inputs.amount / $scope.carePackagePrice).toString()).split('.')[0];
+    packs = Number(packs);
+    var rollover =$scope.donations.inputs.amount - (packs * $scope.carePackagePrice);
+    console.log(packs);
+    console.log(rollover);
+
+    $scope.donations.inputs.packs = packs;
+    $scope.donations.rolloverAmount = rollover;
+    $scope.donations.totalAmount = $scope.donations.inputs.amount;
+  }
+
+  $scope.otherPacks = function() {
+    $scope.donations.rolloverAmount = 0;
+    $scope.donations.totalAmount = $scope.donations.inputs.packs * $scope.carePackagePrice;
+    $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.carePackagePrice;
+
+  }
+  // getCarePackagePrice();
+
 
   function getItems() {
     console.log('hit');
@@ -91,9 +154,9 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
         if (data.tags.split(',')[0] == 'all') {
 
-          $scope.packageCosts.tags[0].cost += data.price;
+          $scope.carePackagePrice += data.price;
         }
-        // console.log($scope.packageCosts.tags[0].cost);
+        // console.log($scope.carePackagePrice);
         if (i == res.data.length -1) {
           console.log('hit');
           // console.log($scope.packageCosts);
@@ -118,7 +181,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                     if (l == $scope.packageCosts.tags.length-1) {
                       $scope.packageCosts.tags.push({
                         tag:tag,
-                        cost:$scope.packageCosts.tags[0].cost + item.price
+                        cost:$scope.carePackagePrice + item.price
 
 
                       })
@@ -153,8 +216,8 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     $scope.changePage('donate');
     $scope.selectDonationType();
     $scope.selectBillingType('credit');
-    getItems();
-
+    // getItems();
+    $scope.selectCarePackAmounts(1);
 
   }
 
