@@ -59,6 +59,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
           console.log('RECTAL');
         }
         console.log(j);
+
         if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
           ribbon = $scope.ribbons[j].ribbonData;
           $scope.ribbonsToShow.push(ribbon);
@@ -139,7 +140,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
   }
 
-  
+
 
   function start() {
 
