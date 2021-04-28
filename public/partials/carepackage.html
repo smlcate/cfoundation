@@ -12,7 +12,7 @@
       <p>Diognosies</p>
       <div class="" id="receiverInfoDiognosiesDropdownContainer">
         <select id="0receiverInfoDiognosiesDropdown" class="receiverInfoDiognosiesDropdowns" ng-model="order.recipient.diognosies[0].name" ng-change="selectDiognosis(0)" name="">
-          <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+          <option ng-if="dio.ribbonData.name != ''" value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
         </select>
       </div>
       <a href="" ng-click="newDiognosis()" ng-if="order.diognosies[order.diognosies.length-1] != undefined">New Diognosis</a>
