@@ -107,7 +107,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   function start() {
 
     $('#homeAnc').css('background','#ffff63');
-    $('#homeAnc').css('color','#dcd0ff');
+    $('#homeAnc').css('color','#E7E1FB');
 
     getItems();
     getRibbons();
@@ -122,7 +122,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   $scope.changePage = function(p) {
 
-    $('#headerNav a').css('background','#dcd0ff');
+    $('#headerNav a').css('background','#E7E1FB');
     $('#headerNav a').css('color','#ffff63');
 
     $('#'+p+'Anc').css('background','#ffff63');
