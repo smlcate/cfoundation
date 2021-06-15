@@ -332,14 +332,40 @@ header {
 .infoDivs {
   width: 60vw;
   padding: 20px;
-  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9);
-  border-radius: 5px;
+  /* box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9); */
+  /* border-radius: 5px; */
   margin-bottom: 20px;
   background: rgba(254, 251, 234, 0.8);
   font-size: 120%;
 }
-#welcomeInfoDiv {
+#lowerInfoDiv {
+  display: flex;
+  width: 100vw;
+  align-items: flex-start;
+  justify-content:space-around;
+  flex-direction: row;
+  padding-top: 30px;
+}
+#lowerLeftInfoDiv{
+  display: flex;
+  flex-direction:column;
 
+}
+#lowerRightInfoDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-top: 40px;
+}
+#lowerRightInfoDiv img{
+  max-width: 400px;
+}
+#lowerInfoDiv .infoDivs{
+  /* margin-left: 15px; */
+}
+#welcomeInfoDiv {
+  width: 100%;
 }
 #aboutUsInfoDiv {
 
