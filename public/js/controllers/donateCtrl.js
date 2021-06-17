@@ -41,6 +41,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   }
 
 
+
   $scope.donations = {
     rolloverAmount:0,
     totalAmount:10,
@@ -75,17 +76,24 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   $scope.selectDonationType = function() {
     console.log($scope.donations);
 
+    // if ($scope.donations.recurring == true) {
+    //   $scope.donations.recurring = false;
+    // } else if ($scope.donations.recurring == false) {
+    //   $scope.donations.recurring = true;
+    // }
+
     $('.donationDivs span p').css('color','#4E3B86');
 
     $('#donationDetailsSummaryDiv .variableDonationTexts').css('display','none');
 
     if ($scope.donations.inputs.monthly == false) {
+      // $scope.donations.inputs.monthly = true;
       $('#oneTimeText').css('color','#C4B0FF');
       $('#oneTimeDonationSummaryText').css('display','flex');
     } else {
+      // $scope.donations.inputs.monthly = false;
       $('#monthlyText').css('color','#C4B0FF');
       $('#monthlyDonationSummaryText').css('display','flex');
-
     }
 
   }
@@ -139,6 +147,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   }
   // getCarePackagePrice();
 
+  function buildDonationPage() {
+    $scope.donations.inputs.billing.email = $scope.user.email;
+    $scope.donations.inputs.billing.fullName = $scope.user.fullName;
+
+  }
 
   function getItems() {
     console.log('hit');
@@ -193,12 +206,10 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                       }
                       l = $scope.packageCosts.tags.length;
                     }
-                    // console.log($scope.packageCosts.tags);
                   }
                 }
-              }
-
               // console.log(tags);
+              }
             } else if(j == $scope.careItems.length-1) {
               $scope.selectCarePackAmounts(1);
             }
@@ -211,6 +222,30 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     })
   }
 
+  $scope.confirmDonation = function() {
+    // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
+    var donation = {
+      email: $scope.donations.inputs.billing.email,
+      fullName: $scope.donations.inputs.billing.fullName,
+      invoice: {
+        total: $scope.donations.totalAmount,
+        packs: $scope.donations.inputs.packs,
+        packagePrice: $scope.carePackagePrice,
+        recurring: $scope.donations.inputs.monthly
+      }
+    }
+
+    $http.post('makeDonation', {donation:donation})
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+
+  }
+
 
   function init() {
     $scope.changePage('donate');
@@ -218,7 +253,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     $scope.selectBillingType('credit');
     // getItems();
     $scope.selectCarePackAmounts(1);
-
+    buildDonationPage();
   }
 
   init();

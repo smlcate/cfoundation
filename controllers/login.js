@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 
+var stripe = require('stripe')(process.env.STRIPE_KEY)
+
 exports.signUp = function(req, res, next) {
 
   console.log("sMAck");
@@ -81,6 +83,7 @@ exports.signIn = function(req, res, next) {
 
             user = {
               email: data[0].email,
+              fullName:JSON.parse(data[0].user_data).fullName,
               id:data[0].id
             }
             res.send(user)
