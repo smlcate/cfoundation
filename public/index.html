@@ -19,6 +19,7 @@
     <script defer src="./js/controllers/orderCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/adminCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/donateCtrl.js" charset="utf-8"></script>
+    <script defer src="./js/controllers/authCtrl.js" charset="utf-8"></script>
 
 
     <link rel="stylesheet" href="./styles/main.css">
@@ -30,22 +31,45 @@
 
       <div class="" id="headerLogoDiv">
 
-        <img src="./images/YBLogoText.png" alt="">
+        <!-- <img src="./images/YBLogoText2.png" alt=""> -->
+        <img src="./images/YBLogoWithText.png" alt="">
+
         <div class="" id="headerTextDiv">
 
-          <h1 style="color:yellow;">Y <span style="color:black;margin-right:10px;">ellow </span> B <span style="color:black;">ag of Humanity</span></h1>
-          <p><b>Enduring the Struggle and Supporting Your Fight</b></p>
+          <!-- <h1 style="color:yellow;">Y <span style="color:black;margin-right:10px;">ellow </span> B <span style="color:black;">ag of Humanity</span></h1> -->
+          <p><b>Enduring the Struggle</b></p>
+          <p>&</p>
+          <p><b>Supporting Your Fight</b></p>
         </div>
 
+
       </div>
+      <div class="" id="headerRightDiv">
 
-      <div class="" id="headerNav">
+        <div class="" id="accountNav">
 
-        <a id="homeAnc" href="/" ng-click="changePage('home')">Home</a>
-        <a id="packagesAnc" href="/#!/browse" ng-click="changePage('packages')">Browse</a>
-        <a id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase')">Order</a>
-        <a id="donateAnc" href="/#!/donate" ng-click="changePage('donate')">Donate</a>
+          <span id="signInNav" ng-if="signedIn == false">
+            <a href="/#!/signUp">Sign Up</a>
+            <p>|</p>
+            <a href="/#!/signIn">Sign In</a>
+          </span>
+          <span id="userSettingsNav" ng-if="signedIn == true">
+            <a href="">{{user.email}}</a>
+            <p>|</p>
+            <a href="" ng-click="signOut()">Sign Out</a>
+          </span>
 
+        </div>
+
+        <div class="" id="headerNav">
+
+          <a id="homeAnc" href="/" ng-click="changePage('home')">Home</a>
+          <a id="packagesAnc" href="/#!/browse" ng-click="changePage('packages')">Browse</a>
+          <a id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase')">Order</a>
+          <a id="donateAnc" href="/#!/donate" ng-click="changePage('donate')">Donate</a>
+
+
+        </div>
 
       </div>
 
