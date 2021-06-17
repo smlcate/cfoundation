@@ -39,6 +39,7 @@ app.post('/signIn', server.login.signIn);
 
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
+app.post('/addRecurringDonor', server.donations.addRecurringDonor);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {

@@ -182,11 +182,29 @@ header {
 .adminPages {
   display: flex;
   flex-direction: column;
+  width: 100vw;
   /* background: blue; */
 }
 #ordersAdminPage {
 
 }
+#donationsAdminPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#donationsDisplay {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.donationCells {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .orderCells {
   display: flex;
   width: 80vw;
