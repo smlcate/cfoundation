@@ -5,6 +5,7 @@
 
     <a href="" ng-click="thisAdminPage('carepackage')">Care Packages</a>
     <a href="" ng-click="thisAdminPage('orders')">Orders</a>
+    <a href="" ng-click="thisAdminPage('donations')">Donations</a>
     <!-- <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a> -->
 
@@ -147,6 +148,17 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="adminPages" id="donationsAdminPage">
+    <h1>Donations</h1>
+    <div class="" id="donationsDisplay">
+      <div class="donationCells" ng-repeat="donation in donations track by $index">
+        <p>{{donation.fullName}}</p>
+        <p>{{donation.email}}</p>
+        <p>{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per for a total of ${{donation.invoice.total}}</p>
+      </div>
     </div>
   </div>
 
