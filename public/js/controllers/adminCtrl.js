@@ -21,6 +21,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.orders = [];
 
+  $scope.donations = [];
+
   $scope.newRibbon = {
     name:'',
     image:''
@@ -76,6 +78,19 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       }
     }
 
+  }
+
+  function getDonations() {
+    $http.get('getDonations')
+    .then(function(res) {
+      for (var i = 0; i < res.data.length; i++) {
+        $scope.donations.push(JSON.parse(res.data[i].donation_data));
+      }
+      console.log($scope.donations);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
   function getOrders() {
@@ -426,6 +441,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     getCarePackagePrice();
     getRibbons();
     getOrders();
+    getDonations();
     if ($scope.careItems.length > 0) {
     }
   }

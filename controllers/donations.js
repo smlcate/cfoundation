@@ -6,6 +6,16 @@ var bodyParser = require('body-parser');
 
 var stripe = require('stripe')(process.env.STRIPE_KEY)
 
+exports.getDonations = function(req, res, next) {
+  knex('donations')
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+}
 
 exports.makeDonation = function(req, res, next) {
 

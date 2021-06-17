@@ -37,6 +37,7 @@ app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
 
+app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 
 app.set('port', process.env.PORT || 3000);
