@@ -100,7 +100,7 @@
       </span>
       <span>
         <!-- <p>Email</p> -->
-        <input ng-if="signedIn == false" type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.password" placeholder="Password" autocomplete="new-password">
+        <input ng-if="signedIn == false && donations.inputs.monthly == true" type="password" name="password" value="" ng-if="donations.inputs.monthly == true" ng-model="donations.inputs.billing.password" placeholder="Password" autocomplete="new-password">
       </span>
       <span ng-if="donations.inputs.billing.password != ''">
         <!-- <p>Email</p> -->

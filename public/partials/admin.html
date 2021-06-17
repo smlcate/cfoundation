@@ -157,7 +157,9 @@
       <div class="donationCells" ng-repeat="donation in donations track by $index">
         <p>{{donation.fullName}}</p>
         <p>{{donation.email}}</p>
-        <p>{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per for a total of ${{donation.invoice.total}}</p>
+        <p ng-if="donation.invoice.recurring == false">One-time</p>
+        <p ng-if="donation.invoice.recurring == true">Recurring</p>
+        <p>{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per, plus ${{donation.invoice.rollover}} for a total of ${{donation.invoice.total}}</p>
       </div>
     </div>
   </div>
