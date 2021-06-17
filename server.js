@@ -8,6 +8,7 @@ var server = {
   admin: require('./controllers/admin.js'),
   orders: require('./controllers/orders.js'),
   login: require('./controllers/login.js'),
+  donations: require('./controllers/donations.js')
 }
 
 app.use(express.static('public'));
@@ -36,7 +37,7 @@ app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
 
-
+app.post('/makeDonation', server.donations.makeDonation);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
