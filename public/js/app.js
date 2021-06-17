@@ -28,4 +28,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: '../partials/donate.html'
   })
 
+  .state('signUp', {
+      url: '/signUp',
+      templateUrl: '../partials/signUp.html'
+  })
+  .state('signIn', {
+      url: '/signIn',
+      templateUrl: '../partials/signIn.html'
+  })
+
 })

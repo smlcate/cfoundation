@@ -6,7 +6,8 @@ var bodyParser = require('body-parser');
 
 var server = {
   admin: require('./controllers/admin.js'),
-  orders: require('./controllers/orders.js')
+  orders: require('./controllers/orders.js'),
+  login: require('./controllers/login.js'),
 }
 
 app.use(express.static('public'));
@@ -29,6 +30,13 @@ app.post('/editItem', server.admin.editItem);
 app.post('/removeItem', server.admin.removeItem);
 
 app.get('/getItems', server.admin.getItems);
+
+
+app.get('/getUsers', server.login.getUsers);
+app.post('/signUp', server.login.signUp);
+app.post('/signIn', server.login.signIn);
+
+
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {

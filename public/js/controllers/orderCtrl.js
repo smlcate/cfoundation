@@ -142,16 +142,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
 
 
-  function start() {
-
-    if ($scope.careItems.length == 0) {
-      getItems();
-    }
-
-
-    // buildItemDisplay('all');
-  }
-  start();
 
 
   $scope.newDiognosis = function() {
@@ -199,5 +189,15 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       });
     // sendOrder();
   }
+  function start() {
+
+    if ($scope.careItems.length == 0) {
+      getItems();
+    }
+
+    $scope.changePage('purchase');
+    // buildItemDisplay('all');
+  }
+  start();
 
 }])

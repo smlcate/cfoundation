@@ -8,6 +8,24 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   $scope.ribbons = [];
   $scope.ribbonsToShow = [];
 
+  $scope.user = {};
+  $scope.signedIn = false;
+
+  function checkSignIn() {
+    if (sessionStorage.user != null && sessionStorage.user != {} && sessionStorage.user != undefined && sessionStorage.user != 'null') {
+      user = JSON.parse(sessionStorage.user)
+      $scope.user = {
+        email: user.email,
+        fullName: user.fullName,
+        id: user.id
+      }
+      console.log($scope.user);
+      $scope.signedIn = true;
+
+    }
+    console.log(sessionStorage.user);
+  }
+
   function buildFilterNav() {
     for (var j = 0; j < $scope.ribbons.length; j++) {
     for (var i = 0; i < $scope.filterTags.length; i++) {
@@ -104,17 +122,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     }
   }
 
-  function start() {
-
-    $('#homeAnc').css('background','#ffff63');
-    $('#homeAnc').css('color','#E7E1FB');
-
-    getItems();
-    getRibbons();
-
-  }
-
-  start();
 
   $scope.changeFilter = function(tag) {
     buildItemDisplay(tag[0].toLowerCase() + tag.slice(1));
@@ -129,6 +136,31 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     $('#'+p+'Anc').css('color','#C4B0FF');
   }
 
+  $scope.signOut = function() {
+
+    sessionStorage.user = null;
+    $scope.user = null;
+    $scope.signedIn = false;
+    // console.log(sessionStorage);
+    $('#signInNav').css('display','flex')
+    $('#userSettingsNav').css('display','none')
+
+  }
+
+  function start() {
+
+    $('#homeAnc').css('background','#ffff63');
+    $('#homeAnc').css('color','#E7E1FB');
+
+    getItems();
+    getRibbons();
+    checkSignIn();
+    // $scope.changePage('home');
+
+
+  }
+
+  start();
 
 
 }])

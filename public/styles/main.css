@@ -5,6 +5,9 @@
   font-weight: 100;
 }
 
+a {
+  text-decoration: none;
+}
 
 body {
   /* font-family: 'Open Sans',Helvetica,Arial,sans-serif; */
@@ -21,26 +24,64 @@ body {
 
 header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  /* flex-direction: column; */
   /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
   /* text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.9); */
   background:#E7E1FB;
   /* color:#ffff63; */
-  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.9);
-
+  /* box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.9); */
+  border-bottom: 4px solid #ffff63;
   /* color: #ebe014; */
 }
 #headerLogoDiv {
-
-  padding:10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left:10px;
+  /* width: 100%; */
+}
+#accountNav {
+  padding: 20px;
+  height: 28px;
+  display: flex;
+}
+#accountNav span {
+  display: flex;
+  align-items: center;
+}
+#accountNav span a {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  /* height: 15px; */
+}
+#accountNav span p {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  /* height: 15px; */
+  /* margin-bottom: -0px; */
+  font-size: 120%;
+  font-weight: bold;
+}
+#headerRightDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content:space-between;
+  height: 100%;
 }
 #headerTextDiv {
-  margin-bottom: -5px;
+  /* margin-bottom: -5px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 30px;
 }
 #headerNav {
   display: flex;
   align-items: center;
-  border-bottom: 4px solid #ffff63;
 }
 #headerNav a {
   text-decoration: none;
@@ -335,8 +376,12 @@ header {
   /* box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9); */
   /* border-radius: 5px; */
   margin-bottom: 20px;
-  background: rgba(254, 251, 234, 0.8);
+  /* background: rgba(254, 251, 234, 0.8); */
+  background: #f7f5ff;
   font-size: 120%;
+}
+.infoDivs h3 {
+  filter: drop-shadow(0px 2px 2px #222);
 }
 #lowerInfoDiv {
   display: flex;
@@ -369,7 +414,18 @@ header {
 }
 #aboutUsInfoDiv {
 
-  background: rgba(220, 208, 255, 0.8);
+  /* background: rgba(220, 208, 255, 0.8); */
+  /* border-bottom: 2px solid #ffff63; */
+}
+#infoDivider {
+  height:3px;
+  width: 100%;
+  background: #ffff63;
+  /* background: #E7E1FB; */
+
+  /* border-bottom: 2px solid #ffff63; */
+  /* box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.8); */
+  filter: drop-shadow(0px 0px 3px #222);
 }
 #quickShopInfoDivAncContainer {
   display: flex;
@@ -717,6 +773,35 @@ input:checked + .slider:after {
   border-radius: 50%;
 }
 
+
+#signUpDisplay {
+  font-size: 150%;
+}
+#signUpForm {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#signUpFormInputDiv {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+#signUpForm input {
+  margin-bottom: 2px;
+  border: none;
+  border-bottom: 2px solid grey;
+  background: #f7f5ff;
+  padding: 0px;
+  display: flex;
+  align-items: flex-end;
+  padding-left: 5px;
+  width: 100%;
+  font-size: 150%;
+}
 
 footer {
   display: flex;
