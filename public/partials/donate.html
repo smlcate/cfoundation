@@ -90,6 +90,7 @@
 
 
     <div class="donationBillingTypeDivs" id="creditBillingDiv">
+      <p ng-if="donations.inputs.monthly">Monthly donations require an account, and can be adjusted or canceled at anytime.</p>
       <span ng-if="signedIn == false">
         <p>Already have an account?</p>
         <a href="/#!/signIn">Log in</a>
