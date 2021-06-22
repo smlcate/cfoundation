@@ -148,9 +148,12 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   // getCarePackagePrice();
 
   function buildDonationPage() {
-    $scope.donations.inputs.billing.email = $scope.user.email;
-    $scope.donations.inputs.billing.fullName = $scope.user.fullName;
+    if ($scope.user != null && $scope.user != undefined) {
 
+      $scope.donations.inputs.billing.email = $scope.user.email;
+      $scope.donations.inputs.billing.fullName = $scope.user.fullName;
+
+    }
   }
 
   function getItems() {
