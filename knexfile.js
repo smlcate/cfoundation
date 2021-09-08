@@ -51,11 +51,11 @@ module.exports = {
     //   // user:     'username',
     //   password: 'ncmpTk88'
     // },
-    pool: {
-      ssl: { rejectUnauthorized: false}
-      // min: 2,
-      // max: 10
-    },
+    // pool: {
+    //   ssl: { rejectUnauthorized: false}
+    //   // min: 2,
+    //   // max: 10
+    // },
     // migrations: {
     //   tableName: 'knex_migrations'
     // }
