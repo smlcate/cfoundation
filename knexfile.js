@@ -35,7 +35,7 @@ module.exports = {
   production: {
     client: 'pg',
     // The next line is where the application will read that environment variable to connect to the database
-    connectionString: process.env.DATABASE_URL,
+    connection: process.env.DATABASE_URL,
     // ssl: {
     //   rejectUnauthorized: false
     // },
