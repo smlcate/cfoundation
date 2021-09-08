@@ -35,10 +35,7 @@ module.exports = {
   production: {
     client: 'pg',
     // The next line is where the application will read that environment variable to connect to the database
-    connection: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    },
+    connection: process.env.DATABASE_URL + '?sslmode=require',
     // migrations: {
     //     directory: '/migrations',
     // },
@@ -52,9 +49,8 @@ module.exports = {
     //   password: 'ncmpTk88'
     // },
     // pool: {
-    //   ssl: { rejectUnauthorized: false}
-    //   // min: 2,
-    //   // max: 10
+    //   min: 2,
+    //   max: 10
     // },
     // migrations: {
     //   tableName: 'knex_migrations'
