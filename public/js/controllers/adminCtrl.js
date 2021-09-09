@@ -28,6 +28,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     image:''
   };
 
+  $scope.ribbonToEdit = {
+    name:'',
+    image:''
+  };
+
+  $scope.editRibbon = false;
+
   $scope.ribbons = [];
 
   $scope.editItemId;
@@ -49,7 +56,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     console.log('HIIIIIT');
 
-    var html = '<img src="{{ribbon.image}}" alt="" ng-repeat="ribbon in ribbons">';
+    var html = '<img src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons track by $index" ng-click="selectRibbon(ribbon)">';
     angular.element($('#ribbonsSpan')).append($compile(html)($scope))
 
     html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
@@ -188,7 +195,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     .then(function(res) {
       console.log(res.data);
       for (var i = 0; i < res.data.length; i++) {
-        $scope.ribbons.push(JSON.parse(res.data[i].ribbonData))
+        $scope.ribbons.push({id:res.data[i].id, ribbonData:JSON.parse(res.data[i].ribbonData)})
       }
       // $scope.ribbons = res.data;
       console.log($scope.ribbons);
@@ -249,6 +256,41 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   })
 
+  $('#editRibbonImageInput').click(function(){
+      $(this).attr("value", "");
+      console.log(this);
+  })
+  $('#editRibbonImageInput').change(function(e){
+
+    var files = $('#editRibbonImageInput')[0].files;
+
+    function readUrl(file) {
+      console.log(file);
+      var reader = new FileReader();
+
+      reader.onload = function(){
+
+        // take dataURL and push onto preview
+        var dataURL = reader.result;
+
+        $scope.ribbonToEdit.ribbonData.image = dataURL;
+        console.log($scope.ribbonToEdit);
+        $('#editRibbonImage').remove();
+
+        var html = '<img id="editRibbonImage" src="' + $scope.ribbonToEdit.image + '" alt="">';
+
+        angular.element($('#editRibbonImageDiv')).append($compile(html)($scope))
+
+
+      };
+      reader.readAsDataURL(file);
+
+    }
+
+    readUrl(files[0])
+
+  })
+
   $scope.addNewRibbon = function() {
     $http.post('addNewRibbon', {ribbon:$scope.newRibbon})
     .then(function(res) {
@@ -260,6 +302,35 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     .catch(function(err) {
       console.log(err);
     })
+  }
+
+  $scope.selectRibbon = function(r) {
+    console.log(r);
+    $scope.ribbonToEdit = r;
+    $scope.editRibbon = true;
+
+    $('#editRibbonImage').remove();
+
+    var html = '<img id="editRibbonImage" src="' + r.ribbonData.image + '" alt="">';
+
+    angular.element($('#editRibbonImageDiv')).append($compile(html)($scope));
+
+  }
+
+  $scope.saveRibbonEdit = function() {
+    // console.log(r);
+    $http.post('saveRibbonEdit', {ribbon:$scope.ribbonToEdit})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+  }
+
+  $scope.cancelRibbonEdit = function() {
+    $scope.editRibbon = false;
   }
 
   $scope.newCareItem = function() {
