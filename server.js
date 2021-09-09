@@ -18,6 +18,7 @@ app.post('/saveCarePackagePrice', server.admin.saveCarePackagePrice);
 app.get('/getCarePackagePrice', server.admin.getCarePackagePrice);
 
 app.post('/addNewRibbon', server.admin.addNewRibbon);
+app.post('/saveRibbonEdit', server.admin.saveRibbonEdit);
 app.get('/getRibbons', server.admin.getRibbons);
 
 app.post('/newOrder', server.orders.newOrder);

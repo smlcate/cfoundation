@@ -234,7 +234,10 @@ header {
 #carePackageSettingsDiv img {
   height: 90px;
 }
-#newRibbonImageSpan {
+#adminRibbonController {
+  display: flex;
+}
+.ribbonControllerDivs {
   height: 90px;
   display: flex;
   align-items: center;
@@ -245,7 +248,7 @@ header {
   padding-left: 30px;
 }
 #ribbonsSpan img {
-  margin-left: -50px;
+  margin-left: -30px;
   height: 80px;
 }
 #carePackageItemDiv {
