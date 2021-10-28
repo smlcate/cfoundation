@@ -1,7 +1,7 @@
 
 app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_test_51IMGPkFD34Zw3SUhg5g8OxNIsvr3Ud7GCwgAjC6eMK99lYdYGApOlZGHUiovM7feORWB43lbc87ax3v4ZyYomQga00PbKBmSuK');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
   var elements = stripe.elements();
 
 
@@ -53,17 +53,13 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   function buildFilterNav() {
     for (var j = 0; j < $scope.ribbons.length; j++) {
     for (var i = 0; i < $scope.filterTags.length; i++) {
-        // console.log($scope.filterTags[i]);
-        // console.log($scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1));
+
         if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-          console.log('RECTAL');
         }
-        console.log(j);
 
         if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
           ribbon = $scope.ribbons[j].ribbonData;
           $scope.ribbonsToShow.push(ribbon);
-          console.log($scope.ribbonsToShow);
           buildDisplays();
 
         }
@@ -74,7 +70,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
-      // console.log(res);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
@@ -86,41 +81,31 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
             for (var k = 0; k < tags.length; k++) {
               var exists = false;
               for (var j = 0; j < $scope.filterTags.length; j++) {
-                // console.log(tags[k][0].toLowerCase() + tags[k].slice(1));
-                // console.log($scope.filterTags[j]);
+
                 if ($scope.filterTags[j] == tags[k][0].toLowerCase() + tags[k].slice(1)) {
-                  // console.log('exists');
                   exists == true;
                   j = $scope.filterTags.length;
                 } else if(j == $scope.filterTags.length-1 && exists == false) {
                   $scope.filterTags.push(tags[k]);
-                  // console.log($scope.filterTags);
                 }
 
               }
             }
           } else {
             $scope.filterTags = data.tags.split(',');
-            // console.log($scope.filterTags);
           }
 
         }
         if (i == res.data.length-1) {
-          // console.log($scope.filterTags);
-          // buildItemDisplay('all');
           buildFilterNav();
         }
 
       }
-      // console.log($scope.careItems);
-      // console.log($scope.packageCosts);
     })
   }
 
 
   function buildItemDisplay() {
-    console.log($scope.careItems);
-    console.log($scope.order);
     $scope.careItemsToDisplay = [];
     for (var i = 0; i < $scope.careItems.length; i++) {
       var tags = $scope.careItems[i].tags.split(',');
@@ -129,7 +114,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       } else {
         for (var j = 0; j < tags.length; j++) {
           for (var k = 0; k < $scope.order.recipient.diognosies.length; k++) {
-            console.log($scope.order.recipient.diognosies[k]);
             if (tags[j] == $scope.order.recipient.diognosies[k].name[0].toLowerCase()+$scope.order.recipient.diognosies[k].name.slice(1)) {
               $scope.careItemsToDisplay.push($scope.careItems[i])
             }
@@ -154,10 +138,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     angular.element($('#receiverInfoDiognosiesDropdownContainer')).append($compile(html)($scope))
   }
-
-  // $scope.selectDiognosis = function(i) {
-  //   console.log(i);
-  // }
 
   $scope.changeOrderDisplay = function(d) {
     $('.packageDisplays').css('display','none');
@@ -187,7 +167,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       .catch(function(error) {
         console.error('Error:', error);
       });
-    // sendOrder();
   }
   function start() {
 
@@ -196,7 +175,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
 
     $scope.changePage('purchase');
-    // buildItemDisplay('all');
   }
   start();
 

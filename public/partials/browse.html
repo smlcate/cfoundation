@@ -5,7 +5,7 @@
   <div class="" id="ribbonNav">
 
     <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-if="ribbons.length > 0" ng-repeat="ribbon in ribbons track by $index">
-      <img ng-if="ribbon" src="{{ribbon.ribbonData.image}}" alt="">
+      <img ng-if="ribbon && ribbon.ribbonData.image" src="{{ribbon.ribbonData.image}}" alt="">
     </a>
 
   </div>
