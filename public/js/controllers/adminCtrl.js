@@ -506,15 +506,32 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   function start() {
 
-    $scope.thisAdminPage('carepackage');
+    if ($scope.user) {
+      $http.post('checkPermission', {user: $scope.user})
+      .then(function(res) {
+        console.log(res);
+        if (res.data == 'allow') {
 
-    getItems();
-    getCarePackagePrice();
-    getRibbons();
-    getOrders();
-    getDonations();
-    if ($scope.careItems.length > 0) {
+              $scope.thisAdminPage('carepackage');
+
+              getItems();
+              getCarePackagePrice();
+              getRibbons();
+              getOrders();
+              getDonations();
+              if ($scope.careItems.length > 0) {
+              }
+
+        } else {
+          window.location.href = '#!/signin';
+          $window.location.reload();
+        }
+      })
+    } else {
+      window.location.href = '#!/signin';
+      $window.location.reload();
     }
+
   }
   start();
 

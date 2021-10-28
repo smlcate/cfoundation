@@ -10,14 +10,13 @@ var stripe = require('stripe')(process.env.STRIPE_KEY)
 
 exports.signUp = function(req, res, next) {
 
-  console.log("sMAck");
-
   console.log(req.body);
   var auth = req.body.auth;
 
   var user = {
     user_data: {
-      fullName:auth.fullName
+      fullName:auth.fullName,
+      permission:null
     },
     email:auth.email
   }
@@ -36,12 +35,30 @@ exports.signUp = function(req, res, next) {
         .where({email:auth.email})
         .select('*')
         .then(function(data) {
-          user = {
-            email: auth.email,
-            fullName:auth.fullName,
-            id:data[0].id
-          }
-          res.send(user);
+
+          knex('users')
+          .select('*')
+          .then(function(allUsers) {
+
+            user.id = data[0].id;
+            console.log(data.length);
+            if (allUsers.length == 1) {
+              user.user_data.permission = 'wonderBreadtree55';
+              knex('users')
+              .where({id:user.id})
+              .update(user)
+              .then(function() {
+                res.send(user);
+              })
+              .catch(function(err) {
+                console.log(err);
+                res.send(err);
+              })
+            } else {
+              res.send(user);
+            }
+
+          })
         })
         .catch(function(err) {
           console.log(err);
@@ -121,6 +138,21 @@ exports.signIn = function(req, res, next) {
   // })
 
 }
+
+exports.checkPermission = function(req, res, next) {
+  knex('users')
+  .where({email:req.body.user.email})
+  .then(function(data) {
+    console.log(JSON.parse(data[0].user_data));
+    if (JSON.parse(data[0].user_data).permission == 'wonderBreadtree55') {
+      console.log('hit');
+      res.send('allow');
+    } else {
+      res.send('deny');
+    }
+  })
+}
+
 exports.getUsers = function(req, res, next) {
   console.log(req.body);
   knex('users')

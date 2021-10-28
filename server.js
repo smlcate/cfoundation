@@ -38,6 +38,8 @@ app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
 
+app.post('/checkPermission', server.login.checkPermission);
+
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);
