@@ -506,7 +506,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   function start() {
 
-    if ($scope.user) {
+    if ($scope.user && $scope.user != null && $scope.user != 'undefined') {
       $http.post('checkPermission', {user: $scope.user})
       .then(function(res) {
         console.log(res);

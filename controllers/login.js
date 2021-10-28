@@ -140,17 +140,21 @@ exports.signIn = function(req, res, next) {
 }
 
 exports.checkPermission = function(req, res, next) {
-  knex('users')
-  .where({email:req.body.user.email})
-  .then(function(data) {
-    console.log(JSON.parse(data[0].user_data));
-    if (JSON.parse(data[0].user_data).permission == 'wonderBreadtree55') {
-      console.log('hit');
-      res.send('allow');
-    } else {
-      res.send('deny');
-    }
-  })
+  if (req.body.user.email) {
+    knex('users')
+    .where({email:req.body.user.email})
+    .then(function(data) {
+      console.log(JSON.parse(data[0].user_data));
+      if (JSON.parse(data[0].user_data).permission == 'wonderBreadtree55') {
+        console.log('hit');
+        res.send('allow');
+      } else {
+        res.send('deny');
+      }
+    })
+  } else {
+    res.send('deny');
+  }
 }
 
 exports.getUsers = function(req, res, next) {
