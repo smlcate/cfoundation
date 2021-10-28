@@ -13,32 +13,31 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   function checkSignIn() {
     if (sessionStorage.user != null && sessionStorage.user != {} && sessionStorage.user != undefined && sessionStorage.user != 'null') {
+
       user = JSON.parse(sessionStorage.user)
+
       $scope.user = {
         email: user.email,
         fullName: user.fullName,
         id: user.id
       }
-      console.log($scope.user);
+
       $scope.signedIn = true;
 
     }
-    console.log(sessionStorage.user);
   }
 
   function buildFilterNav() {
     for (var j = 0; j < $scope.ribbons.length; j++) {
     for (var i = 0; i < $scope.filterTags.length; i++) {
-        // console.log($scope.filterTags[i]);
-        // console.log($scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1));
+
         if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-          console.log('RECTAL');
+
         }
-        console.log(j);
+
         if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
           ribbon = $scope.ribbons[j].ribbonData;
           $scope.ribbonsToShow.push(ribbon);
-          console.log($scope.ribbonsToShow);
         }
       }
     }
@@ -51,7 +50,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       for (var i = 0; i < $scope.ribbons.length; i++) {
         $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
       }
-      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -61,7 +59,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
-      // console.log(res);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
@@ -73,39 +70,31 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
             for (var k = 0; k < tags.length; k++) {
               var exists = false;
               for (var j = 0; j < $scope.filterTags.length; j++) {
-                // console.log(tags[k][0].toLowerCase() + tags[k].slice(1));
-                // console.log($scope.filterTags[j]);
+
                 if ($scope.filterTags[j] == tags[k][0].toLowerCase() + tags[k].slice(1)) {
-                  // console.log('exists');
                   exists == true;
                   j = $scope.filterTags.length;
                 } else if(j == $scope.filterTags.length-1 && exists == false) {
                   $scope.filterTags.push(tags[k]);
-                  // console.log($scope.filterTags);
                 }
 
               }
             }
           } else {
             $scope.filterTags = data.tags.split(',');
-            // console.log($scope.filterTags);
           }
 
         }
         if (i == res.data.length-1) {
-          // console.log($scope.filterTags);
           buildItemDisplay('all');
           buildFilterNav();
         }
 
       }
-      // console.log($scope.careItems);
-      // console.log($scope.packageCosts);
     })
   }
 
   function buildItemDisplay(tag) {
-    console.log($scope.careItems);
     $scope.careItemsToDisplay = [];
     for (var i = 0; i < $scope.careItems.length; i++) {
       var tags = $scope.careItems[i].tags.split(',');
@@ -117,7 +106,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
             $scope.careItemsToDisplay.push($scope.careItems[i])
           }
         }
-
       }
     }
   }
@@ -141,7 +129,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     sessionStorage.user = null;
     $scope.user = null;
     $scope.signedIn = false;
-    // console.log(sessionStorage);
     $('#signInNav').css('display','flex')
     $('#userSettingsNav').css('display','none')
 
@@ -155,7 +142,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     getItems();
     getRibbons();
     checkSignIn();
-    // $scope.changePage('home');
 
 
   }
