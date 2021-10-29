@@ -11,6 +11,8 @@
       <input type="text" name="full_name" value=""ng-model="auth.fullName" placeholder="Full Name"> -->
     </div>
 
+    <p ng-if="signIn.error != ''">{{signIn.error}}</p>
+
     <button type="button" name="button" ng-click="signIn()">Sign In</button>
 
   </div>
