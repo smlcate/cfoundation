@@ -1,13 +1,14 @@
 
 app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
   var elements = stripe.elements();
 
 
   var style = {
     base: {
       color: "#32325d",
+      fontSize: "30px"
     }
   };
 
@@ -50,22 +51,22 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
-  function buildFilterNav() {
-    for (var j = 0; j < $scope.ribbons.length; j++) {
-    for (var i = 0; i < $scope.filterTags.length; i++) {
-
-        if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-        }
-
-        if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
-          ribbon = $scope.ribbons[j].ribbonData;
-          $scope.ribbonsToShow.push(ribbon);
-          buildDisplays();
-
-        }
-      }
-    }
-  }
+  // function buildFilterNav() {
+  //   for (var j = 0; j < $scope.ribbons.length; j++) {
+  //   for (var i = 0; i < $scope.filterTags.length; i++) {
+  //
+  //       if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
+  //       }
+  //
+  //       if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
+  //         ribbon = $scope.ribbons[j].ribbonData;
+  //         $scope.ribbonsToShow.push(ribbon);
+  //         buildDisplays();
+  //
+  //       }
+  //     }
+  //   }
+  // }
 
   function getItems() {
     $http.get('getItems')
@@ -97,7 +98,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
         }
         if (i == res.data.length-1) {
-          buildFilterNav();
+          // buildFilterNav();
         }
 
       }
@@ -149,24 +150,46 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     if ($scope.display == 0) {
       $('#receiverInfoPackageDisplay').css('display','flex');
     } else if ($scope.display == 1) {
-      $('#receiverItemPackageDisplay').css('display','flex');
-      buildItemDisplay();
-    } else if ($scope.display == 2) {
-      $('#receiverCardPackageDisplay').css('display','flex');
-    } else if ($scope.display == 3) {
       $('#receiverCheckoutPackageDisplay').css('display','flex');
     }
+   //  else if ($scope.display == 1) {
+   //   $('#receiverItemPackageDisplay').css('display','flex');
+   //   buildItemDisplay();
+   // } else if ($scope.display == 2) {
+   //   $('#receiverCardPackageDisplay').css('display','flex');
+   // }
   }
 
-  $scope.sendOrder = function() {
-    $scope.order.contents = $scope.careItemsToDisplay;
-     $http.post('newOrder',{order:$scope.order})
+  $scope.confirmOrder = async (e) => {
+    // e.preventDefault();
+    const clientSecret = await $http.post('createOrderPaymentIntent', {paymentMethodType:card, currency:'usd'})
+    .then(function(res) {
+      console.log(res.data);
+      return res.data.clientSecret;
+    });
+
+    const {paymentIntent} = await stripe.confirmCardPayment(
+      clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: $scope.order.billing.fName + $scope.order.billing.lName,
+            email: $scope.order.billing.email,
+          }
+        }
+      }
+    );
+    if (paymentIntent.status == 'succeeded') {
+      $scope.order.contents = $scope.careItemsToDisplay;
+      $http.post('newOrder',{order:$scope.order})
       .then(function(res) {
         console.log(res);
       })
       .catch(function(error) {
         console.error('Error:', error);
       });
+
+    }
   }
   function start() {
 
