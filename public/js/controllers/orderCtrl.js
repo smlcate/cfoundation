@@ -44,7 +44,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   function sendOrder() {
     $http.post('newOrder', {order:JSON.stringify($scope.order)})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -164,7 +164,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     // e.preventDefault();
     const clientSecret = await $http.post('createOrderPaymentIntent', {paymentMethodType:card, currency:'usd'})
     .then(function(res) {
-      console.log(res.data);
       return res.data.clientSecret;
     });
 
@@ -183,7 +182,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       $scope.order.contents = $scope.careItemsToDisplay;
       $http.post('newOrder',{order:$scope.order})
       .then(function(res) {
-        console.log(res);
+        // console.log(res);
       })
       .catch(function(error) {
         console.error('Error:', error);
