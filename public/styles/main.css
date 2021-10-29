@@ -896,6 +896,9 @@ input:checked + .slider:after {
   width: 100%;
   font-size: 150%;
 }
+#passwordErrorMessage {
+  display: none;
+}
 
 footer {
   display: flex;
