@@ -61,7 +61,6 @@ exports.addNewItem = function(req, res, send) {
   })
 }
 exports.editItem = function(req, res, send) {
-  console.log(req.body);
   knex('items')
   .where({id:req.body.item.id})
   .update({itemData:JSON.stringify(req.body.item)})
@@ -74,7 +73,6 @@ exports.editItem = function(req, res, send) {
   })
 }
 exports.removeItem = function(req, res, send) {
-  console.log(req.body);
   knex('items')
   .where({id:req.body.item.id})
   .delete()
@@ -111,7 +109,6 @@ exports.addNewRibbon = function(req, res, next) {
   })
 }
 exports.saveRibbonEdit = function(req, res, next) {
-  console.log(req.body);
   knex('ribbons')
   .where({id:req.body.ribbon.id})
   .update({ribbonData:JSON.stringify(req.body.ribbon.ribbonData)})

@@ -206,7 +206,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     // e.preventDefault();
     const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
     .then(function(res) {
-      console.log(res.data);
       return res.data.clientSecret;
     });
 
@@ -221,7 +220,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
         }
       }
     );
-    console.log(paymentIntent);
     if (paymentIntent.status == 'succeeded') {
 
       // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id

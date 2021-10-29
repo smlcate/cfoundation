@@ -54,8 +54,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   function buildDisplays() {
 
-    console.log('HIIIIIT');
-
     var html = '<img src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons track by $index" ng-click="selectRibbon(ribbon)">';
     angular.element($('#ribbonsSpan')).append($compile(html)($scope))
 
@@ -65,7 +63,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   function buildOrderCSV() {
-    console.log('hit 2');
     var orders = $scope.orders;
     var rows = [
         ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height"]
@@ -93,7 +90,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         $scope.donations.push(JSON.parse(res.data[i].donation_data));
       }
-      console.log($scope.donations);
     })
     .catch(function(err) {
       console.log(err);
@@ -103,7 +99,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getOrders() {
     $http.get('getOrders')
     .then(function(res) {
-      console.log(res.data);
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].orderData = JSON.parse(res.data[i].orderData);
         $scope.orders.push(res.data[i]);
@@ -118,7 +113,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
-      // console.log(res);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
@@ -129,9 +123,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
           $scope.packageCosts.tags[0].cost += data.price;
         }
-        // console.log($scope.packageCosts.tags[0].cost);
         if (i == res.data.length -1) {
-          // console.log($scope.packageCosts);
           for (var j = 0; j < $scope.careItems.length; j++) {
             var item = $scope.careItems[j];
             var tags = item.tags.split(',');
@@ -140,15 +132,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               for (var k = 0; k < tags.length; k++) {
 
                 var tag = tags[k]
-                // var exists = false;
                 for (var l = 0; l < $scope.packageCosts.tags.length; l++) {
-                  // console.log(item.name,tag);
                   if ($scope.packageCosts.tags[l].tag == tag) {
 
                     $scope.packageCosts.tags[l].cost += item.price;
-                    // console.log($scope.packageCosts.tags[l].cost);
                     l = $scope.packageCosts.tags.length;
-                    // exists = true;
                   } else {
                     if (l == $scope.packageCosts.tags.length-1) {
                       $scope.packageCosts.tags.push({
@@ -157,17 +145,14 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
                       })
                       if (j == $scope.careItems.length-1 && k == tags.length-1) {
-                        console.log('hit');
                         buildDisplays();
                       }
                       l = $scope.packageCosts.tags.length;
                     }
-                    // console.log($scope.packageCosts.tags);
                   }
                 }
               }
 
-              // console.log(tags);
             } else if(j == $scope.careItems.length-1) {
               buildDisplays();
             }
@@ -175,15 +160,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           }
         }
       }
-      // console.log($scope.careItems);
-      // console.log($scope.packageCosts);
     })
   }
 
   function getCarePackagePrice() {
     $http.get('getCarePackagePrice')
     .then(function(res) {
-      console.log(res);
       $scope.carePackagePrice = Number(res.data[0].settingsData);
     })
     .catch(function(err) {
@@ -193,12 +175,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getRibbons() {
     $http.get('getRibbons')
     .then(function(res) {
-      console.log(res.data);
       for (var i = 0; i < res.data.length; i++) {
         $scope.ribbons.push({id:res.data[i].id, ribbonData:JSON.parse(res.data[i].ribbonData)})
       }
-      // $scope.ribbons = res.data;
-      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -208,13 +187,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
     $('#'+p+'AdminPage').css('display','flex');
-    console.log('hit');
   }
 
   $scope.saveCarePackagePrice = function() {
     $http.post('saveCarePackagePrice', {price:$scope.carePackagePrice})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -223,14 +201,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $('#newRibbonImageInput').click(function(){
       $(this).attr("value", "");
-      console.log(this);
   })
   $('#newRibbonImageInput').change(function(e){
 
     var files = $('#newRibbonImageInput')[0].files;
 
     function readUrl(file) {
-      console.log(file);
       var reader = new FileReader();
 
       reader.onload = function(){
@@ -239,7 +215,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         var dataURL = reader.result;
 
         $scope.newRibbon.image = dataURL;
-        console.log($scope.newRibbon);
+
         $('#newRibbonImage').remove();
 
         var html = '<img id="newRibbonImage" src="' + $scope.newRibbon.image + '" alt="">';
@@ -258,14 +234,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $('#editRibbonImageInput').click(function(){
       $(this).attr("value", "");
-      console.log(this);
   })
   $('#editRibbonImageInput').change(function(e){
 
     var files = $('#editRibbonImageInput')[0].files;
 
     function readUrl(file) {
-      console.log(file);
       var reader = new FileReader();
 
       reader.onload = function(){
@@ -274,7 +248,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         var dataURL = reader.result;
 
         $scope.ribbonToEdit.ribbonData.image = dataURL;
-        console.log($scope.ribbonToEdit);
         $('#editRibbonImage').remove();
 
         var html = '<img id="editRibbonImage" src="' + $scope.ribbonToEdit.image + '" alt="">';
@@ -297,7 +270,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       // $scope.ribbons = res.data;
       $scope.ribbons = [];
       getRibbons();
-      console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -305,7 +277,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.selectRibbon = function(r) {
-    console.log(r);
     $scope.ribbonToEdit = r;
     $scope.editRibbon = true;
 
@@ -321,7 +292,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     // console.log(r);
     $http.post('saveRibbonEdit', {ribbon:$scope.ribbonToEdit})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -424,13 +395,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
 
     if (validates == true) {
-      console.log($scope.item);
       $('.validationPrompts').css('display','none');
 
       if ($scope.mode == 'new') {
         $http.post('addNewItem', {item:$scope.item})
         .then(function(res) {
-          console.log(res);
           getItems();
         })
         .catch(function(err) {
@@ -439,7 +408,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       } else {
         $http.post('editItem', {item:$scope.item})
         .then(function(res) {
-          console.log(res);
           getItems();
         })
         .catch(function(err) {
@@ -459,7 +427,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $('#newImageInput').click(function(){
       $(this).attr("value", "");
-      console.log(this);
   })
   $('#newImageInput').change(function(e){
 
@@ -494,13 +461,10 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   var onFileChanged = function(e) {
     var file = e.target.files[0];
-    console.log(file);
     $scope.item.image = JSON.stringify(file);
-    console.log($scope.item.image);
   }
 
   $scope.buildOrderCSV = function() {
-    console.log('hit');
     buildOrderCSV();
   }
 
@@ -509,7 +473,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     if ($scope.user && $scope.user != null && $scope.user != 'undefined') {
       $http.post('checkPermission', {user: $scope.user})
       .then(function(res) {
-        console.log(res);
         if (res.data == 'allow') {
 
               $scope.thisAdminPage('carepackage');

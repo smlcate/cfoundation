@@ -7,20 +7,17 @@ var bodyParser = require('body-parser');
 var stripe = require('stripe')(process.env.STRIPE_KEY)
 
 exports.createOrderPaymentIntent = async function(req, res, next) {
-  console.log(req.body);
   var amnt;
   await knex('carePackageItemSettings')
   .select('*')
   .then(function(data) {
     amnt = data[0].settingsData*100;
-    console.log(data[0].settingsData);
   })
   const paymentIntent = await stripe.paymentIntents.create({
     amount:amnt,
     currency:'usd',
     payment_method_types: ['card']
   });
-  console.log(paymentIntent);
   res.send({clientSecret: paymentIntent.client_secret});
 }
 
