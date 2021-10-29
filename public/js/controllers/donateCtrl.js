@@ -1,6 +1,6 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
 
   var elements = stripe.elements();
 
