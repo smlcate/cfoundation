@@ -221,7 +221,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
         }
       }
     );
-
+    console.log(paymentIntent);
     if (paymentIntent.status == 'succeeded') {
 
       // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
