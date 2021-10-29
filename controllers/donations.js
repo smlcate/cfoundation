@@ -168,8 +168,8 @@ exports.makeDonation = function(req, res, next) {
   stripe.charges.create({
     amount: req.body.donation.invoice.total*100,
     currency: "usd",
-    source: 'tok_visa', // obtained with Stripe.js
-    description: "example charge for donations"
+    // source: 'tok_visa', // obtained with Stripe.js
+    description: "Yellow Bag Donation"
   }, function(err, charge) {
     // asynchronously called
     if (err) {
