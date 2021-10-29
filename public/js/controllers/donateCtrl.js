@@ -15,6 +15,33 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   var card = elements.create("card", { style: style });
   card.mount("#card-element");
 
+  const form = $('#payment-form');
+  // form.addEventListener('submit', async (e) => {
+  //   e.preventDefault();
+  //   const {clientSecret} = await fetch('/create-payment-intent', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       paymentMethodType:'card',
+  //       currency:'usd',
+  //     }),
+  //   })
+  //   .then(r=>r.json());
+  //   const {paymentIntent} = await stripe.confirmCardPayment(
+  //     clientSecret, {
+  //       payment_method: {
+  //         card: card,
+  //         billing_details: {
+  //           name: $scope.donations.inputs.billing.name,
+  //           email: $scope.donations.inputs.billing.email,
+  //         }
+  //       }
+  //     }
+  //   )
+  //   addMessage('PaymentIntent (${paymentIntent.id}): ${paymentIntent.status}');
+  // })
   var checkoutButton = document.getElementById('checkout-button');
 
   paypal.Buttons().render('#paypal-button-container');
@@ -206,104 +233,132 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     })
   }
 
-  $scope.confirmDonation = function() {
+  $scope.confirmDonation  = async (e) => {
+    // e.preventDefault();
+    const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
+    .then(function(res) {
+      console.log(res.data);
+      return res.data.clientSecret;
+    })
+    // const {clientSecret} = await fetch('/createPaymentIntent', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     paymentMethodType:'card',
+    //     currency:'usd',
+    //   }),
+    // })
+    // .then(r=>r.json());
+    const {paymentIntent} = await stripe.confirmCardPayment(
+      clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: $scope.donations.inputs.billing.name,
+            email: $scope.donations.inputs.billing.email,
+          }
+        }
+      }
+    )
     // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
-    if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
-      if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
-        var donation = {
-          email: $scope.donations.inputs.billing.email,
-          fullName: $scope.donations.inputs.billing.fullName,
-          invoice: {
-            total: $scope.donations.totalAmount,
-            rollover:$scope.donations.rolloverAmount,
-            packs: $scope.donations.inputs.packs,
-            packagePrice: $scope.carePackagePrice,
-            recurring: $scope.donations.inputs.monthly
-          }
-        }
-
-        if ($scope.signedIn == false && $scope.donations.inputs.monthly ==  true) {
-
-          if ($scope.donations.inputs.billing.password != null && $scope.donations.inputs.billing.password != '' && $scope.donations.inputs.billing.password != undefined) {
-
-            if ($scope.donations.inputs.billing.confirmPassword != null && $scope.donations.inputs.billing.confirmPassword != '' && $scope.donations.inputs.billing.confirmPassword != undefined) {
-
-              if ($scope.donations.inputs.billing.password == $scope.donations.inputs.billing.confirmPassword) {
-
-                $http.get('getUsers')
-                .then(function(res) {
-                  var users = res.data;
-                  var pass = true;
-                  var auth = {
-                    email: $scope.donations.inputs.billing.email,
-                    fullName: $scope.donations.inputs.billing.fullName,
-                    password: $scope.donations.inputs.billing.password
-                  }
-
-                  for(var i = 0;i < users.length;i++) {
-                    if (users[i].email === auth.email) {
-                      pass = false;
-                      $('#emailErrorMessage').css('display','flex')
-                    }
-                  }
-
-                  if (pass === true) {
-
-                    $http.post('signUp', {auth:auth})
-                    .then(function(res) {
-
-                      sessionStorage.setItem('user',JSON.stringify(res.data));
-
-                      $scope.user = res.data;
-                      $scope.signedIn = true;
-
-                      $('#signInUpHeaderInfoCell').css('display','none')
-                      $('#userHeaderInfoCell').css('display','flex')
-
-                      $http.post('makeDonation', {donation:donation})
-                      .then(function(res) {
-                        window.location.href = '/#!/';
-                        $window.location.reload();
-                      })
-                      .catch(function(err) {
-                        console.log(err);
-                      })
-
-                    })
-
-                  }
-
-                })
-              }
-            } else {
-              //check password error
-            }
-          } else {
-            // password error
-          }
-
-        } else {
-
-          $http.post('makeDonation', {donation:donation})
-          .then(function(res) {
-            window.location.href = '/#!/';
-            $window.location.reload();
-          })
-          .catch(function(err) {
-            console.log(err);
-          })
-
-        }
-      } else {
-        //only name error
-      }
-
-    } else {
-      //email error
-      if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
-        //email and name error
-      }
-    }
+    // if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
+    //   if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
+    //     var donation = {
+    //       email: $scope.donations.inputs.billing.email,
+    //       fullName: $scope.donations.inputs.billing.fullName,
+    //       invoice: {
+    //         total: $scope.donations.totalAmount,
+    //         rollover:$scope.donations.rolloverAmount,
+    //         packs: $scope.donations.inputs.packs,
+    //         packagePrice: $scope.carePackagePrice,
+    //         recurring: $scope.donations.inputs.monthly
+    //       }
+    //     }
+    //
+    //     if ($scope.signedIn == false && $scope.donations.inputs.monthly ==  true) {
+    //
+    //       if ($scope.donations.inputs.billing.password != null && $scope.donations.inputs.billing.password != '' && $scope.donations.inputs.billing.password != undefined) {
+    //
+    //         if ($scope.donations.inputs.billing.confirmPassword != null && $scope.donations.inputs.billing.confirmPassword != '' && $scope.donations.inputs.billing.confirmPassword != undefined) {
+    //
+    //           if ($scope.donations.inputs.billing.password == $scope.donations.inputs.billing.confirmPassword) {
+    //
+    //             $http.get('getUsers')
+    //             .then(function(res) {
+    //               var users = res.data;
+    //               var pass = true;
+    //               var auth = {
+    //                 email: $scope.donations.inputs.billing.email,
+    //                 fullName: $scope.donations.inputs.billing.fullName,
+    //                 password: $scope.donations.inputs.billing.password
+    //               }
+    //
+    //               for(var i = 0;i < users.length;i++) {
+    //                 if (users[i].email === auth.email) {
+    //                   pass = false;
+    //                   $('#emailErrorMessage').css('display','flex')
+    //                 }
+    //               }
+    //
+    //               if (pass === true) {
+    //
+    //                 $http.post('signUp', {auth:auth})
+    //                 .then(function(res) {
+    //
+    //                   sessionStorage.setItem('user',JSON.stringify(res.data));
+    //
+    //                   $scope.user = res.data;
+    //                   $scope.signedIn = true;
+    //
+    //                   $('#signInUpHeaderInfoCell').css('display','none')
+    //                   $('#userHeaderInfoCell').css('display','flex')
+    //
+    //                   $http.post('makeDonation', {donation:donation})
+    //                   .then(function(res) {
+    //                     window.location.href = '/#!/';
+    //                     $window.location.reload();
+    //                   })
+    //                   .catch(function(err) {
+    //                     console.log(err);
+    //                   })
+    //
+    //                 })
+    //
+    //               }
+    //
+    //             })
+    //           }
+    //         } else {
+    //           //check password error
+    //         }
+    //       } else {
+    //         // password error
+    //       }
+    //
+    //     } else {
+    //
+    //       $http.post('makeDonation', {donation:donation})
+    //       .then(function(res) {
+    //         window.location.href = '/#!/';
+    //         $window.location.reload();
+    //       })
+    //       .catch(function(err) {
+    //         console.log(err);
+    //       })
+    //
+    //     }
+    //   } else {
+    //     //only name error
+    //   }
+    //
+    // } else {
+    //   //email error
+    //   if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
+    //     //email and name error
+    //   }
+    // }
 
 
 
