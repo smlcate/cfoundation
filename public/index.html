@@ -11,6 +11,12 @@
     <script defer src="https://js.stripe.com/v3/"></script>
     <script defer src="https://www.paypal.com/sdk/js?client-id=AYr76zNzi6xwWg2iwk59ggsBHRQz47Y8qhlcVbs66f9An5lr7D96lu0HQhnvkBwP4Aav5UWOR1OGaK_G&disable-funding=credit,card"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.</script>
     <!-- <script defer src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+    (function(){
+      emailjs.init("user_e0sJcrgMCvBdNhqoInw5Q");
+    })();
+    </script>
     <script defer src="./js/app.js" charset="utf-8"></script>
     <script defer src="./js/controllers/mainCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/orderCtrl.js" charset="utf-8"></script>
@@ -26,6 +32,9 @@
   </head>
   <body ng-app="mainApp" ng-controller="mainCtrl">
 
+    <object data="./icons/bag1.svg" type="image/svg+xml"
+         id="bagsvg" width="100%" height="100%"></object>
+
     <header>
 
       <div class="" id="headerLogoDiv">
@@ -37,8 +46,8 @@
 
           <!-- <p>Yellow Bag of Humanity</p> -->
           <!-- <h1 style="color:yellow;">Y <span style="color:black;margin-right:10px;">ellow </span> B <span style="color:black;">ag of Humanity</span></h1> -->
-          <p><b>Enduring the Struggle</b></p>
-          <p>&</p>
+          <p style="margin-bottom:0px;"><b>Enduring the Struggle</b></p>
+          <p style="font-size:50px;margin-bottom:5px;margin-top:10px;color:#ffff63;">&</p>
           <p><b>Supporting Your Fight</b></p>
         </div>
 

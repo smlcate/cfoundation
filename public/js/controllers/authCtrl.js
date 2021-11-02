@@ -7,10 +7,33 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
   $scope.auth = {
     email:'',
     password:'',
-    checkPassword:''
+    checkPassword:'',
+    pass:false
+  }
+
+  $scope.passwordStart = function() {
+    if ($scope.auth.password != '') {
+      $('#signupCheckPasswordInput').css('display','flex');
+    } else {
+      $scope.auth.checkPassword = '';
+      $('#signupCheckPasswordInput').css('display','none');
+    }
+  }
+
+  $scope.checkPasswords = function() {
+    if ($scope.auth.checkPassword !== $scope.auth.password) {
+      $scope.auth.pass = false;
+      $('#passwordSuccessMessage').css('display','none');
+      $('#passwordErrorMessage').css('display','flex');
+    } else {
+      $('#passwordErrorMessage').css('display','none');
+      $('#passwordSuccessMessage').css('display','flex');
+    }
+
   }
 
   $scope.signUp = function() {
+
 
     $http.get('getUsers')
     .then(function(res) {
@@ -22,12 +45,9 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
           $('#emailErrorMessage').css('display','flex')
         }
       }
-      if ($scope.auth.checkPassword !== $scope.auth.password) {
-        pass = false;
-        $('#passwordErrorMessage').css('display','flex')
-      }
 
-      if (pass === true) {
+
+      if ($scope.auth.pass === true) {
 
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
