@@ -10,11 +10,11 @@
         <p id="emailErrorMessage">Email already exists</p>
       </span>
       <span>
-        <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password" ng-change="passwordStart()">
-        <img class="verifiedIcons" ng-if="auth.password == auth.checkPassword && auth.checkPassword != ''" src="../icons/verified_black_24dp.svg" alt="">
+        <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password" ng-change="passwordStart()" autocomplete="new-password">
+        <img class="verifiedIcons" ng-if="auth.password == auth.checkPassword && auth.checkPassword != ''" src="../icons/verified_black_24dp.svg" alt="" >
       </span>
       <span>
-        <input type="password" id="signupCheckPasswordInput" name="check_password" value="" placeholder="Confirm Password" ng-model="auth.checkPassword" ng-change="checkPasswords()">
+        <input type="password" id="signupCheckPasswordInput" name="check_password" value="" placeholder="Confirm Password" ng-model="auth.checkPassword" ng-change="checkPasswords()" autocomplete="new-password">
         <img class="verifiedIcons" ng-if="auth.password == auth.checkPassword && auth.checkPassword != ''" src="../icons/verified_black_24dp.svg" alt="">
       </span>
       <input type="text" name="full_name" value="" placeholder="Full Name" ng-model="auth.fullName">

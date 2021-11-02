@@ -34,7 +34,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     // const images = ["../../icons/bag2.png", "../../icons/bag3.png", "../../icons/bag4.png"];
     const iconTypes = ["black","yellowFilled",'ribbon'];
 
-    const numBags = 40;
+    const numBags = 60;
     const bags = [];
 
     var ribbons = [];

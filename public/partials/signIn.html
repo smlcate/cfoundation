@@ -5,8 +5,12 @@
     <h2>Sign In to your Yellow Bag account</h2>
 
     <div class="" id="signUpFormInputDiv">
-      <input type="text" name="email" value="" placeholder="Email" ng-model="auth.email">
-      <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password">
+      <span>
+        <input type="text" name="email" value="" placeholder="Email" ng-model="auth.email">
+      </span>
+      <span>
+        <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password" autocomplete="new-password">
+      </span>
       <!-- <input type="password" name="check_password" value="" placeholder="Confirm Password" ng-model="auth.checkPassword">
       <input type="text" name="full_name" value=""ng-model="auth.fullName" placeholder="Full Name"> -->
     </div>
