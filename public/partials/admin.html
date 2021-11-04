@@ -33,18 +33,33 @@
 
         </span>
       </span>
-      <div id="newRibbonImageSpan">
-        <h3>New Ribbon</h3>
-        <input type="text" name="" value="" ng-model="newRibbon.name">
-        <input id="newRibbonImageInput" type="file" name="" value="">
-        <div id="newRibbonImageDiv">
+      <div class="" if="adminRibbonController">
 
+        <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
+          <h3>New Ribbon</h3>
+          <input type="text" name="" value="" ng-model="newRibbon.name">
+          <input id="newRibbonImageInput" type="file" name="" value="">
+          <div id="newRibbonImageDiv">
+
+          </div>
+          <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
+          <!-- <img id="newRibbonImage" src="" alt=""> -->
         </div>
-        <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
-        <!-- <img id="newRibbonImage" src="" alt=""> -->
+        <div id="" class="ribbonControllerDivs" ng-if="editRibbon == true">
+          <h3>Edit Ribbon</h3>
+          <input type="text" name="" value="" ng-model="ribbonToEdit.ribbonData.name">
+          <input id="editRibbonImageInput" type="file" name="" value="">
+          <div id="editRibbonImageDiv">
+
+          </div>
+          <button type="button" name="button" ng-click="saveRibbonEdit()">Save</button>
+          <button type="button" name="button" ng-click="cancelRibbonEdit()">Cancel</button>
+          <!-- <img id="newRibbonImage" src="" alt=""> -->
+        </div>
         <span id="ribbonsSpan">
 
         </span>
+
       </div>
 
 

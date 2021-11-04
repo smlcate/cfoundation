@@ -14,29 +14,27 @@ function checkRecurringDonors() {
   knex('recurring_doners')
   .select('*')
   .then(function(data) {
-    console.log(data);
+
     var now = new Date();
+
     var dateToCheck = [
       now.getMonth(),
       now.getDate(),
       now.getYear()
     ]
-    // var dateToCheck = [4,18,121];
-    // for (var i = 0; i < data.length; i++) {
 
     var i = 0;
     function checkNext() {
-      console.log(i);
       var charge = false;
       var donor = JSON.parse(data[i].recurring_donor_data);
       var donorStartDate = new Date(donor.billingTimestamp);
+
       var creationDate = [
       donorStartDate.getMonth(),
       donorStartDate.getDate(),
       donorStartDate.getYear(),
       ]
-      console.log(dateToCheck);
-      console.log(creationDate);
+
       if (dateToCheck[2] != creationDate[2]) {
         if (creationDate[1] == 31 && dateToCheck[1] == 30 && monthDays[dateToCheck[0]-1] == 30) {
           creationDate[1] == 30;
@@ -52,48 +50,39 @@ function checkRecurringDonors() {
           charge = true;
         }
       }
-      if (charge == true) {
-        stripe.charges.create({
-          amount: donor.invoice.total*100,
-          currency: "usd",
-          customer: donor.customer.id,
-          description: "example charge for donations"
-        }, function(err, charge) {
-          // asynchronously called
-          if (err) {
+      stripe.charges.create({
+        amount: donor.invoice.total*100,
+        currency: "usd",
+        customer: donor.customer.id,
+        description: "example charge for donations"
+      }, function(err, charge) {
+        // asynchronously called
+        if (err) {
 
-            console.log(err);
-            res.send(err);
+          console.log(err);
 
-          } else if(charge) {
-            if (i < data.length-1) {
-              i++;
-              checkNext();
-            } else {
-              // res.send('success');
-              return;
-            }
+        } else if(charge) {
+          if (i < data.length-1) {
+            i++;
+            checkNext();
+          } else {
+            return;
           }
-        })
-      } else {
-        if (i < data.length-1) {
-          i++;
-          checkNext();
         } else {
-          // res.send('success')
-          return;
+          if (i < data.length-1) {
+            i++;
+            checkNext();
+          } else {
+            return;
+          }
         }
-      }
-      // donor.timeStamp = new Date(donor.customer.created);
-      // console.log(donor.billingTimestamp);
+      })
     }
     if (data.length > 0) {
       checkNext();
     } else {
-      // res.send('success');
       return;
     }
-    // }
   })
   .catch(function(err) {
     console.log(err);
@@ -102,7 +91,7 @@ function checkRecurringDonors() {
 }
 function recurringChargeTimer(hr) {
 
-  // calc time remaining until the next 2am
+  // calc time remaining until the next 4pm
    // get current time
    console.log('Timer started');
    var now = new Date();
@@ -142,7 +131,6 @@ function addRecurringDonor(donation, userID, res) {
       console.log(err);
       res.send(err);
     } else if(customer) {
-      console.log(customer);
       var invoice = {
         customer:customer,
         invoice:donation.invoice,
@@ -186,7 +174,6 @@ exports.makeDonation = function(req, res, next) {
     // asynchronously called
     if (err) {
 
-      console.log(err);
       res.send(err);
 
     } else if(charge) {
@@ -199,7 +186,6 @@ exports.makeDonation = function(req, res, next) {
           .where({email:req.body.donation.email})
           .select('*')
           .then(function(data) {
-            // console.log(data);
             addRecurringDonor(req.body.donation, data.id, res);
           })
         } else {

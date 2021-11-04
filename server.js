@@ -18,6 +18,7 @@ app.post('/saveCarePackagePrice', server.admin.saveCarePackagePrice);
 app.get('/getCarePackagePrice', server.admin.getCarePackagePrice);
 
 app.post('/addNewRibbon', server.admin.addNewRibbon);
+app.post('/saveRibbonEdit', server.admin.saveRibbonEdit);
 app.get('/getRibbons', server.admin.getRibbons);
 
 app.post('/newOrder', server.orders.newOrder);
@@ -36,6 +37,8 @@ app.get('/getItems', server.admin.getItems);
 app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
+
+app.post('/checkPermission', server.login.checkPermission);
 
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);

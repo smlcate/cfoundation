@@ -110,6 +110,20 @@ exports.addNewRibbon = function(req, res, next) {
     res.send(err);
   })
 }
+exports.saveRibbonEdit = function(req, res, next) {
+  console.log(req.body);
+  knex('ribbons')
+  .where({id:req.body.ribbon.id})
+  .update({ribbonData:JSON.stringify(req.body.ribbon.ribbonData)})
+  .then(function(){
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+
 exports.getRibbons = function(req, res, next) {
   knex('ribbons')
   .select('*')
