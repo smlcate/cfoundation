@@ -6,42 +6,33 @@ var bodyParser = require('body-parser');
 
 var stripe = require('stripe')(process.env.STRIPE_KEY)
 
-
-exports.newOrder = function(req, res, send) {
-  knex('carePackageItemSettings')
+exports.createOrderPaymentIntent = async function(req, res, next) {
+  var amnt;
+  await knex('carePackageItemSettings')
   .select('*')
   .then(function(data) {
-    stripe.charges.create({
-      amount: Number(data[0].settingsData)*100,
-      currency: "usd",
-      source: 'tok_visa', // obtained with Stripe.js
-      description: "example charge for memberships"
-    }, function(err, charge) {
-      // asynchronously called
-      if (err) {
+    amnt = data[0].settingsData*100;
+  })
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount:amnt,
+    currency:'usd',
+    payment_method_types: ['card']
+  });
+  res.send({clientSecret: paymentIntent.client_secret});
+}
 
-        console.log(err);
-        res.send(err);
+exports.newOrder = function(req, res, send) {
 
-      } else if(charge) {
-
-        knex('orders')
-        .insert({orderData:JSON.stringify(req.body.order)})
-        .then(function() {
-          res.send('success');
-        })
-        .catch(function(err) {
-          console.log(err);
-          res.send(err);
-        })
-
-      }
-    })
-
+  knex('orders')
+  .insert({orderData:JSON.stringify(req.body.order)})
+  .then(function() {
+    res.send('success');
   })
   .catch(function(err) {
     console.log(err);
+    res.send(err);
   })
+
 }
 
 exports.getOrders = function(req, res, next) {

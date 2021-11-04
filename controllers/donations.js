@@ -161,44 +161,36 @@ exports.getDonations = function(req, res, next) {
   })
 }
 
+exports.createPaymentIntent = async function(req, res, next) {
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount:req.body.amount,
+    currency:'usd',
+    payment_method_types: ['card']
+  });
+  res.send({clientSecret: paymentIntent.client_secret});
+}
+
 exports.makeDonation = function(req, res, next) {
 
-
-
-  stripe.charges.create({
-    amount: req.body.donation.invoice.total*100,
-    currency: "usd",
-    source: 'tok_visa', // obtained with Stripe.js
-    description: "example charge for donations"
-  }, function(err, charge) {
-    // asynchronously called
-    if (err) {
-
-      res.send(err);
-
-    } else if(charge) {
-
-      knex('donations')
-      .insert({donation_data:JSON.stringify(req.body.donation)})
-      .then(function() {
-        if (req.body.donation.invoice.recurring == true) {
-          knex('users')
-          .where({email:req.body.donation.email})
-          .select('*')
-          .then(function(data) {
-            addRecurringDonor(req.body.donation, data.id, res);
-          })
-        } else {
-          res.send('success');
-        }
+  knex('donations')
+  .insert({donation_data:JSON.stringify(req.body.donation)})
+  .then(function() {
+    if (req.body.donation.invoice.recurring == true) {
+      knex('users')
+      .where({email:req.body.donation.email})
+      .select('*')
+      .then(function(data) {
+        addRecurringDonor(req.body.donation, data.id, res);
       })
-      .catch(function(err) {
-        console.log(err);
-        res.send(err);
-      })
-
+    } else {
+      res.send('success');
     }
   })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+
 }
 
 exports.addRecurringDonor = function(req, res, next){

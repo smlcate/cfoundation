@@ -40,6 +40,10 @@ app.post('/signIn', server.login.signIn);
 
 app.post('/checkPermission', server.login.checkPermission);
 
+app.post('/createPaymentIntent', server.donations.createPaymentIntent);
+app.post('/createOrderPaymentIntent', server.orders.createOrderPaymentIntent);
+
+
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);

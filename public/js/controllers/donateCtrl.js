@@ -1,6 +1,6 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
 
   var elements = stripe.elements();
 
@@ -14,6 +14,8 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   var card = elements.create("card", { style: style });
   card.mount("#card-element");
+
+  const form = $('#payment-form');
 
   var checkoutButton = document.getElementById('checkout-button');
 
@@ -73,11 +75,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
 
   $scope.selectDonationType = function() {
-    // if ($scope.donations.recurring == true) {
-    //   $scope.donations.recurring = false;
-    // } else if ($scope.donations.recurring == false) {
-    //   $scope.donations.recurring = true;
-    // }
 
     $('.donationDivs span p').css('color','#4E3B86');
 
@@ -137,7 +134,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.carePackagePrice;
 
   }
-  // getCarePackagePrice();
 
   function buildDonationPage() {
     if ($scope.user != null && $scope.user != undefined) {
@@ -206,103 +202,125 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     })
   }
 
-  $scope.confirmDonation = function() {
-    // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
-    if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
-      if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
-        var donation = {
-          email: $scope.donations.inputs.billing.email,
-          fullName: $scope.donations.inputs.billing.fullName,
-          invoice: {
-            total: $scope.donations.totalAmount,
-            rollover:$scope.donations.rolloverAmount,
-            packs: $scope.donations.inputs.packs,
-            packagePrice: $scope.carePackagePrice,
-            recurring: $scope.donations.inputs.monthly
+  $scope.confirmDonation  = async (e) => {
+    // e.preventDefault();
+    const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
+    .then(function(res) {
+      return res.data.clientSecret;
+    });
+
+    const {paymentIntent} = await stripe.confirmCardPayment(
+      clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: $scope.donations.inputs.billing.name,
+            email: $scope.donations.inputs.billing.email,
           }
         }
+      }
+    );
+    if (paymentIntent.status == 'succeeded') {
 
-        if ($scope.signedIn == false && $scope.donations.inputs.monthly ==  true) {
+      // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
+      if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
+        if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
+          var donation = {
+            email: $scope.donations.inputs.billing.email,
+            fullName: $scope.donations.inputs.billing.fullName,
+            invoice: {
+              total: $scope.donations.totalAmount,
+              rollover:$scope.donations.rolloverAmount,
+              packs: $scope.donations.inputs.packs,
+              packagePrice: $scope.carePackagePrice,
+              recurring: $scope.donations.inputs.monthly
+            }
+          }
 
-          if ($scope.donations.inputs.billing.password != null && $scope.donations.inputs.billing.password != '' && $scope.donations.inputs.billing.password != undefined) {
+          if ($scope.signedIn == false && $scope.donations.inputs.monthly ==  true) {
 
-            if ($scope.donations.inputs.billing.confirmPassword != null && $scope.donations.inputs.billing.confirmPassword != '' && $scope.donations.inputs.billing.confirmPassword != undefined) {
+            if ($scope.donations.inputs.billing.password != null && $scope.donations.inputs.billing.password != '' && $scope.donations.inputs.billing.password != undefined) {
 
-              if ($scope.donations.inputs.billing.password == $scope.donations.inputs.billing.confirmPassword) {
+              if ($scope.donations.inputs.billing.confirmPassword != null && $scope.donations.inputs.billing.confirmPassword != '' && $scope.donations.inputs.billing.confirmPassword != undefined) {
 
-                $http.get('getUsers')
-                .then(function(res) {
-                  var users = res.data;
-                  var pass = true;
-                  var auth = {
-                    email: $scope.donations.inputs.billing.email,
-                    fullName: $scope.donations.inputs.billing.fullName,
-                    password: $scope.donations.inputs.billing.password
-                  }
+                if ($scope.donations.inputs.billing.password == $scope.donations.inputs.billing.confirmPassword) {
 
-                  for(var i = 0;i < users.length;i++) {
-                    if (users[i].email === auth.email) {
-                      pass = false;
-                      $('#emailErrorMessage').css('display','flex')
+                  $http.get('getUsers')
+                  .then(function(res) {
+                    var users = res.data;
+                    var pass = true;
+                    var auth = {
+                      email: $scope.donations.inputs.billing.email,
+                      fullName: $scope.donations.inputs.billing.fullName,
+                      password: $scope.donations.inputs.billing.password
                     }
-                  }
 
-                  if (pass === true) {
+                    for(var i = 0;i < users.length;i++) {
+                      if (users[i].email === auth.email) {
+                        pass = false;
+                        $('#emailErrorMessage').css('display','flex')
+                      }
+                    }
 
-                    $http.post('signUp', {auth:auth})
-                    .then(function(res) {
+                    if (pass === true) {
 
-                      sessionStorage.setItem('user',JSON.stringify(res.data));
-
-                      $scope.user = res.data;
-                      $scope.signedIn = true;
-
-                      $('#signInUpHeaderInfoCell').css('display','none')
-                      $('#userHeaderInfoCell').css('display','flex')
-
-                      $http.post('makeDonation', {donation:donation})
+                      $http.post('signUp', {auth:auth})
                       .then(function(res) {
-                        window.location.href = '/#!/';
-                        $window.location.reload();
+
+                        sessionStorage.setItem('user',JSON.stringify(res.data));
+
+                        $scope.user = res.data;
+                        $scope.signedIn = true;
+
+                        $('#signInUpHeaderInfoCell').css('display','none')
+                        $('#userHeaderInfoCell').css('display','flex')
+
+                        $http.post('makeDonation', {donation:donation})
+                        .then(function(res) {
+                          window.location.href = '/#!/';
+                          $window.location.reload();
+                        })
+                        .catch(function(err) {
+                          console.log(err);
+                        })
+
                       })
-                      .catch(function(err) {
-                        console.log(err);
-                      })
 
-                    })
+                    }
 
-                  }
-
-                })
+                  })
+                }
+              } else {
+                //check password error
               }
             } else {
-              //check password error
+              // password error
             }
+
           } else {
-            // password error
+
+            $http.post('makeDonation', {donation:donation})
+            .then(function(res) {
+              window.location.href = '/#!/';
+              $window.location.reload();
+            })
+            .catch(function(err) {
+              console.log(err);
+            })
+
           }
-
         } else {
-
-          $http.post('makeDonation', {donation:donation})
-          .then(function(res) {
-            window.location.href = '/#!/';
-            $window.location.reload();
-          })
-          .catch(function(err) {
-            console.log(err);
-          })
-
+          //only name error
         }
-      } else {
-        //only name error
-      }
 
-    } else {
-      //email error
-      if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
-        //email and name error
+      } else {
+        //email error
+        if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
+          //email and name error
+        }
       }
+    } else {
+      console.log('Payment Failed');
     }
 
 

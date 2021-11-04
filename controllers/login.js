@@ -10,7 +10,6 @@ var stripe = require('stripe')(process.env.STRIPE_KEY)
 
 exports.signUp = function(req, res, next) {
 
-  console.log(req.body);
   var auth = req.body.auth;
 
   var user = {
@@ -41,7 +40,6 @@ exports.signUp = function(req, res, next) {
           .then(function(allUsers) {
 
             user.id = data[0].id;
-            console.log(data.length);
             if (allUsers.length == 1) {
               user.user_data.permission = 'wonderBreadtree55';
               knex('users')
@@ -77,15 +75,12 @@ exports.signUp = function(req, res, next) {
 }
 
 exports.signIn = function(req, res, next) {
-  console.log(req.body);
   var auth = req.body.auth;
   var login;
   knex('users')
   .select('*')
   .where({email:auth.email})
   .then(function(data) {
-    console.log('data', data);
-    console.log('auth',auth);
     if (data.length == 0) {
       res.send({success:false, message:'Account does not exist'})
     } else {
@@ -95,7 +90,6 @@ exports.signIn = function(req, res, next) {
           console.log(err);
           res.send(err);
         } else if(acc) {
-          console.log(res);
           if (acc === true) {
 
             user = {
@@ -115,27 +109,8 @@ exports.signIn = function(req, res, next) {
       });
 
     }
-    // res.send(login)
-    // bcrypt.compare(auth.password,data.hashed_passcode,function(err, res) {
-    //   // res.send(rec);
-    //   // console.log(res);
-    //   if (err) {
-    //     console.log(err);
-    //     res.send(err)
-    //   } else if(res) {
-    //     console.log(res);
-    //     res.send(res)
-    //   } else {
-    //     // response is OutgoingMessage object that server response http request
-    //     return res.send({success: false, message: 'passwords do not match'});
-    //   }
-    // })
 
   })
-  // .then(function() {
-  //   res.send(login);
-  //
-  // })
 
 }
 
@@ -144,9 +119,7 @@ exports.checkPermission = function(req, res, next) {
     knex('users')
     .where({email:req.body.user.email})
     .then(function(data) {
-      console.log(JSON.parse(data[0].user_data));
       if (JSON.parse(data[0].user_data).permission == 'wonderBreadtree55') {
-        console.log('hit');
         res.send('allow');
       } else {
         res.send('deny');
@@ -158,19 +131,13 @@ exports.checkPermission = function(req, res, next) {
 }
 
 exports.getUsers = function(req, res, next) {
-  console.log(req.body);
   knex('users')
   .select('*')
   .then(function(data) {
-    console.log(data);
     var list = [];
     for (var i = 0; i < data.length; i++) {
       list.push(data[i]);
-      // if (data[i].membership != null) {
-      //   data[i].hashed_passcode = 'not displayed'
-      //   list.push(data[i])
-      // }
     }
-    res.send(list)
+    res.send(list);
   })
 }

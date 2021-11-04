@@ -7,44 +7,56 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
   $scope.auth = {
     email:'',
     password:'',
-    checkPassword:''
+    checkPassword:'',
+    pass:false
   }
 
-  // console.log('hello');
+  $scope.passwordStart = function() {
+    if ($scope.auth.password != '') {
+      $('#signupCheckPasswordInput').css('display','flex');
+    } else {
+      $scope.auth.checkPassword = '';
+      $('#signupCheckPasswordInput').css('display','none');
+    }
+  }
+
+  $scope.checkPasswords = function() {
+    if ($scope.auth.checkPassword !== $scope.auth.password) {
+      $scope.auth.pass = false;
+      $('#passwordSuccessMessage').css('display','none');
+      $('#passwordErrorMessage').css('display','flex');
+    } else {
+      $('#passwordErrorMessage').css('display','none');
+      $('#passwordSuccessMessage').css('display','flex');
+    }
+
+  }
 
   $scope.signUp = function() {
 
-    console.log($scope.auth)
 
     $http.get('getUsers')
     .then(function(res) {
       var users = res.data;
       var pass = true;
-      console.log(users);
       for(var i = 0;i < users.length;i++) {
         if (users[i].email === $scope.auth.email) {
           pass = false;
           $('#emailErrorMessage').css('display','flex')
         }
       }
-      if ($scope.auth.checkPassword !== $scope.auth.password) {
-        pass = false;
-        $('#passwordErrorMessage').css('display','flex')
-      }
 
-      if (pass === true) {
+
+      if ($scope.auth.pass === true) {
 
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
-          console.log(res.data);
 
           sessionStorage.setItem('user',JSON.stringify(res.data));
 
           $scope.user = res.data;
           $scope.signedIn = true;
-          console.log($scope.user);
-          // $('.loginDisplays').css('display','none');
-          // $('#accCreatedDisplay').css('display','flex');
+
           $('#signInUpHeaderInfoCell').css('display','none')
           $('#userHeaderInfoCell').css('display','flex')
           window.location.href = '#!/welcomePage';
@@ -59,12 +71,8 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
   }
   $scope.signIn = function() {
 
-    console.log($scope.auth)
-
-
     $http.post('signIn', {auth:$scope.auth})
     .then(function(res) {
-      console.log(res.data);
       if (res.data.success == false) {
 
         $scope.signIn.error = res.data.message;
@@ -77,7 +85,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
         $('#userHeaderInfoCell').css('display','flex')
         $scope.user = res.data;
         $scope.signedIn = true;
-        console.log($scope.user);
 
         $('#signInUpHeaderInfoCell').css('display','none')
 

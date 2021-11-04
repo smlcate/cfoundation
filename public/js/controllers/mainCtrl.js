@@ -11,6 +11,89 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   $scope.user = {};
   $scope.signedIn = false;
 
+  function getRibbons() {
+    $http.get('getRibbons')
+    .then(function(res) {
+      $scope.ribbons = res.data;
+      for (var i = 0; i < $scope.ribbons.length; i++) {
+        $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
+      }
+      makeBackground();
+      console.log($scope.ribbons);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+
+  function makeBackground() {
+
+    // Some random colors
+    // const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
+    // const images = ["../../icons/bag2.png", "../../icons/bag3.png", "../../icons/bag4.png"];
+    const iconTypes = ["black","yellowFilled",'ribbon'];
+
+    const numBags = 40;
+    const bags = [];
+
+    var ribbons = [];
+
+    for (var i = 0; i < $scope.ribbons.length; i++) {
+      ribbons.push($scope.ribbons[i].ribbonData.image);
+    }
+
+    var selectedRibbon;
+    for (let i = 0; i < numBags; i++) {
+      type = iconTypes[Math.floor(Math.random() * iconTypes.length)]
+      let bag = document.createElement("img");
+      if (type != 'ribbon') {
+        bag.classList.add("bag" + type);
+      } else {
+        selectedRibbon = ribbons[Math.floor(Math.random() * ribbons.length)]
+        bag.classList.add("ribbonIcons");
+        $(bag).attr("src",selectedRibbon);
+      }
+      // bag.style.content = "../../icons.bag1.svg";
+      // bag.style.fill = colors[Math.floor(Math.random() * colors.length)];
+      bag.style.left = `${Math.floor(Math.random() * 95)+2.5}vw`;
+      bag.style.top = `${Math.floor(Math.random() * 5)+0.5}vh`;
+      bag.style.transform = `scale(${Math.random()})`;
+      bag.style.width = `${Math.random()+0.5}em`;
+      bag.style.height = bag.style.width;
+      // console.log(bag.style);
+      bags.push(bag);
+      $('header').prepend(bag);
+      // document.body.append(bag);
+
+    }
+      // Keyframes
+    bags.forEach((el, i, ra) => {
+      // $(el).attr("fill",colors[Math.floor(Math.random() * colors.length)]);
+      // console.log(el.style);
+      let to = {
+        x: Math.random() * (i % 2 === 0 ? -11 : 11),
+        y: Math.random() * 5
+      };
+
+      let anim = el.animate(
+        [
+          { transform: "translate(0, 0)" },
+          { transform: `translate(${to.x}rem, ${to.y}rem)` }
+        ],
+        {
+          duration: (Math.random() + 1) * 6000, // random duration
+          direction: "alternate",
+          fill: "both",
+          iterations: Infinity,
+          easing: "ease-in-out"
+        }
+      );
+    });
+
+
+  }
+
   function checkSignIn() {
     if (sessionStorage.user != null && sessionStorage.user != {} && sessionStorage.user != undefined && sessionStorage.user != 'null') {
 
@@ -27,34 +110,22 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     }
   }
 
-  function buildFilterNav() {
-    for (var j = 0; j < $scope.ribbons.length; j++) {
-    for (var i = 0; i < $scope.filterTags.length; i++) {
+  // function buildFilterNav() {
+  //   for (var j = 0; j < $scope.ribbons.length; j++) {
+  //   for (var i = 0; i < $scope.filterTags.length; i++) {
+  //
+  //       if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
+  //
+  //       }
+  //
+  //       if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
+  //         ribbon = $scope.ribbons[j].ribbonData;
+  //         $scope.ribbonsToShow.push(ribbon);
+  //       }
+  //     }
+  //   }
+  // }
 
-        if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-
-        }
-
-        if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
-          ribbon = $scope.ribbons[j].ribbonData;
-          $scope.ribbonsToShow.push(ribbon);
-        }
-      }
-    }
-  }
-
-  function getRibbons() {
-    $http.get('getRibbons')
-    .then(function(res) {
-      $scope.ribbons = res.data;
-      for (var i = 0; i < $scope.ribbons.length; i++) {
-        $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
-      }
-    })
-    .catch(function(err) {
-      console.log(err);
-    })
-  }
 
   function getItems() {
     $http.get('getItems')
@@ -87,7 +158,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         }
         if (i == res.data.length-1) {
           buildItemDisplay('all');
-          buildFilterNav();
+          // buildFilterNav();
         }
 
       }
@@ -142,7 +213,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     getItems();
     getRibbons();
     checkSignIn();
-
+    // $('#bagsvg').load(function () {
+    // });
 
   }
 

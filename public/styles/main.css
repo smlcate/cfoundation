@@ -9,6 +9,15 @@ a {
   text-decoration: none;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+input {
+  outline: none;
+}
 body {
   /* font-family: 'Open Sans',Helvetica,Arial,sans-serif; */
   font-family: AntipastoPro;
@@ -20,6 +29,34 @@ body {
   margin-top: 0px;
   font-size: 150%;
   background: #f7f5ff;
+}
+
+#bagsvg {
+  display: none;
+}
+
+.bagblack {
+  position: absolute;
+  /* border-radius: 100%; */
+  content: url('../icons/bag2.png');
+  fill: 'yellow!important';
+  opacity: 0.4;
+  order: 1;
+}
+.bagyellowFilled {
+  position: absolute;
+  /* border-radius: 100%; */
+  content: url('../icons/bag3yellow.png');
+  fill: 'yellow!important';
+  opacity: 0.7;
+  order: 1;
+}
+.ribbonIcons {
+  position: absolute;
+  /* border-radius: 100%; */
+  /* content: url('../images/allCancersRibbon.png'); */
+  opacity: 0.5;
+  order: 1;
 }
 
 header {
@@ -154,11 +191,80 @@ header {
 
 .packageDisplays {
   width: 80vw;
+  font-size: 150%;
   display: none;
   flex-wrap: wrap;
   flex-direction: column;
 }
+#receiverInfoPackageDisplay h3 {
+  height: 60px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#receiverInfoPackageDisplay span {
+  height: 40px;
+  margin-top:10px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
 
+}
+#receiverInfoPackageDisplay p {
+  /* height: 20px; */
+  /* margin-top:0px; */
+  display: flex;
+  align-items: center;
+}
+#receiverInfoPackageDisplay input {
+  height: 40px;
+  width: 70%;
+  margin-left: 20px;
+  font-size: 80%;
+}
+#receiverInfoPackageDisplay select {
+  height: 40px;
+  width: 200px;
+  margin-left: 20px;
+  /* font-size: 80%; */
+}
+#receiverInfoPackageDisplay select {
+  font-size: 80%;
+}
+#shippingInfoCheckoutFormDiv {
+  display: flex;
+  flex-direction: column;
+}
+#shippingInfoCheckoutFormDiv p {
+  height: 60px;
+  margin-bottom: 20px;
+}
+#shippingInfoCheckoutFormDiv span {
+  display: flex;
+  height: 30px;
+  margin-top:0px;
+  margin-bottom: 30px;
+}
+
+.checkoutFormDivs {
+  width: 100%;
+}
+.checkoutFormDivs span {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+.checkoutFormDivs input {
+  height: 40px;
+  width: 30%;
+  font-size: 60%;
+}
+#card-element {
+  width: 80%;
+  /* height: 30px; */
+  align-self: center;
+  /* font-size: 20px; */
+}
 #receiverInfoPackageDisplay {
   flex-direction: column;
   display: flex;
@@ -429,7 +535,9 @@ header {
   padding-top: 40px;
 }
 #lowerRightInfoDiv img{
-  max-width: 400px;
+  max-width: 540px;
+  border-radius: 270px;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.9);
 }
 #lowerInfoDiv .infoDivs{
   /* margin-left: 15px; */
@@ -571,6 +679,7 @@ input[type=number]::-webkit-outer-spin-button {
   height: 70px;
   font-size: 40px;
   color: #4E3B86;
+
   border: none;
   border-bottom: 2px solid grey;
   background: inherit;
@@ -801,33 +910,80 @@ input:checked + .slider:after {
 
 #signUpDisplay {
   font-size: 150%;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
+  filter: drop-shadow(0px 3px 3px #222);
 }
 #signUpForm {
   width: 80%;
+  height: 80vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
+  background-image: url('../images/bigBag1.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
+  filter: drop-shadow(0px 3px 3px #222);
 }
 #signUpFormInputDiv {
-  width: 80%;
+  width: 45%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px;
+}
+#signUpFormInputDiv span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content:space-between; */
+  margin-top: 20px;
+  width: 100%;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 1);
 }
 #signUpForm input {
   margin-bottom: 2px;
   border: none;
-  border-bottom: 2px solid grey;
-  background: #f7f5ff;
+  border-bottom: 2px solid black;
+  background: rgba(0,0,0,0.0);
   padding: 0px;
   display: flex;
   align-items: flex-end;
   padding-left: 5px;
   width: 100%;
-  font-size: 150%;
+  height: 40px;
+  font-size: 100%;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 1);
+  filter: drop-shadow(0px 3px 3px #222);
 }
-
+#signupCheckPasswordInput {
+  display: none;
+}
+#passwordErrorMessage {
+  display: none;
+}
+#passwordSuccessMessage {
+  display: none;
+}
+#signupEmailInput {
+  /* width: 75%; */
+}
+#emailErrorMessage {
+  display: none;
+  width: 40%;
+  border-bottom: 2px solid grey;
+  padding-bottom: 4px;
+  font-size: 80%;
+  /* position: absolute; */
+  /* align-self: flex-end; */
+}
+.verifiedIcons {
+  border-bottom: 2px solid grey;
+  padding: 1px;
+  /* width: 5%; */
+}
 footer {
   display: flex;
   height: 100px;
