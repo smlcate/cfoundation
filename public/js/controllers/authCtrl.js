@@ -1,4 +1,4 @@
-app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($scope, $http, $window, $compile) {
+app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location', function($scope, $http, $window, $compile, $location) {
 
   $scope.signIn = {
     error:''
@@ -97,9 +97,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile', function($
     })
 
   }
-
-
-
 
 
 }])

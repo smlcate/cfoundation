@@ -1,4 +1,4 @@
-app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
+app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location', function($scope, $http, $window, $compile, $location) {
 
   $scope.careItems = [];
   $scope.careItemsToDisplay = [];
@@ -34,7 +34,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     // const images = ["../../icons/bag2.png", "../../icons/bag3.png", "../../icons/bag4.png"];
     const iconTypes = ["black","yellowFilled",'ribbon'];
 
-    const numBags = 40;
+    const numBags = 20;
     const bags = [];
 
     var ribbons = [];
@@ -57,9 +57,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       // bag.style.content = "../../icons.bag1.svg";
       // bag.style.fill = colors[Math.floor(Math.random() * colors.length)];
       bag.style.left = `${Math.floor(Math.random() * 95)+2.5}vw`;
-      bag.style.top = `${Math.floor(Math.random() * 5)+0.5}vh`;
+      bag.style.top = `${Math.floor(Math.random() * 3)+0.5}vh`;
       bag.style.transform = `scale(${Math.random()})`;
-      bag.style.width = `${Math.random()+0.5}em`;
+      bag.style.width = `${Math.random()+0.3}em`;
       bag.style.height = bag.style.width;
       // console.log(bag.style);
       bags.push(bag);
@@ -73,7 +73,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       // console.log(el.style);
       let to = {
         x: Math.random() * (i % 2 === 0 ? -11 : 11),
-        y: Math.random() * 5
+        y: Math.random() * 3
       };
 
       let anim = el.animate(
@@ -186,13 +186,23 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     buildItemDisplay(tag[0].toLowerCase() + tag.slice(1));
   }
 
-  $scope.changePage = function(p) {
+  $scope.changePage = function(p, account) {
 
-    $('#headerNav a').css('background','none');
-    $('#headerNav a').css('color','#ffff63');
+    $('.pageNavAncs').css('background','none');
+    $('.pageNavAncs').css('color','#ffff63');
+    $('.accountNavAncs').css('background','none');
+    $('.accountNavAncs').css('color','#C4B0FF');
 
-    $('#'+p+'Anc').css('background','#ffff63');
-    $('#'+p+'Anc').css('color','#C4B0FF');
+    if (account) {
+
+      $('#'+p+'Anc').css('background','#C4B0FF');
+      $('#'+p+'Anc').css('color','#ffff63');
+
+    } else {
+      $('#'+p+'Anc').css('background','#ffff63');
+      $('#'+p+'Anc').css('color','#C4B0FF');
+    }
+
   }
 
   $scope.signOut = function() {
@@ -207,14 +217,25 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   function start() {
 
-    $('#homeAnc').css('background','#ffff63');
-    $('#homeAnc').css('color','#E7E1FB');
+    var path = $location.path();
+    path = path.split('/')[1];
+
+    console.log(path[0]);
+    if (path == '') {
+      $scope.changePage('home', false);
+    } else if (path[0] == 's') {
+      $scope.changePage(path, true);
+    } else {
+      $scope.changePage(path, false);
+    }
+
 
     getItems();
     getRibbons();
     checkSignIn();
     // $('#bagsvg').load(function () {
     // });
+
 
   }
 
