@@ -19,7 +19,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
         $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
       }
       makeBackground();
-      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -102,6 +101,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       $scope.user = {
         email: user.email,
         fullName: user.fullName,
+        permission: user.permission,
         id: user.id
       }
 
@@ -220,7 +220,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     var path = $location.path();
     path = path.split('/')[1];
 
-    console.log(path[0]);
     if (path == '') {
       $scope.changePage('home', false);
     } else if (path[0] == 's') {
@@ -235,7 +234,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     checkSignIn();
     // $('#bagsvg').load(function () {
     // });
-
 
   }
 

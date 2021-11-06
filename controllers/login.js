@@ -95,6 +95,7 @@ exports.signIn = function(req, res, next) {
             user = {
               email: data[0].email,
               fullName:JSON.parse(data[0].user_data).fullName,
+              permission:JSON.parse(data[0].user_data).permission,
               id:data[0].id
             }
             res.send(user)

@@ -8,7 +8,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     email:'',
     password:'',
     checkPassword:'',
-    pass:false
+    pass:true
   }
 
   $scope.passwordStart = function() {
@@ -26,6 +26,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
       $('#passwordSuccessMessage').css('display','none');
       $('#passwordErrorMessage').css('display','flex');
     } else {
+      $scope.auth.pass = true;
       $('#passwordErrorMessage').css('display','none');
       $('#passwordSuccessMessage').css('display','flex');
     }
@@ -33,7 +34,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   }
 
   $scope.signUp = function() {
-
 
     $http.get('getUsers')
     .then(function(res) {
@@ -46,12 +46,9 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         }
       }
 
-
       if ($scope.auth.pass === true) {
-
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
-
           sessionStorage.setItem('user',JSON.stringify(res.data));
 
           $scope.user = res.data;
@@ -84,6 +81,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         sessionStorage.setItem('user',JSON.stringify(res.data));
         $('#userHeaderInfoCell').css('display','flex')
         $scope.user = res.data;
+        $scope.user.permission = res.data.permission;
         $scope.signedIn = true;
 
         $('#signInUpHeaderInfoCell').css('display','none')
