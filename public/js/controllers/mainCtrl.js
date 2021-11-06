@@ -188,19 +188,33 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
 
   $scope.changePage = function(p, account) {
 
-    $('.pageNavAncs').css('background','none');
+    $('#headerNav a').css('background','none');
     $('.pageNavAncs').css('color','#ffff63');
-    $('.accountNavAncs').css('background','none');
+    // $('.accountNavAncs').css('background','none');
     $('.accountNavAncs').css('color','#C4B0FF');
 
     if (account) {
 
       $('#'+p+'Anc').css('background','#C4B0FF');
-      $('#'+p+'Anc').css('color','#ffff63');
+      // $('#'+p+'Anc').css('color','#ffff63');
+
+      $('#'+p+'Anc').animate({
+        color: '#ffff63',
+      })
+      $("header").animate({
+        borderColor: '#C4B0FF',
+      })
 
     } else {
       $('#'+p+'Anc').css('background','#ffff63');
-      $('#'+p+'Anc').css('color','#C4B0FF');
+      // $('#'+p+'Anc').css('color','#C4B0FF');
+
+      $('#'+p+'Anc').animate({
+        color: '#C4B0FF',
+      })
+      $("header").animate({
+        borderColor: '#ffff63'
+      })
     }
 
   }
