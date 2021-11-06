@@ -2,19 +2,19 @@
 
   <h1>Whats in the bag?</h1>
 
-  <div class="" id="ribbonNav">
+  <!-- <div class="" id="ribbonNav">
 
-    <!-- <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-if="ribbons.length > 0" ng-repeat="ribbon in ribbons track by $index">
+    <a href="" ng-click="changeFilter(ribbon.ribbonData.name)" ng-if="ribbons.length > 0" ng-repeat="ribbon in ribbons track by $index">
       <img ng-if="ribbon && ribbon.ribbonData.image" src="{{ribbon.ribbonData.image}}" alt="">
-    </a> -->
+    </a>
 
-  </div>
+  </div> -->
 
   <div class="" id="browseItemsView">
 
     <div class="careItemCells"  ng-if="careItemsToDisplay.length > 0" ng-repeat="item in careItemsToDisplay">
 
-      <img ng-if="item != null && item != undefined" src="{{item.image}}" alt="">
+      <img ng-if="item != null && item != undefined && item.image && item.image != null" src="{{item.image}}" alt="">
 
     </div>
 

@@ -485,6 +485,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               if ($scope.careItems.length > 0) {
               }
 
+              $scope.changePage('admin',true);
+
         } else {
           window.location.href = '#!/signin';
           $window.location.reload();
