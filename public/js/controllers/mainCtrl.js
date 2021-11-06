@@ -188,7 +188,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   $scope.changePage = function(p) {
 
-    $('#headerNav a').css('background','#E7E1FB');
+    $('#headerNav a').css('background','none');
     $('#headerNav a').css('color','#ffff63');
 
     $('#'+p+'Anc').css('background','#ffff63');
