@@ -72,15 +72,20 @@
 
         <div class="" id="headerNav">
 
-          <a id="homeAnc" href="/" ng-click="changePage('home')">Home</a>
-          <a id="packagesAnc" href="/#!/browse" ng-click="changePage('packages')">Browse</a>
-          <a id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase')">Personalized Donation</a>
-          <a id="donateAnc" href="/#!/donate" ng-click="changePage('donate')">Donate</a>
+          <a class="pageNavAncs" id="homeAnc" href="/" ng-click="changePage('home',false)">Home</a>
+          <a class="pageNavAncs" id="browseAnc" href="/#!/browse" ng-click="changePage('browse',false)">Browse</a>
+          <a class="pageNavAncs" id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personalized Donation</a>
+          <a class="pageNavAncs" id="donateAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
 
-          <span>
-            <a href="/#!/signUp">Sign Up</a>
+          <span ng-if="signedIn == false">
+            <a id="signInAnc" class="accountNavAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>
             <p>|</p>
-            <a href="/#!/signIn">Sign In</a>
+            <a id="signUpAnc" class="accountNavAncs" href="/#!/signUp" ng-click="changePage('signUp',true)">Sign Up</a>
+          </span>
+          <span id="userSettingsNav" ng-if="signedIn == true">
+            <a href="">{{user.email}}</a>
+            <p>|</p>
+            <a href="" ng-click="signOut()">Sign Out</a>
           </span>
 
         </div>
