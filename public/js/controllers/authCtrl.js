@@ -96,5 +96,20 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
   }
 
+  console.log('hit');
+  function start() {
+    var path = $location.path();
+    path = path.split('/')[1];
+
+    if (path == '') {
+      $scope.changePage('home', false);
+    } else if (path[0] == 's') {
+      $scope.changePage(path, true);
+    } else {
+      $scope.changePage(path, false);
+    }
+  }
+
+  start();
 
 }])
