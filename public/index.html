@@ -83,7 +83,9 @@
             <a id="signUpAnc" class="accountNavAncs" href="/#!/signUp" ng-click="changePage('signUp',true)">Sign Up</a>
           </span>
           <span id="userSettingsNav" ng-if="signedIn == true">
-            <a href="">{{user.email}}</a>
+            <a href="">Profile</a>
+            <p ng-if="user.permission != null && user.permission != undefined">|</p>
+            <a id="adminAnc" class="accountNavAncs" ng-if="user.permission != null && user.permission != undefined" href="/#!/admin" ng-click="changePage('admin',true)">Admin</a>
             <p>|</p>
             <a href="" ng-click="signOut()">Sign Out</a>
           </span>
