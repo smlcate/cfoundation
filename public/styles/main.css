@@ -965,6 +965,22 @@ input:checked + .slider:after {
   border-radius: 50%;
 }
 
+#profileParentDisplay {
+
+}
+.profileContainers {
+  width: 100vw;
+  font-size: 150%;
+  background: rgba(255, 255, 99,0.5);
+}
+.profileDonationsDivs {
+  display: flex;
+  align-items: center;
+}
+.profileDonationsDivs p {
+  padding: 5px;
+}
+
 
 #signUpDisplay {
   font-size: 150%;
