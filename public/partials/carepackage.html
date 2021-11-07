@@ -9,13 +9,13 @@
       <input type="text" name="" value="" ng-model="order.recipient.name">
     </span>
     <span>
-      <p>Diognosies</p>
-      <div class="" id="receiverInfoDiognosiesDropdownContainer">
-        <select id="0receiverInfoDiognosiesDropdown" class="receiverInfoDiognosiesDropdowns" ng-model="order.recipient.diognosies[0].name" ng-change="selectDiognosis(0)" name="">
+      <p>Diagnosies</p>
+      <div class="" id="receiverInfoDiagnosiesDropdownContainer">
+        <!-- <select id="0receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[0].name" ng-change="selectDiagnosis(0)" name="">
           <option ng-if="dio.ribbonData.name != '' && dio.ribbonData.name != 'All'" value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
-        </select>
+        </select> -->
       </div>
-      <a href="" ng-click="newDiognosis()" ng-if="order.diognosies[order.diognosies.length-1] != undefined">New Diognosis</a>
+      <!-- <a href="" ng-click="newDiagnosis()" ng-if="order.diagnosies[order.diagnosies.length-1] != undefined">New Diagnosis</a> -->
     </span>
 
     <div class="checkoutFormDivs" id="shippingInfoCheckoutFormDiv">

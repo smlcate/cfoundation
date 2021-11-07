@@ -120,7 +120,7 @@ function recurringChargeTimer(hr) {
 // checkRecurringDonors();
 recurringChargeTimer(16);
 
-function addRecurringDonor(donation, userID, res) {
+function addRecurringDonor(donation, user, res, donationId) {
   const customer = stripe.customers.create({
     name:donation.fullName,
     email:donation.email,
@@ -134,17 +134,31 @@ function addRecurringDonor(donation, userID, res) {
       var invoice = {
         customer:customer,
         invoice:donation.invoice,
-        userID:userID,
+        userID:user.id,
         billingTimestamp: Date.now()
       }
       knex('recurring_doners')
-      .insert({recurring_donor_data:JSON.stringify(invoice)})
-      .then(function() {
-        res.send(customer);
+      .insert({recurring_donor_data:JSON.stringify(invoice)},'id')
+      .then(function(recDonId) {
+        // res.send(customer);
+        console.log(user);
+        userData = JSON.parse(user[0].user_data);
+        if (userData.donations) {
+          userData.donations.push([donationId,recDonId]);
+        } else {
+          userData.donations = [[donationId, recDonId]];
+        }
+        knex('users')
+        .where({email:user[0].email})
+        .update({user_data:JSON.stringify(userData)})
+        .then(function() {
+          res.send('success')
+        })
       })
       .catch(function(err) {
         console.log(err);
-        res.send(err);
+        // res.send(err);
+        return false;
       })
     }
   })
@@ -170,20 +184,43 @@ exports.createPaymentIntent = async function(req, res, next) {
   res.send({clientSecret: paymentIntent.client_secret});
 }
 
-exports.makeDonation = function(req, res, next) {
+exports.makeDonation = async function(req, res, next) {
+
 
   knex('donations')
-  .insert({donation_data:JSON.stringify(req.body.donation)})
-  .then(function() {
+  .insert({donation_data:JSON.stringify(req.body.donation)},'id')
+  .then(function(data) {
+    console.log(data);
+    var donationId = data[0];
     if (req.body.donation.invoice.recurring == true) {
       knex('users')
       .where({email:req.body.donation.email})
       .select('*')
-      .then(function(data) {
-        addRecurringDonor(req.body.donation, data.id, res);
+      .then(function(user) {
+        // console.log(user.email);
+
+        addRecurringDonor(req.body.donation, user, res, donationId);
       })
     } else {
-      res.send('success');
+      knex('users')
+      .where({email:req.body.donation.email})
+      .select('*')
+      .then(function(user) {
+        // console.log(user.email);
+        console.log(user);
+        userData = JSON.parse(user[0].user_data);
+        if (userData.donations) {
+          userData.donations.push(donationId);
+        } else {
+          userData.donations = [donationId];
+        }
+        knex('users')
+        .where({email:req.body.donation.email})
+        .update({user_data:JSON.stringify(userData)})
+        .then(function() {
+          res.send('success');
+        })
+      })
     }
   })
   .catch(function(err) {

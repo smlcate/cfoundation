@@ -204,6 +204,12 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       $("header").animate({
         borderColor: '#C4B0FF',
       })
+      // $("html").animate({
+      //   backgroundImage: "url('../../images/stripesBackgroundPurple.png')"
+      // }
+      $("html").css({
+        backgroundImage: "url('../../images/stripesBackgroundPurple.png')"
+      })
 
     } else {
       $('#'+p+'Anc').css('background','#ffff63');
@@ -214,6 +220,10 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       })
       $("header").animate({
         borderColor: '#ffff63'
+      })
+
+      $("html").css({
+        backgroundImage: "url('../../images/stripesBackground.png')"
       })
     }
 
@@ -248,6 +258,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     checkSignIn();
     // $('#bagsvg').load(function () {
     // });
+
+    console.log($scope.user);
 
   }
 
