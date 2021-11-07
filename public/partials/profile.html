@@ -2,4 +2,18 @@
 
   <h1>Profile</h1>
   <p>{{user.email}}</p>
+
+  <div class="profileContainers" id="profileDonationsContainer">
+
+    <div class="profileDonationsDivs" ng-repeat="donation in userDonations">
+
+      <p ng-if="donation.reg.donation_data.invoice.recurring == false"><b>One-time</b> donation of </p>
+      <p ng-if="donation.reg.donation_data.invoice.recurring == true"><b>Monthly</b> donations of </p>
+
+      <p><b>${{donation.reg.donation_data.invoice.total}}</b></p>
+
+    </div>
+
+  </div>
+
 </div>
