@@ -70,6 +70,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
     $http.post('signIn', {auth:$scope.auth})
     .then(function(res) {
+      console.log(res);
       if (res.data.success == false) {
 
         $scope.signIn.error = res.data.message;
@@ -78,12 +79,13 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
         $scope.signIn.error = '';
 
-        sessionStorage.setItem('user',JSON.stringify(res.data));
         $('#userHeaderInfoCell').css('display','flex')
         $scope.user = res.data;
-        $scope.user.permission = res.data.permission;
+        // $scope.user.permission = res.data.permission;
+        // $scope.user.donations = res.data.donations;
         $scope.signedIn = true;
-
+        console.log('USER' + $scope.user);
+        sessionStorage.setItem('user',JSON.stringify($scope.user));
         $('#signInUpHeaderInfoCell').css('display','none')
 
         window.location.href = '#!/home';
@@ -96,18 +98,28 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
   }
 
-  console.log('hit');
   function start() {
     var path = $location.path();
     path = path.split('/')[1];
 
     if (path == '') {
       $scope.changePage('home', false);
-    } else if (path[0] == 's') {
+    } else if (path[0] == 's' || path[1] == 'r') {
       $scope.changePage(path, true);
     } else {
       $scope.changePage(path, false);
     }
+
+    if ($scope.user != null && $scope.user.email) {
+      $http.post('getUsersDonations',$scope.user)
+      .then(function(res) {
+        console.log(res.data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    }
+
   }
 
   start();

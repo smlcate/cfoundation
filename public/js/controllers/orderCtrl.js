@@ -1,7 +1,7 @@
 
 app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
   var elements = stripe.elements();
 
 
@@ -20,9 +20,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.order = {
     recipient: {
       name:'',
-      diognosies:[{
-        name:'',
-      }]
+      diagnosies:[]
     },
     contents:[],
     card_message:'',
@@ -114,8 +112,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         $scope.careItemsToDisplay.push($scope.careItems[i])
       } else {
         for (var j = 0; j < tags.length; j++) {
-          for (var k = 0; k < $scope.order.recipient.diognosies.length; k++) {
-            if (tags[j] == $scope.order.recipient.diognosies[k].name[0].toLowerCase()+$scope.order.recipient.diognosies[k].name.slice(1)) {
+          for (var k = 0; k < $scope.order.recipient.diagnosies.length; k++) {
+            if (tags[j] == $scope.order.recipient.diagnosies[k].name[0].toLowerCase()+$scope.order.recipient.diagnosies[k].name.slice(1)) {
               $scope.careItemsToDisplay.push($scope.careItems[i])
             }
           }
@@ -129,15 +127,40 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
 
 
-  $scope.newDiognosis = function() {
+  $scope.selectDiagnosis = function(i) {
 
-    $scope.order.recipient.diognosies.push({
+    $scope.order.recipient.diagnosies.push({
       name:''
     })
+    console.log($scope.order.recipient.diagnosies);
+    var html = '<select id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select><a id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
 
-    var html = '<select id="'+$scope.order.recipient.diognosies.length+'receiverInfoDiognosiesDropdown" class="receiverInfoDiognosiesDropdowns" ng-model="order.recipient.diognosies['+($scope.order.recipient.diognosies.length-1)+'].name" name=""><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select>'
+    $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
 
-    angular.element($('#receiverInfoDiognosiesDropdownContainer')).append($compile(html)($scope))
+    angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
+
+  }
+
+  $scope.removeDiagnosis = function(i) {
+
+    var name = $scope.order.recipient.diagnosies[i].name;
+
+    var arr = $scope.order.recipient.diagnosies;
+
+    $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown').remove();
+    $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+
+    arr = arr.filter(function(item) {
+      // console.log(item, name);
+        return item.name != name
+    })
+
+
+    $scope.order.recipient.diagnosies = arr;
+
+
+    console.log($scope.order.recipient.diagnosies)
+
   }
 
   $scope.changeOrderDisplay = function(d) {
@@ -194,6 +217,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     if ($scope.careItems.length == 0) {
       getItems();
+      $scope.selectDiagnosis(0);
     }
 
     $scope.changePage('purchase');

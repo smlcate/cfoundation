@@ -15,6 +15,7 @@ exports.signUp = function(req, res, next) {
   var user = {
     user_data: {
       fullName:auth.fullName,
+      donations:[],
       permission:null
     },
     email:auth.email
@@ -96,8 +97,10 @@ exports.signIn = function(req, res, next) {
               email: data[0].email,
               fullName:JSON.parse(data[0].user_data).fullName,
               permission:JSON.parse(data[0].user_data).permission,
+              donations:JSON.parse(data[0].user_data).donations,
               id:data[0].id
             }
+            console.log(user);
             res.send(user)
 
           } else {

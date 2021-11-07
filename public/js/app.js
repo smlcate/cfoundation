@@ -36,5 +36,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/signIn',
       templateUrl: '../partials/signIn.html'
   })
+  .state('profile', {
+      url: '/profile',
+      templateUrl: '../partials/profile.html'
+  })
 
 })

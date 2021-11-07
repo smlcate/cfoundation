@@ -8,7 +8,9 @@ var server = {
   admin: require('./controllers/admin.js'),
   orders: require('./controllers/orders.js'),
   login: require('./controllers/login.js'),
-  donations: require('./controllers/donations.js')
+  donations: require('./controllers/donations.js'),
+  profile: require('./controllers/profile.js')
+
 }
 
 app.use(express.static('public'));
@@ -47,6 +49,8 @@ app.post('/createOrderPaymentIntent', server.orders.createOrderPaymentIntent);
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);
+
+app.post('/getUsersDonations', server.profile.getUsersDonations);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
