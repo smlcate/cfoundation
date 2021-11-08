@@ -2,7 +2,7 @@ var app = angular.module('mainApp', ['ui.router'])
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise('/#!/');
+  $urlRouterProvider.otherwise('/');
 
   $stateProvider
 
