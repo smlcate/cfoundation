@@ -158,6 +158,7 @@ header {
   font-size: 120%;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  
   /* margin-bottom: -22px; */
   /* background: #ffff63; */
   /* background: #dcd0ff; */
@@ -966,21 +967,63 @@ input:checked + .slider:after {
 }
 
 #profileParentDisplay {
-
+  /* justify-content: space-around; */
 }
 .profileContainers {
   width: 100vw;
   font-size: 150%;
   background: rgba(255, 255, 99,0.5);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  margin-top: 40px;
+  padding: 10px;
 }
-.profileDonationsDivs {
+.profileContainers h2 {
+  margin: 0px;
+}
+.profileContainers p {
+  padding: 5px;
+  margin: 5px;
+}
+.profileContainers span {
   display: flex;
   align-items: center;
 }
-.profileDonationsDivs p {
-  padding: 5px;
+.profileContainers h4 {
+  padding: 0px;
+  height: 40px;
+  margin: 10px;
 }
+.profileDonationsDivs {
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+  /* border-top: 2px solid rgba(231, 225, 251,0.8); */
+  padding: 10px;
+  /* flex-direction: column; */
+  /* align-items: center; */
+}
+.profileDonationDivInfoDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.profileDonationsDivs p {
 
+}
+.profileDonationDivContainers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.profileDonationSplitters {
+  border: 1px solid rgba(231, 225, 251,0.6);
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  margin-top: -20px;
+}
 
 #signUpDisplay {
   font-size: 150%;

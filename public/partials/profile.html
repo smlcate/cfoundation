@@ -1,16 +1,44 @@
 <div class="parentDisplays" id="profileParentDisplay" ng-controller="authCtrl">
 
-  <h1>Profile</h1>
-  <p>{{user.email}}</p>
+  <div class="profileContainers">
 
-  <div class="profileContainers" id="profileDonationsContainer">
+    <h2>Profile</h2>
+    <span>
+      <p>Email: <b>{{user.email}}</b></p>
+      <a href="">Change</a>
+    </span>
+    <a href="">Change Password</a>
+    <a href="">Disable Account</a>
+    <a href="">Delete Account and Remove Data</a>
+  </div>
+
+  <div ng-if="user.donations.length > 0" class="profileContainers" id="profileDonationsContainer">
+
+    <h4>Your Donation History</h4>
 
     <div class="profileDonationsDivs" ng-repeat="donation in userDonations">
 
-      <p ng-if="donation.reg.donation_data.invoice.recurring == false"><b>One-time</b> donation of </p>
-      <p ng-if="donation.reg.donation_data.invoice.recurring == true"><b>Monthly</b> donations of </p>
+      <div class="profileDonationSplitters"></div>
 
-      <p><b>${{donation.reg.donation_data.invoice.total}}</b></p>
+      <div class="profileDonationDivInfoDiv">
+
+        <div class="profileDonationDivContainers">
+
+          <p ng-if="donation.reg.donation_data.invoice.recurring == false"><b>One-time</b> donation of </p>
+          <p ng-if="donation.reg.donation_data.invoice.recurring && donation.reg.donation_data.invoice.recurring == true"><b>Monthly</b> pledge of </p>
+
+          <p><b>${{donation.reg.donation_data.invoice.total}}</b></p>
+
+        </div>
+
+        <div ng-if="donation.reg.donation_data.invoice.recurring && donation.reg.donation_data.invoice.recurring == true && donation.rec" class="profileDonationDivContainers">
+
+          <p>Created: <b>{{donation.reg.donation_data.invoice.pretty_creation_date}}</b></p>
+          <p> - </p>
+          <p>Next Charge: <b>{{donation.reg.donation_data.invoice.pretty_next_charge_date}}</b></p>
+
+        </div>
+      </div>
 
     </div>
 

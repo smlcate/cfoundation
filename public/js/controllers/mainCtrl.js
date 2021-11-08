@@ -101,6 +101,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       $scope.user = {
         email: user.email,
         fullName: user.fullName,
+        donations: user.donations,
         permission: user.permission,
         id: user.id
       }
