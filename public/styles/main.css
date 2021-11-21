@@ -158,6 +158,7 @@ header {
   font-size: 120%;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+
   /* margin-bottom: -22px; */
   /* background: #ffff63; */
   /* background: #dcd0ff; */
@@ -966,21 +967,115 @@ input:checked + .slider:after {
 }
 
 #profileParentDisplay {
-
+  /* justify-content: space-around; */
+  padding: 0px;
 }
 .profileContainers {
   width: 100vw;
   font-size: 150%;
   background: rgba(255, 255, 99,0.5);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  margin-top: 40px;
+  padding: 10px;
 }
-.profileDonationsDivs {
+.profileContainers h2 {
+  margin: 0px;
+}
+.profileContainers p {
+  padding: 5px;
+  margin: 5px;
+}
+.profileContainers span {
   display: flex;
   align-items: center;
 }
-.profileDonationsDivs p {
-  padding: 5px;
+.profileContainers h4 {
+  padding: 0px;
+  height: 40px;
+  margin: 10px;
 }
+.profileDonationsDivs {
+  display: flex;
+  width: 75%;
+  flex-direction: column;
+  /* border-top: 2px solid rgba(231, 225, 251,0.8); */
+  padding: 10px;
+  /* flex-direction: column; */
+  /* align-items: center; */
+}
+.profileDonationDivInfoDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.profileDonationInfoContainer {
+  display: flex;
+}
+.profileDonationsDivs p {
 
+}
+.profileDonationDivContainers {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileDonationSplitters {
+  border: 1px solid rgba(231, 225, 251,0.6);
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  margin-top: -20px;
+}
+#profileRecurringDonationAdjustmentDiv {
+  font-size:160%;
+  position:fixed;
+  margin-top: 30vh;
+  background: rgba(231, 225, 251,0.9);
+  width: 500px;
+  /* height: 300px; */
+  border-radius:5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  /* justify-content:space-between; */
+  align-items:center;
+  /* align-self: center; */
+}
+#profileRecurringDonationAdjustmentDivHeader {
+  width: 100%;
+}
+#profileRecurringDonationAdjustmentDiv p {
+  height: 50px;
+  margin: 0px;
+}
+#profileRecurringDonationAdjustmentDiv input {
+  height: 50px;
+  font-size: 90%;
+  width: 120px;
+}
+#profileRecurringDonationAdjustmentDiv span {
+  height: 50px;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  width: 100%;
+}
+#profileRecurringDonationAdjustmentDivFooter {
+  width: 100%;
+  display: flex;
+  justify-content:flex-end;
+  margin-bottom: 0px;
+  margin-top: 40px;
+}
+#profileRecurringDonationAdjustmentDivFooter a {
+  color: red;
+}
 
 #signUpDisplay {
   font-size: 150%;

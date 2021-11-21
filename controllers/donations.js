@@ -25,58 +25,109 @@ function checkRecurringDonors() {
 
     var i = 0;
     function checkNext() {
-      var charge = false;
+      var chargeUser = false;
       var donor = JSON.parse(data[i].recurring_donor_data);
       var donorStartDate = new Date(donor.billingTimestamp);
-
+      console.log(donor);
       var creationDate = [
       donorStartDate.getMonth(),
       donorStartDate.getDate(),
       donorStartDate.getYear(),
       ]
 
-      if (dateToCheck[2] != creationDate[2]) {
+      if (creationDate[1] > monthDays[dateToCheck[0]]) {
+        creationDate[1] = monthDays[dateToCheck[0]];
+      }
+      console.log(creationDate[1],monthDays[dateToCheck[0]]);
+      if (dateToCheck[2] == creationDate[2] && dateToCheck[1] == creationDate[1] && dateToCheck[0] == creationDate[0]) {
+
+        chargeUser = false;
+
+      } else if (dateToCheck[2] != creationDate[2]) {
+
         if (creationDate[1] == 31 && dateToCheck[1] == 30 && monthDays[dateToCheck[0]-1] == 30) {
           creationDate[1] == 30;
         }
         if (dateToCheck[1] == creationDate[1]) {
-          charge = true;
+          chargeUser = true;
         }
       } else if(dateToCheck[0] != creationDate[0]) {
         if (creationDate[1] == 31 && dateToCheck[1] == 30 && monthDays[dateToCheck[0]-1] == 30) {
           creationDate[1] == 30;
         }
         if (dateToCheck[1] == creationDate[1]) {
-          charge = true;
+          chargeUser = true;
         }
       }
-      stripe.charges.create({
-        amount: donor.invoice.total*100,
-        currency: "usd",
-        customer: donor.customer.id,
-        description: "example charge for donations"
-      }, function(err, charge) {
-        // asynchronously called
-        if (err) {
+      console.log(creationDate);
+      if (chargeUser) {
 
-          console.log(err);
+        stripe.charges.create({
+          amount: donor.invoice.total*100,
+          currency: "usd",
+          customer: donor.customer.id,
+          description: "example charge for donations"
+        }, function(err, charge) {
+          // asynchronously called
+          if (err) {
 
-        } else if(charge) {
-          if (i < data.length-1) {
-            i++;
-            checkNext();
+            console.log(err);
+
+          } else if(charge) {
+            console.log(data.length);
+            if (i < data.length) {
+              knex('donations')
+              .insert({donation_data:JSON.stringify({invoice:donor.invoice,customer:donor.customer})},'id')
+              .then(function(data) {
+                console.log(data);
+                var donationId = data[0];
+                console.log(donor);
+                knex('users')
+                .where({email:donor.customer.email})
+                .select('*')
+                .then(function(user) {
+                  // console.log(user.email);
+                  console.log(user);
+                  userData = JSON.parse(user[0].user_data);
+                  if (userData.donations) {
+                    userData.donations.push(donationId);
+                  } else {
+                    userData.donations = [donationId];
+                  }
+                  knex('users')
+                  .where({email:donor.customer.email})
+                  .update({user_data:JSON.stringify(userData)})
+                  .then(function() {
+                    i++;
+                    if (i == data.length) {
+                      return;
+                    } else {
+                      checkNext();
+                    }
+                  })
+                })
+              })
+            } else {
+              return;
+            }
           } else {
-            return;
+            if (i < data.length-1) {
+              i++;
+              checkNext();
+            } else {
+              return;
+            }
           }
+        })
+
+      } else {
+        if (i < data.length-1) {
+          i++;
+          checkNext();
         } else {
-          if (i < data.length-1) {
-            i++;
-            checkNext();
-          } else {
-            return;
-          }
+          return;
         }
-      })
+      }
     }
     if (data.length > 0) {
       checkNext();

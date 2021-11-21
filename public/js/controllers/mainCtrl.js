@@ -101,6 +101,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       $scope.user = {
         email: user.email,
         fullName: user.fullName,
+        donations: user.donations,
         permission: user.permission,
         id: user.id
       }
@@ -212,6 +213,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       })
 
     } else {
+      console.log('hit');
       $('#'+p+'Anc').css('background','#ffff63');
       // $('#'+p+'Anc').css('color','#C4B0FF');
 
@@ -242,10 +244,19 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   function start() {
 
     var path = $location.path();
-    path = path.split('/')[1];
+    console.log(path);
+    if (path.length > 1) {
+      console.log('hit split');
+      path = path.split('/')[1];
 
+    }
+    console.log(path);
+    if (path == '') {
+      path = '/';
+    }
     if (path) {
-      if (path == '') {
+      if (path == '' || path == '/') {
+        console.log('hit here');
         $scope.changePage('home', false);
       } else if (path[0] == 's') {
         $scope.changePage(path, true);
