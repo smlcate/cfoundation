@@ -158,7 +158,7 @@ header {
   font-size: 120%;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  
+
   /* margin-bottom: -22px; */
   /* background: #ffff63; */
   /* background: #dcd0ff; */
@@ -968,6 +968,7 @@ input:checked + .slider:after {
 
 #profileParentDisplay {
   /* justify-content: space-around; */
+  padding: 0px;
 }
 .profileContainers {
   width: 100vw;
@@ -1011,18 +1012,69 @@ input:checked + .slider:after {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.profileDonationInfoContainer {
+  display: flex;
+}
 .profileDonationsDivs p {
 
 }
 .profileDonationDivContainers {
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 .profileDonationSplitters {
   border: 1px solid rgba(231, 225, 251,0.6);
   box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
   margin-top: -20px;
+}
+#profileRecurringDonationAdjustmentDiv {
+  font-size:160%;
+  position:fixed;
+  margin-top: 30vh;
+  background: rgba(231, 225, 251,0.9);
+  width: 500px;
+  /* height: 300px; */
+  border-radius:5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.8);
+  /* justify-content:space-between; */
+  align-items:center;
+  /* align-self: center; */
+}
+#profileRecurringDonationAdjustmentDivHeader {
+  width: 100%;
+}
+#profileRecurringDonationAdjustmentDiv p {
+  height: 50px;
+  margin: 0px;
+}
+#profileRecurringDonationAdjustmentDiv input {
+  height: 50px;
+  font-size: 90%;
+  width: 120px;
+}
+#profileRecurringDonationAdjustmentDiv span {
+  height: 50px;
+  margin-top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  width: 100%;
+}
+#profileRecurringDonationAdjustmentDivFooter {
+  width: 100%;
+  display: flex;
+  justify-content:flex-end;
+  margin-bottom: 0px;
+  margin-top: 40px;
+}
+#profileRecurringDonationAdjustmentDivFooter a {
+  color: red;
 }
 
 #signUpDisplay {

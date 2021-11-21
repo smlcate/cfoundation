@@ -7,7 +7,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   var daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   // /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
-  
+
   $scope.signIn = {
     error:''
   }
@@ -20,6 +20,13 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   }
 
   $scope.userDonations = [];
+  $scope.usersRecDonations = [];
+
+  $scope.donationAdjustment = {
+    newTotal:0,
+    adjusting:false,
+    donation: {}
+  }
 
   $scope.passwordStart = function() {
     if ($scope.auth.password != '') {
@@ -56,16 +63,19 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         }
       }
 
-      if ($scope.auth.pass === true) {
+      if (pass === true) {
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
-          sessionStorage.setItem('user',JSON.stringify(res.data));
-
-          $scope.user = res.data;
+          // console.log(res.data);
+          $scope.user = res.data.user_data;
+          $scope.user.email = res.data.email;
+          $scope.user.donations = [];
+          // $scope.user.permission = res.data.permission;
+          // $scope.user.donations = res.data.donations;
           $scope.signedIn = true;
-
+          // console.log('USER' + $scope.user);
+          sessionStorage.setItem('user',JSON.stringify($scope.user));
           $('#signInUpHeaderInfoCell').css('display','none')
-          $('#userHeaderInfoCell').css('display','flex')
           window.location.href = '#!/welcomePage';
           $window.location.reload();
 
@@ -81,7 +91,8 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
     $http.post('signIn', {auth:$scope.auth})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
+      // console.log(res.data);
       if (res.data.success == false) {
 
         $scope.signIn.error = res.data.message;
@@ -95,7 +106,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         // $scope.user.permission = res.data.permission;
         // $scope.user.donations = res.data.donations;
         $scope.signedIn = true;
-        console.log('USER' + $scope.user);
+        // console.log('USER' + $scope.user);
         sessionStorage.setItem('user',JSON.stringify($scope.user));
         $('#signInUpHeaderInfoCell').css('display','none')
 
@@ -107,6 +118,41 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
     })
 
+  }
+
+  $scope.adjustRecurringDonation = function(donation) {
+    console.log(donation);
+    $scope.donationAdjustment = {
+      newTotal: donation.reg.donation_data.invoice.total,
+      adjusting: true,
+      donation: donation
+    }
+    console.log($scope.donationAdjustment);
+  }
+
+  $scope.cancelRecPledgeAdjustment = function() {
+    $scope.donationAdjustment.adjusting = false;
+  }
+
+  $scope.endRecPledge = function() {
+    console.log($scope.donationAdjustment);
+    $http.post('endRecPledge', {donation:$scope.donationAdjustment.donation})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.updateRecPledge = function() {
+    $http.post('updateRecPledge', $scope.donationAdjustment)
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
   function start() {
@@ -211,8 +257,15 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
             // }
           }
         }
-        $scope.userDonations = res.data;
+        for (var i = 0; i < res.data.length; i++) {
+          if(res.data[i].rec && res.data[i].rec != null) {
+            $scope.usersRecDonations.push(res.data[i]);
+          } else {
+            $scope.userDonations.push(res.data[i]);
+          }
+        }
         console.log($scope.userDonations);
+        console.log($scope.usersRecDonations);
       })
       .catch(function(err) {
         console.log(err);

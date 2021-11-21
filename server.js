@@ -50,6 +50,10 @@ app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);
 
+app.post('/endRecPledge', server.profile.endRecPledge);
+app.post('/updateRecPledge', server.profile.updateRecPledge);
+
+
 app.post('/getUsersDonations', server.profile.getUsersDonations);
 
 app.set('port', process.env.PORT || 3000);
