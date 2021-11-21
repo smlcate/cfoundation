@@ -26,7 +26,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.carePackagePrice;
 
     $scope.donations.totalAmount = $scope.donations.inputs.amount;
-    
+
   }
 
   function getCarePackagePrice() {

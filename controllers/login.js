@@ -3,6 +3,8 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
+var nodemailer = require('nodemailer');
+
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
 
