@@ -110,7 +110,7 @@ exports.signIn = function(req, res, next) {
           }
         } else {
           // response is OutgoingMessage object that server response http request
-          res.send({success: false, message: 'passwords do not match'});
+          res.send({success: false, message: 'password is incorrect'});
         }
       });
 
