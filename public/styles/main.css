@@ -228,9 +228,11 @@ margin-bottom: -50px;
   /* align-items: flex-end; */
   font-size: 170%;
   position: absolute;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   width: 400px;
-  margin-left: -320px;
+  /* margin-left: -320px; */
+  right: 0;
+  /* top: calc(100% + .25rem); */
   background: #C4B0ff;
 }
 
