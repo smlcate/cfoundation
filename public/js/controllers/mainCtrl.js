@@ -196,9 +196,17 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     // $('.accountNavAncs').css('background','none');
     $('.accountNavAncs').css('color','#C4B0FF');
 
+    // $('#collapsedHeaderNav a').css('background','#ffff63');
+    // $('.pageNavDropdownAncs').css('color','#C4B0FF');
+    // $('.accountNavAncs').css('background','none');
+    // $('.accountNavDropdownAncs').css('color','#ffff63');
+
     if (account) {
 
       $('#'+p+'Anc').css('background','#C4B0FF');
+      $('#'+p+'DropdownAnc').css('background','#ffff63');
+      $('#'+p+'DropdownAnc').css('color','#C4B0FF');
+
       // $('#'+p+'Anc').css('color','#ffff63');
 
       $('#'+p+'Anc').animate({
@@ -215,8 +223,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       })
 
     } else {
-      console.log('hit');
+      console.log('#'+p+'Anc');
+      console.log('#'+p+'DropdownAnc');
       $('#'+p+'Anc').css('background','#ffff63');
+      $('#'+p+'DropdownAnc').css('background','#ffff63');
+      $('#'+p+'DropdownAnc').css('color','#C4B0FF');
       // $('#'+p+'Anc').css('color','#C4B0FF');
 
       $('#'+p+'Anc').animate({
