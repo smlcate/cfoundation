@@ -11,6 +11,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   $scope.user = {};
   $scope.signedIn = false;
 
+  $scope.collapsedToggle = true;
+
   function getRibbons() {
     $http.get('getRibbons')
     .then(function(res) {
@@ -239,6 +241,15 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     $('#signInNav').css('display','flex')
     $('#userSettingsNav').css('display','none')
 
+  }
+
+  $scope.toggleCollapsedNav = function() {
+    console.log('hit');
+    if ($scope.collapsedToggle == true) {
+      $scope.collapsedToggle = false;
+    } else {
+      $scope.collapsedToggle = true;
+    }
   }
 
   function start() {

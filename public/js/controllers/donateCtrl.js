@@ -330,6 +330,15 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   }
 
+  window.addEventListener('resize', function(event) {
+    if (window.innerWidth <= 1000) {
+      card.update({style: {base: {fontSize: '60px', width: '100%'}}});
+    } else {
+      console.log('hit');
+      card.update({style: {base: {fontSize: '15px', width: '100%'}}});
+    }
+  });
+
 
   function init() {
     $scope.changePage('donate');
@@ -338,6 +347,13 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     // getItems();
     $scope.selectCarePackAmounts(1);
     buildDonationPage();
+    console.log(window.innerWidth);
+    if (window.innerWidth <= 1000) {
+      card.update({style: {base: {fontSize: '60px', width: '100%'}}});
+    } else {
+      console.log('hit');
+      card.update({style: {base: {fontSize: '30px'}}});
+    }
   }
 
   init();

@@ -71,7 +71,9 @@
 
         </div> -->
 
-        <div class="" id="headerNav">
+        <!-- 1(756)9930429  YB phone number-->
+
+        <div class="headerNavs" id="headerNav">
 
           <a class="pageNavAncs" id="homeAnc" href="/" ng-click="changePage('home',false)">Home</a>
           <a class="pageNavAncs" id="browseAnc" href="/#!/browse" ng-click="changePage('browse',false)">The Bag</a>
@@ -91,6 +93,35 @@
             <a href="" ng-click="signOut()">Sign Out</a>
           </span>
 
+        </div>
+        <div class="headerNavs" id="collapsedHeaderNav">
+          <div href="" ng-click="toggleCollapsedNav()"><img src="./icons/menu_black_24dp.svg" alt="">
+
+            <div ng-if="collapsedToggle == false" class="headerNavs" id="headerCollapsedDropdown">
+
+              <a class="pageNavAncs" id="homeAnc" href="/" ng-click="changePage('home',false)">Home</a>
+              <a class="pageNavAncs" id="browseAnc" href="/#!/browse" ng-click="changePage('browse',false)">The Bag</a>
+              <a class="pageNavAncs" id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personal Donation</a>
+              <a class="pageNavAncs" id="donateAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
+
+              <span ng-if="signedIn == false">
+                <a id="signInAnc" class="accountNavAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>
+                <div class="toggleDropdownSplitter"></div>
+                <a id="signUpAnc" class="accountNavAncs" href="/#!/signUp" ng-click="changePage('signUp',true)">Sign Up</a>
+              </span>
+              <span id="userSettingsNav" ng-if="signedIn == true">
+                <a class="accountNavAncs" id="profileAnc" href="/#!/profile" ng-click="changePage('profile',true)">Profile</a>
+                <p ng-if="user.permission != null && user.permission != undefined">|</p>
+                <a id="adminAnc" class="accountNavAncs" ng-if="user.permission != null && user.permission != undefined" href="/#!/admin" ng-click="changePage('admin',true)">Admin</a>
+                <div class="toggleDropdownSplitter"></div>
+                <a href="" ng-click="signOut()">Sign Out</a>
+              </span>
+
+            </div>
+            
+          </div>
+          <!-- <object data="./icons/menu_black_24dp.svg" type="image/svg+xml"
+               id="collapsedHeaderNavToggle" width="100%" height="100%"></object> -->
         </div>
 
       <!-- </div> -->
