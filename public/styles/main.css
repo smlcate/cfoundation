@@ -1213,14 +1213,14 @@ footer {
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2) {
     header {
-      height: 200px;
+      height: 8em;
       border-bottom-width: 4px;
     }
     #collapsedHeaderNav {
       display: flex;
     }
     #collapsedHeaderNav img {
-      height: 120px;
+      height: 4.28em;
       fill: purple;
     }
     #collapsedHeaderNav a {
@@ -1263,12 +1263,12 @@ footer {
     }
     #headerLogoDiv  img {
       /* margin-bottom: -130px; */
-      width: 250px;
-      height: 250px;
+      width: 8.9em;
+      height: 8.9em;
     }
     #headerTextDiv {
-      font-size: 250%;
-      height: 150px;
+      font-size: 2.5em;
+      /* height: 5.35em; */
       justify-content: space-around;
     }
     #headerNav {
@@ -1276,24 +1276,26 @@ footer {
     }
 
     .parentDisplays {
-       font-size:200%;
+       font-size:2em;
        padding: 0px;
     }
 
     #welcomeParentDisplay {
-      font-size: 200%;
-      width: 100vw;
-      margin-top: 50px;
+      font-size: 2em;
+      /* width: .5em; */
+      margin-top: 1em;
     }
     #lowerInfoDiv {
       width: 90vw;
       display: flex;
       flex-direction: column;
-      align-items:center
+      align-items:center;
+      margin-bottom: 1em;
     }
     #lowerRightInfoDiv img {
-      /* width: 800px; */
-      height: 800px;
+      min-width: 14em;
+      /* height: 14.3em; */
+      border-radius: 7em;
     }
     .infoDivs {
       width: 90%;
