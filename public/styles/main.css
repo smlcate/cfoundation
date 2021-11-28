@@ -1212,6 +1212,9 @@ footer {
   and (min-device-width: 320px)
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2) {
+    html {
+      overflow-x:hidden;
+    }
     header {
       height: 8em;
       border-bottom-width: 4px;
