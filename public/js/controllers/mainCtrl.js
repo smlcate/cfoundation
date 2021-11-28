@@ -57,8 +57,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       }
       // bag.style.content = "../../icons.bag1.svg";
       // bag.style.fill = colors[Math.floor(Math.random() * colors.length)];
-      bag.style.left = `${Math.floor(Math.random() * 80)+10}vw`;
-      bag.style.top = `${Math.floor(Math.random() * 3)+0.5}vh`;
+      bag.style.left = `${Math.floor(Math.random() * 60)+15}vw`;
+      bag.style.top = `${Math.floor(Math.random() * 2)+0.5}vh`;
       bag.style.transform = `scale(${Math.random()})`;
       bag.style.width = `${Math.random()+0.3}em`;
       bag.style.height = bag.style.width;
@@ -73,14 +73,14 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       // $(el).attr("fill",colors[Math.floor(Math.random() * colors.length)]);
       // console.log(el.style);
       let to = {
-        x: Math.random() * (i % 2 === 0 ? -9 : 9),
+        x: Math.random() * (i % 2 === 0 ? -7 : 7),
         y: Math.random() * 3
       };
 
       let anim = el.animate(
         [
           { transform: "translate(0, 0)" },
-          { transform: `translate(${to.x}rem, ${to.y}rem)` }
+          { transform: `translate(${to.x}em, ${to.y}em)` }
         ],
         {
           duration: (Math.random() + 1) * 6000, // random duration
