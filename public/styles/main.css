@@ -1333,7 +1333,7 @@ footer {
     #donationAmountInputDiv p {
       display: flex;
       align-items: center;
-      margin: 0;
+      /* margin: 0; */
     }
     #donationAmountInput {
       min-width: 5em;
