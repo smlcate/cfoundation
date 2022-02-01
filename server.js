@@ -26,6 +26,10 @@ app.get('/getRibbons', server.admin.getRibbons);
 app.post('/newOrder', server.orders.newOrder);
 app.get('/getOrders', server.orders.getOrders);
 
+app.get('/getTestimonials', server.admin.getTestimonials);
+app.post('/addTestimonial', server.admin.addTestimonial);
+app.post('/editTestimonial', server.admin.editTestimonial);
+app.post('/removeTestimonial', server.admin.removeTestimonial);
 
 // app.get('/createCheckoutSession', server.orders.createCheckoutSession);
 

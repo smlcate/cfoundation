@@ -34,23 +34,24 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   };
 
   $scope.editRibbon = false;
-
   $scope.ribbons = [];
 
   $scope.editItemId;
 
   $scope.mode = 'view';
-  // $scope.editItem = {
-  //   name: '',
-  //   price: '', //the price we purchase the product for
-  //   image: '',
-  //   description: '',
-  //   tags:'all'
-  // }
 
   $scope.careItems = [];
 
   $scope.itemImageInput = '';
+
+  $scope.testimonialSettings = {
+    inputs:{
+      name:'Annonymous',
+      testimonial:'',
+      ribbons:[]
+    },
+    toEdit:{} //Selected Testimonial
+  }
 
   function buildDisplays() {
 
@@ -263,6 +264,43 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     readUrl(files[0])
 
   })
+
+
+  $scope.addTestimonial = function() {
+    var t = $scope.testimonialSettings.inputs;
+
+    $http.post('addTestimonial', {testimonial_data:JSON.stringify(t)})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.editTestimonial = function() {
+    var t = {
+      id: $scope.testimonialSettings.toEdit.id,
+      testimonial_data: JSON.stringify($scope.testimonialSettings.inputs)
+    }
+    $http.post('editTestimonial', t)
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.removeTestimonial = function() {
+    $http.post('removeTestimonial', {id:$scope.testimonialSettings.toEdit.id})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 
   $scope.addNewRibbon = function() {
     $http.post('addNewRibbon', {ribbon:$scope.newRibbon})

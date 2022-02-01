@@ -1,17 +1,44 @@
 <div class="parentDisplays" id="welcomeParentDisplay">
 
-
-
-  <!-- <div class="" id="homeRibbonDiv">
-    <img ng-if="ribbon.ribbonData.image != ''" src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons">
-  </div> -->
-
   <div class="infoDivs" id="welcomeInfoDiv">
 
       <h3>Who is Yellow Bag of Humanity?</h3>
       <p>We are providing totes of support, offering comfort, care, and encouragement to those who are undergoing treatment.</p>
 
   </div>
+
+  <!-- <div class="" id="homeRibbonDiv">
+    <img ng-if="ribbon.ribbonData.image != ''" src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons">
+  </div> -->
+  <div class="infoDivs" id="welcomeTestimonialDiv">
+
+    <img id="testimonialImg" src="../images/bagPicCloseup1HighContrastSlim.png" alt="">
+
+    <div class="navArrows" id="leftTestimonialNavArrow">
+      <a href="" ng-click="changeTestimonial(0)"><object data="../images/chevron_left_black_24dp_svg.svg" width="50" height="150"></object></a>
+    </div>
+    <div class="" id="welcomeTestimonialRightDiv">
+      <div class="" id="welcomeTestimonialViewport">
+
+        <div ng-if="testimonialIndex == t.index" class="testimonialCells" id="{{t.index}}TestimonialCell" ng-repeat="t in testimonials track by $index">
+          <h3>A testimonial from {{t.testimonial_data.name}}</h3>
+
+          <p>{{t.testimonial_data.testimonial}}</p>
+        </div>
+
+
+      </div>
+      <div id="testimonialIndexNav">
+        <a ng-repeat="t in testimonials track by $index" href="" ng-click="selectTestimonial(t.index)"><img ng-if="testimonialIndex != t.index" src="../images/viewportNavBubbleUnselected.png"><img ng-if="testimonialIndex == t.index" src="../images/viewportNavBubbleSelected.png"></a>
+      </div>
+
+    </div>
+    <div class="navArrows" id="rightTestimonialNavArrow">
+      <a href="" ng-click="changeTestimonial(1)"><object data="../images/chevron_left_black_24dp_svg.svg" width="50" height="150" fill="#C4B0FF"></object></a>
+    </div>
+
+  </div>
+
   <div class="" id="lowerInfoDiv">
     <div id="lowerLeftInfoDiv">
 
