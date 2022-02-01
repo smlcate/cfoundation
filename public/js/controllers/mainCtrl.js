@@ -8,6 +8,24 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   $scope.ribbons = [];
   $scope.ribbonsToShow = [];
 
+  $scope.testimonials = [
+    {
+      name:'Randa M.',
+      text:'Maecenas eget lacus quam. Vestibulum laoreet id ligula sit amet bibendum. Praesent scelerisque justo at lorem aliquet, sed mattis felis dapibus. Phasellus dolor elit, eleifend sed lacinia quis, bibendum ut libero. Curabitur a euismod augue. Nunc fringilla tortor vitae ipsum facilisis, at posuere nisl posuere. Proin auctor ligula tempor risus facilisis pretium. Mauris egestas neque non velit ornare, nec rutrum velit euismod.'
+    },
+    {
+      name:'Lema N.',
+      text:'Vestibulum vestibulum odio lorem. Maecenas elementum mauris quis est auctor dignissim. Curabitur convallis massa a leo vestibulum, in eleifend risus interdum. Duis maximus nisi non dolor sagittis feugiat. Suspendisse ornare turpis magna, et eleifend enim rutrum non. Vestibulum ac ullamcorper odio. Donec commodo mollis orci sed tristique. Etiam suscipit ultrices eleifend. Aliquam porttitor, quam nec posuere tristique, nisl purus venenatis magna, non egestas dui mauris nec tortor. Mauris lobortis purus hendrerit, fringilla quam sodales, iaculis lectus.'
+    },
+    {
+      name:'Annonymous',
+      text:'Cras mattis ligula vel nisi laoreet vulputate. Nullam at felis quis nulla sagittis ullamcorper. Donec aliquam lacus a rutrum congue. Sed imperdiet, odio ut consectetur aliquet, nisl nunc iaculis arcu, malesuada tristique ante nibh quis felis. Nullam posuere erat varius vestibulum maximus. Fusce justo sapien, pharetra a scelerisque quis, feugiat vitae nisi. Aenean maximus, est eget malesuada tempus, elit est aliquet odio, eu luctus nibh urna at massa. Vivamus quis neque ante. Praesent rhoncus erat quis lorem commodo consectetur. Aliquam at ipsum sed ante interdum mollis. Sed sit amet mattis enim, eu elementum dui. Aliquam maximus magna ac metus tempus aliquet tincidunt tincidunt elit. Curabitur accumsan lacus nec eros fermentum, aliquam pretium dolor molestie. Cras suscipit elit vitae nisl imperdiet tristique. Pellentesque turpis nunc, tincidunt ut mauris ultrices, dignissim aliquam mi.'
+    },
+
+  ];
+
+  $scope.testimonialIndex = 0;
+
   $scope.user = {};
   $scope.signedIn = false;
 
@@ -129,6 +147,51 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   //   }
   // }
 
+  function getTestimonials() {
+    $http.get('getTestimonials')
+    .then(function(res) {
+      if (res.data.length > 0) {
+        for (var i = 0; i < res.data.length; i++) {
+          res.data[i].testimonial_data = JSON.parse(res.data[i].testimonial_data);
+          $scope.testimonials = res.data;
+        }
+        console.log('hit')
+      }
+      console.log(res);
+      buildTestimonials();
+    })
+  }
+
+  function buildTestimonials() {
+
+    ts = $scope.testimonials;
+    for (var i = 0; i < ts.length; i++) {
+      ts[i].index = i;
+    }
+    $scope.testimonials = ts;
+    console.log($scope.testimonials);
+  }
+
+  function changeTestimonial(c) {
+    if (c == 0) {
+      if ($scope.testimonialIndex == 0) {
+        $scope.testimonialIndex = $scope.testimonials.length - 1;
+      } else {
+        $scope.testimonialIndex --;
+      }
+    } else {
+      if ($scope.testimonialIndex == $scope.testimonials.length - 1) {
+        $scope.testimonialIndex = 0;
+      } else {
+        $scope.testimonialIndex ++;
+      }
+    }
+  }
+
+  function selectTestimonial(c) {
+    $scope.testimonialIndex = c;
+  }
+
 
   function getItems() {
     $http.get('getItems')
@@ -184,6 +247,14 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     }
   }
 
+
+  $scope.changeTestimonial = function(c) {
+    changeTestimonial(c);
+  }
+
+  $scope.selectTestimonial = function(t) {
+    selectTestimonial(t);
+  }
 
   $scope.changeFilter = function(tag) {
     buildItemDisplay(tag[0].toLowerCase() + tag.slice(1));
@@ -287,7 +358,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       }
     }
 
-
+    getTestimonials()
     getItems();
     getRibbons();
     checkSignIn();

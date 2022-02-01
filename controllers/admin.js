@@ -4,6 +4,64 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
+exports.addTestimonial = function(req, res, send) {
+
+  knex('testimonials')
+  .insert({testimonial_data:req.body.testimonial_data})
+  .then(function() {
+    res.send('success');
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+
+}
+
+exports.editTestimonial = function(req, res, send) {
+
+  knex('testimonials')
+  .where({id:req.body.id})
+  .update({testimonial_data:JSON.stringify(req.body.testimonial_data)})
+  .then(function() {
+    res.send('success');
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+
+}
+
+exports.removeTestimonial = function(req, res, send) {
+
+  knex('testimonials')
+  .where({id:req.body.id})
+  .delete()
+  .then(function() {
+    res.send('success');
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+
+}
+
+exports.getTestimonials = function(req, res, send) {
+
+  knex('testimonials')
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+
+}
+
 exports.saveCarePackagePrice = function(req, res, send) {
   knex('carePackageItemSettings')
   .where({id:1})
