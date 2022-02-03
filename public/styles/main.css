@@ -1410,6 +1410,33 @@ footer {
       /* width: .5em; */
       margin-top: 1em;
     }
+    #welcomeTestimonialDiv {
+      height: 15em;
+      width: 100vw;
+      border-radius: 0;
+    }
+    #testimonialImg {
+      display: none;
+    }
+    #welcomeTestimonialViewport {
+      height: 12em;
+      margin: 10px;
+    }
+    #testimonialIndexNav a img{
+      height: 1em;
+      width: 1em;
+    }
+    #welcomeTestimonialDiv img {
+      height: 20px;
+      width: 20px;
+    }
+    #welcomeTestimonialDiv .navArrows img {
+      display: flex;
+      justify-content:center;
+      align-items:center;
+      height: 10em;
+      width: 2em;
+    }
     #lowerInfoDiv {
       width: 15em;
       display: flex;
@@ -1597,7 +1624,7 @@ footer {
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
+  /* and (-webkit-min-device-pixel-ratio: 2) */
   and (orientation: portrait) {
     header:  {
       width: 100vw;
