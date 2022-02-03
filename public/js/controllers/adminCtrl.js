@@ -50,7 +50,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       testimonial:'',
       ribbons:[]
     },
-    toEdit:{} //Selected Testimonial
+    toEdit:{}, //Selected Testimonial
+    mode:'new'
   }
 
   function buildDisplays() {
@@ -188,6 +189,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
     $('#'+p+'AdminPage').css('display','flex');
+
+    $('#adminNav a').css('background','none');
+    $('#adminNav a').css('color','#C4B0FF');
+
+    $('#'+p+'NavAnc').css('background','#C4B0FF');
+    $('#'+p+'NavAnc').css('color','#ffff63');
+
   }
 
   $scope.saveCarePackagePrice = function() {
@@ -278,6 +286,30 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
+  $scope.thisTestimonial = function(t) {
+    console.log(t);
+    var hold = {
+      id:t.id,
+      index:t.index,
+      name:t.testimonial_data.name,
+      testimonial:t.testimonial_data.testimonial
+    };
+    $scope.testimonialSettings.toEdit = hold;
+    $scope.testimonialSettings.inputs = t.testimonial_data;
+    $scope.testimonialSettings.mode = 'edit';
+  }
+
+  $scope.cancelTestimonialEdit = function() {
+    $scope.testimonials[$scope.testimonialSettings.toEdit.index] = {testimonial_data:$scope.testimonialSettings.toEdit};
+    $scope.testimonialSettings.toEdit = {};
+    $scope.testimonialSettings.inputs = {
+      name:'Annonymous',
+      testimonial:''
+    };
+    $scope.testimonialSettings.mode = 'new';
+    console.log($scope.testimonials)
+  }
+
   $scope.editTestimonial = function() {
     var t = {
       id: $scope.testimonialSettings.toEdit.id,
@@ -286,6 +318,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $http.post('editTestimonial', t)
     .then(function(res) {
       console.log(res);
+      $scope.testimonialSettings.mode = 'new';
+      $scope.testimonialSettings.inputs = {
+        name:'Annonymous',
+        testimonial:''
+      };
     })
     .catch(function(err) {
       console.log(err);
