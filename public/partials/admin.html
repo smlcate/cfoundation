@@ -3,10 +3,10 @@
 
   <div class="" id="adminNav">
 
-    <a href="" ng-click="thisAdminPage('carepackage')">Care Packages</a>
-    <a href="" ng-click="thisAdminPage('orders')">Orders</a>
-    <a href="" ng-click="thisAdminPage('donations')">Donations</a>
-    <a href="" ng-click="thisAdminPage('testimonials')">Testimonials</a>
+    <a href="" id="carepackageNavAnc" ng-click="thisAdminPage('carepackage')">Care Packages</a>
+    <a href="" id="ordersNavAnc" ng-click="thisAdminPage('orders')">Orders</a>
+    <a href="" id="donationsNavAnc" ng-click="thisAdminPage('donations')">Donations</a>
+    <a href="" id="testimonialsNavAnc" ng-click="thisAdminPage('testimonials')">Testimonials</a>
 
     <!-- <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a> -->
@@ -20,17 +20,23 @@
         <p>Name</p>
         <input type="text" name="" value="" ng-model="testimonialSettings.inputs.name">
       </span>
+
+      <p>Testimonial</p>
+      <textarea id="testimonialTextInput" type="text" name="" value="" ng-model="testimonialSettings.inputs.testimonial"></textarea>
+
       <span>
-        <p>Testimonial</p>
-        <input id="testimonialTextInput" type="text" name="" value=""ng-model="testimonialSettings.inputs.testimonial">
+        <button ng-if="testimonialSettings.mode == 'new' && testimonialSettings.inputs.testimonial != ''" type="button" name="button" ng-click="addTestimonial()">Add Testimonial</button>
+        <button ng-if="testimonialSettings.mode == 'edit'" type="button" name="button" ng-click="editTestimonial()">Save Edit</button>
+        <button ng-if="testimonialSettings.mode == 'edit'" type="button" name="button" ng-click="cancelTestimonialEdit()">Cancel</button>
       </span>
-      <button type="button" name="button" ng-click="addTestimonial()">Add Testimonial</button>
+      <button ng-if="testimonialSettings.mode == 'edit'" type="button" name="button" ng-click="removeTestimonial()">Delete</button>
+
     </div>
     <div class="" id="adminTestimonialsDisplay">
-      <div class="adminTestimonialCells" ng-repeat="t in testimonials track by $index">
+      <a href="" class="adminTestimonialCells" ng-repeat="t in testimonials track by $index" ng-click="thisTestimonial(t)">
         <p>Name: {{t.testimonial_data.name}}</p>
         <p>Testimonial: {{t.testimonial_data.testimonial}}</p>
-      </div>
+      </a>
     </div>
   </div>
 

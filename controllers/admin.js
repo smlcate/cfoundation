@@ -22,7 +22,7 @@ exports.editTestimonial = function(req, res, send) {
 
   knex('testimonials')
   .where({id:req.body.id})
-  .update({testimonial_data:JSON.stringify(req.body.testimonial_data)})
+  .update({testimonial_data:req.body.testimonial_data})
   .then(function() {
     res.send('success');
   })
@@ -169,7 +169,7 @@ exports.addNewRibbon = function(req, res, next) {
 exports.saveRibbonEdit = function(req, res, next) {
   knex('ribbons')
   .where({id:req.body.ribbon.id})
-  .update({ribbonData:JSON.stringify(req.body.ribbon.ribbonData)})
+  .update({ribbonData:JSON.stringify(req.body.ribbon.ribbonData)},)
   .then(function(){
     res.send('success')
   })
