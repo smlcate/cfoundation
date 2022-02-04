@@ -267,6 +267,10 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     // $('.accountNavAncs').css('background','none');
     $('.accountNavAncs').css('color','#C4B0FF');
 
+    $('#headerCollapsedDropdown a').css('background','rgba(196, 176, 255, 0.8)','color','#ffff63');
+    $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)','color','#C4B0FF');
+
+
     // $('#collapsedHeaderNav a').css('background','#ffff63');
     // $('.pageNavDropdownAncs').css('color','#C4B0FF');
     // $('.accountNavAncs').css('background','none');
@@ -275,8 +279,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     if (account) {
 
       $('#'+p+'Anc').css('background','#C4B0FF');
-      $('#'+p+'DropdownAnc').css('background','#ffff63');
-      $('#'+p+'DropdownAnc').css('color','#C4B0FF');
+      // $('#'+p+'DropdownAnc').css('background','#ffff63');
+      // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
+
+      $('#'+p+'DropdownAnc').css('background','rgba(196, 176, 255, 0.8)');
+
 
       // $('#'+p+'Anc').css('color','#ffff63');
 
@@ -297,9 +304,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       console.log('#'+p+'Anc');
       console.log('#'+p+'DropdownAnc');
       $('#'+p+'Anc').css('background','#ffff63');
-      $('#'+p+'DropdownAnc').css('background','#ffff63');
-      $('#'+p+'DropdownAnc').css('color','#C4B0FF');
+      // $('#'+p+'DropdownAnc').css('background','#ffff63');
+      // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
       // $('#'+p+'Anc').css('color','#C4B0FF');
+      $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)');
+
 
       $('#'+p+'Anc').animate({
         color: '#C4B0FF',
@@ -329,8 +338,13 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     console.log('hit');
     if ($scope.collapsedToggle == true) {
       $scope.collapsedToggle = false;
+      // $('#toggleCollapsedNavBtn img').css('background','#C4B0FF');
+      // $('#toggleCollapsedNavBtn img').css('fill','#ffff63');
     } else {
       $scope.collapsedToggle = true;
+      // $('#toggleCollapsedNavBtn img').css('background','none');
+      // $('#toggleCollapsedNavBtn img').css('fill','#C4B0FF');
+
     }
   }
 
