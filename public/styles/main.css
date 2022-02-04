@@ -1441,6 +1441,39 @@ footer {
       display: none;
     }
 
+    #signInDisplay {
+      /* font-size:2em; */
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #signUpForm {
+      font-size:1.5em;
+      width: 100vw;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #signUpForm h2 {
+      text-align: center;
+    }
+    #signUpForm input {
+      height: 1.5em;
+      /* width: 100%; */
+    }
+    #signUpFormInputDiv {
+      padding: 0px;
+      width: 100%;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #signUpForm button {
+      height: 1.5em;
+      font-size:1em;
+    }
+
     .parentDisplays {
        font-size:2em;
        padding: 0;
