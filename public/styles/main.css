@@ -298,14 +298,14 @@ margin-bottom: -50px;
   margin-left: 20px;
   font-size: 80%;
 }
-#receiverInfoPackageDisplay select {
-  height: 40px;
-  width: 200px;
+#receiverInfoPackageDisplay span select {
+  height: 1.5em;
+  width: 4em;
   margin-left: 20px;
-  /* font-size: 80%; */
+  font-size: 1em;
 }
 #receiverInfoPackageDisplay select {
-  font-size: 80%;
+  /* font-size: .5em; */
 }
 #shippingInfoCheckoutFormDiv {
   display: flex;
@@ -1081,7 +1081,7 @@ input[type=number]::-webkit-outer-spin-button {
   color: #fff;
 }
 card {
-  font-size: 30px;
+  /* font-size: 30px; */
 }
 #card-element {
   /* height: 40px; */
@@ -1337,6 +1337,9 @@ footer {
     html {
       overflow-x:hidden;
     }
+    body {
+      font-size:1.5em;
+    }
     header {
       height: 8em;
       border-bottom-width: 4px;
@@ -1451,6 +1454,117 @@ footer {
     }
     .infoDivs {
       width: 15em;
+    }
+
+    #carepackageParentDisplay {
+
+    }
+    #carepackageParentDisplay h1 {
+      padding: .5em;
+    }
+    #receiverInfoPackageDisplay {
+
+    }
+    #receiverInfoPackageDisplay h4 {
+      height: auto;
+      margin: 0px;
+    }
+    .packageDisplays {
+
+    }
+    .packageDisplayNavs {
+      width: 100%;
+      display:flex;
+      justify-content: flex-end;
+      margin-bottom: 1em;
+      font-size: 1.5em;
+    }
+    #receiverCheckoutPackageDisplay a {
+      font-size: 1.5em;
+    }
+    #receiverInfoPackageDisplay span {
+      margin-bottom:1em;
+      /* height: 1em; */
+      display: flex;
+      align-items: center;
+    }
+    #receiverInfoPackageDisplay p {
+      height: auto;
+      padding: 0px;
+      margin: 0px;
+    }
+    #receiverInfoPackageDisplay input {
+      height: 1.5em;
+      width: 100%;
+      padding-left: 10px;
+    }
+    #receiverInfoPackageDisplay span {
+      padding-left: 0px;
+      width: 80vw;
+      align-items: flex-start;
+      flex-direction: column;
+      height: auto;
+    }
+    /* #receiverInfoPackageDisplaySelect {
+      height: 1.5em;
+      width: 3em;
+      font-size:.5em;
+    } */
+    #receiverInfoDiagnosiesDropdownContainer {
+      /* font-size:1em; */
+    }
+    #receiverInfoDiagnosiesDropdownContainer select option {
+      /* height: 2em; */
+      font-size: .5em;
+    }
+    #receiverInfoDiagnosiesSpan {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
+    #shippingInfoCheckoutFormDiv {
+      display: flex;
+      flex-direction: column;
+      /* margin-top: 1.5em; */
+    }
+    #shippingInfoCheckoutFormDiv span {
+      /* margin-top:1.5em; */
+      height: auto;
+      width: 80vw;
+      display: flex;
+      flex-direction: column;
+    }
+    #shippingInfoCheckoutFormDiv input {
+      width: 100%;
+      height: 1.5em;
+      font-size: 1em;
+      margin-bottom: .25em;
+    }
+    #receiverCheckoutPackageDisplay {
+
+    }
+    #billingInfoCheckoutFormDiv {
+      display: flex;
+      flex-direction: column;
+    }
+    #billingInfoCheckoutFormDiv span {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #billingInfoCheckoutFormDiv input {
+      height: 1.5em;
+      width: 100%;
+      font-size:1em;
+      margin-bottom: .25em;
+    }
+    card {
+      /* font-size:1.5em; */
+    }
+    #card-element {
+      font-size:100%;
+      /* height: 1em; */
+      width: 100%;
     }
 
     #donateParentDisplay {
@@ -1599,9 +1713,9 @@ footer {
       margin-bottom: 10px;
       padding: 2px;
     }
-    card {
-      font-size: 60px;
-    }
+    /* card {
+      font-size: 1em;
+    } */
     #donationBillingDiv #card-element {
       height: auto;
       font-size:100%;

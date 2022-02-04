@@ -3,12 +3,12 @@
   <h1>Donate a bag, and we will send it to someone you know!</h1>
 
   <div class="packageDisplays" id="receiverInfoPackageDisplay">
-    <h3>Tell us a little about them</h3>
+    <h4>Tell us a little about them</h4>
     <span>
-      <p>Recipient Name</p>
+      <p>Recipient</p>
       <input type="text" name="" value="" ng-model="order.recipient.name">
     </span>
-    <span>
+    <span id="receiverInfoDiagnosiesSpan">
       <p>Diagnosies</p>
       <div class="" id="receiverInfoDiagnosiesDropdownContainer">
         <!-- <select id="0receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[0].name" ng-change="selectDiagnosis(0)" name="">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="packageDisplayNavs">
-      <a href="" ng-click="changeOrderDisplay('c')">Continue</a>
+      <a href="" ng-click="changeOrderDisplay('c')">Checkout</a>
     </div>
 
   </div>
@@ -62,6 +62,8 @@
   </div> -->
   <div class="packageDisplays" id="receiverCheckoutPackageDisplay">
 
+    <a href="" ng-click="changeOrderDisplay('b')">Back</a>
+
     <div class="checkoutFormDivs" id="billingInfoCheckoutFormDiv">
       <p>Billing Information</p>
 
@@ -82,8 +84,7 @@
       <!-- We'll put the error messages in this element -->
       <div id="card-errors" role="alert"></div>
 
-      <a href="" ng-click="changeOrderDisplay('b')">Back</a>
-      <button id="submit" ng-click="confirmOrder()">Submit Payment</button>
+      <button id="submit" ng-click="confirmOrder()">Submit Donation</button>
     </form>
     <!-- <button id="checkout-button">Checkout</button> -->
 
