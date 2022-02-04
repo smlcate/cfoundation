@@ -147,19 +147,29 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.removeDiagnosis = function(i) {
 
     var name = $scope.order.recipient.diagnosies[i].name;
-
+    console.log(name);
     var arr = $scope.order.recipient.diagnosies;
+    console.log(i);
 
-    $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown').remove();
-    $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+    $('#'+(i)+'receiverInfoDiagnosiesDropdown').remove();
+    $('#'+(i)+'receiverInfoDiagnosiesRemoveAnc').remove();
+    // $('#'+(i+1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+
+    $('#receiverInfoDiagnosiesDropdownContainer').empty();
+    $scope.order.recipient.diagnosies = [];
 
     arr = arr.filter(function(item) {
       // console.log(item, name);
         return item.name != name
     })
 
+    for (var i = 0; i < arr.length; i++) {
+      $scope.selectDiagnosis(i);
+      if (i == arr.length - 1) {
+        $scope.order.recipient.diagnosies = arr;
+      }
+    }
 
-    $scope.order.recipient.diagnosies = arr;
 
 
     console.log($scope.order.recipient.diagnosies)
@@ -220,8 +230,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     if ($scope.careItems.length == 0) {
       getItems();
-      $scope.selectDiagnosis(0);
     }
+    $scope.selectDiagnosis(0);
 
     $scope.changePage('purchase');
   }
