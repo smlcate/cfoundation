@@ -95,8 +95,8 @@
 
         </div>
         <div class="headerNavs" id="collapsedHeaderNav">
-          <div href="" ng-click="toggleCollapsedNav()">
-            <img src="./icons/menu_black_24dp.svg" alt="">
+          <div id="toggleCollapsedNavBtn" href="" ng-click="toggleCollapsedNav()">
+            <img src="./icons/menu_black_24dp.svg" alt="" height="75px" width="75px">
 
             <div ng-if="collapsedToggle == false" class="headerNavs" id="headerCollapsedDropdown">
 
@@ -105,17 +105,16 @@
               <a class="pageNavDropdownAncs" id="purchaseDropdownAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personal Donation</a>
               <a class="pageNavDropdownAncs" id="donateDropdownAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
 
-              <span id="userSigninNav" ng-if="signedIn == false">
+              <span id="userSettingsNav" ng-if="signedIn == false">
                 <a id="signInDropdownAnc" class="accountNavDropdownAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>
                 <div class="toggleDropdownSplitter"></div>
                 <a id="signUpDropdownAnc" class="accountNavDropdownAncs" href="/#!/signUp" ng-click="changePage('signUp',true)">Sign Up</a>
               </span>
               <span id="userSettingsNav" ng-if="signedIn == true">
                 <a class="accountNavDropdownAncs" id="profileDropdownAnc" href="/#!/profile" ng-click="changePage('profile',true)">Profile</a>
-                <p ng-if="user.permission != null && user.permission != undefined">|</p>
                 <a id="adminDropdownAnc" class="accountNavDropdownAncs" ng-if="user.permission != null && user.permission != undefined" href="/#!/admin" ng-click="changePage('admin',true)">Admin</a>
                 <div class="toggleDropdownSplitter"></div>
-                <a href="" ng-click="signOut()">Sign Out</a>
+                <a id="dropdownSignoutAnc" href="" ng-click="signOut()">Sign Out</a>
               </span>
 
             </div>
