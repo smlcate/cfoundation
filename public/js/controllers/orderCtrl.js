@@ -8,7 +8,10 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   var style = {
     base: {
       color: "#32325d",
-      fontSize: "30px"
+      fontSize: "52px",
+      lineHeight: "80px",
+      textTransform: "full-width",
+      // padding: "80px"
     }
   };
 
