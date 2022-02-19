@@ -6195,12 +6195,17 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   var style = {
     base: {
-      color: "#32325d",
+      color: "#E7E7E7",
       fontSize: "52px",
-      lineHeight: "80px",
-      textTransform: "full-width",
-      // padding: "80px"
+      // lineHeight: "80px",
+      // textTransform: "full-width",
+      // paddingTop: ".5em",
+      // textAlign: "center"
+      '::placeholder': {
+        color: "#E7E7E7",
+      },
     }
+
   };
 
   var card = elements.create("card", { style: style });
