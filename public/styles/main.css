@@ -212,8 +212,8 @@ margin-bottom: -50px;
   position: absolute;
   /* margin-top: 80px; */
   width: 4em;
+  right: 0;
   /* margin-left: -320px; */
-  right: 1.5em;
   /* top: calc(100% + .25rem); */
   background: #C4B0ff;
 }
@@ -225,7 +225,7 @@ margin-bottom: -50px;
 #headerRibbonDiv img {
   height: 1.5em;
   width: 1.5em;
-  margin-right: -2em;
+  /* margin-right: -2em; */
   filter: drop-shadow(0px 3px 3px #222);
 }
 
@@ -407,11 +407,11 @@ margin-bottom: -50px;
   flex-direction: column;
 }
 #card-element {
-  width: 100%;
+  /* width: 100%; */
   /* height: 30px; */
   align-self: center;
   /* font-size: 20px; */
-  color: white !important;
+  /* color: white !important; */
   background: rgba(231, 225, 251,0.2);
 }
 #receiverInfoPackageDisplay {
@@ -677,7 +677,6 @@ margin-bottom: -50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
   min-height: 90vh;
   width: 100vw;
   overflow-x: hidden;
@@ -686,10 +685,6 @@ margin-bottom: -50px;
 
   background-repeat: no-repeat;
   background-size: contain; */
-}
-
-parentDisplays div {
-  background: rgba(0, 0, 0, 0.0);
 }
 
 #homeRibbonDiv {
@@ -731,8 +726,8 @@ parentDisplays div {
   /* box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.8); */
 }
 #testimonialImg {
-  max-height: 500px;
-  min-height: 200px;
+  max-height: 15em;
+  min-height: 5em;
   border-radius:10px;
   padding: 0;
 }
@@ -1118,6 +1113,12 @@ input[type=number]::-webkit-outer-spin-button {
   align-items: flex-end;
   padding-left: 5px;
 }
+#donationBillingHeaderComputerDiv {
+  display: flex;
+}
+#donationBillingHeaderPhoneDiv {
+  display: none;
+}
 .donationBillingTypeDivs {
   padding: 20px;
   flex-direction: column;
@@ -1481,6 +1482,7 @@ footer {
     }
     #headerCollapsedDropdown {
       background: none;
+      right: 1.5em
     }
     #collapsedHeaderNav #userSettingsNav {
       display:flex;
@@ -1767,7 +1769,7 @@ footer {
     }
     #card-element {
       font-size:1em;
-      /* height: 1em; */
+      height: 1em;
       width: 100%;
     }
 
@@ -1902,6 +1904,14 @@ footer {
     #donationBillingDiv {
       font-size:130%;
     }
+    #donationBillingHeaderComputerDiv {
+      display: none;
+    }
+    #donationBillingHeaderPhoneDiv {
+      display: flex;
+      text-align: center;
+      margin-top: 1em;
+    }
     .donationBillingCheckboxSpans {
       font-size: 150%;
     }
@@ -1925,7 +1935,7 @@ footer {
       font-size:1em;
       border-bottom: 4px solid grey;
       margin-bottom: 10px;
-      width: 100%;
+      /* width: 100%; */
       padding: 2px;
       color: white;
     }
