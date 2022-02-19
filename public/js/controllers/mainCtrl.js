@@ -24,6 +24,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
 
   ];
 
+  // console.log(cities.map);
+
   $scope.testimonialIndex = 0;
 
   $scope.user = {};

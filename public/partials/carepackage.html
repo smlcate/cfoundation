@@ -1,12 +1,13 @@
 <div class="parentDisplays" id="carepackageParentDisplay" ng-controller="orderCtrl">
 
-  <h1>Donate a bag, and we will send it to someone you know!</h1>
+  <h1>Donate a bag to someone you know</h1>
 
   <div class="packageDisplays" id="receiverInfoPackageDisplay">
-    <h4>Tell us a little about them</h4>
+    <p>If you know someone who needs a little comfort; donate, and we will send a Yellow Bag to anyone in the Nation</p>
+    <h3>Tell us a little about them</h3>
     <span>
       <p>Recipient</p>
-      <input type="text" name="" value="" ng-model="order.recipient.name">
+      <input type="text" name="" value="" ng-model="order.recipient.name" required="required">
     </span>
     <span id="receiverInfoDiagnosiesSpan">
       <p>Diagnosies</p>
@@ -19,11 +20,16 @@
     </span>
 
     <div class="checkoutFormDivs" id="shippingInfoCheckoutFormDiv">
-      <p>Shipping Information</p>
+      <h3>Shipping Information</h3>
       <span>
         <input type="text" name="address" value="" placeholder="Address" ng-model="order.shipping.address">
-        <input type="text" name="city" value="" placeholder="City" ng-model="order.shipping.city">
-        <input type="text" name="state" value="" placeholder="State" ng-model="order.shipping.state">
+        <select type="text" name="state" value="" placeholder="State" default="State" ng-model="order.shipping.state" ng-change="selectShippingState()" required="required">
+          <option value="" disabled selected>State</option>
+          <option value="{{s.name}}" ng-repeat="s in states">{{s.code}}</option>
+        </select>
+        <select id="shippingCityDropdown" type="text" name="city" value="" placeholder="City" ng-model="order.shipping.city" required="required">
+          <option value="" disabled selected>City</option>
+        </select>
         <input type="text" name="apt" value="" placeholder="Apt/Rm #" ng-model="order.shipping.room">
       </span>
 
@@ -31,7 +37,7 @@
     </div>
 
     <div class="packageDisplayNavs">
-      <a href="" ng-click="changeOrderDisplay('c')">Checkout</a>
+      <a href="" ng-click="changeOrderDisplay('c')">To Checkout</a>
     </div>
 
   </div>
@@ -62,10 +68,12 @@
   </div> -->
   <div class="packageDisplays" id="receiverCheckoutPackageDisplay">
 
-    <a href="" ng-click="changeOrderDisplay('b')">Back</a>
+    <div class="packageDisplayNavs">
+      <a href="" ng-click="changeOrderDisplay('b')">Back to Shipping</a>
+    </div>
 
     <div class="checkoutFormDivs" id="billingInfoCheckoutFormDiv">
-      <p>Billing Information</p>
+      <h3>Billing Information</h3>
 
       <span>
         <input type="text" name="" value="" placeholder="Email" ng-model="order.billing.email">
