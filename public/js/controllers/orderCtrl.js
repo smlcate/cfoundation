@@ -6210,7 +6210,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   };
 
   var card = elements.create("card", { style: style });
-  card.mount("#card-element");
+  // card.mount("#card-element");
 
    var checkoutButton = document.getElementById('checkout-button');
 
