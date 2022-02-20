@@ -6197,6 +6197,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     base: {
       color: "#E7E7E7",
       fontSize: "52px",
+      // width:"100%",
       // lineHeight: "80px",
       // textTransform: "full-width",
       // paddingTop: ".5em",
