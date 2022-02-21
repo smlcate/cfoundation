@@ -6190,24 +6190,29 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.citiesToShow = [];
 
   var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
-  // var elements = stripe.elements();
+  var elements = stripe.elements();
 
 
   var style = {
     base: {
       color: "#E7E7E7",
       fontSize: "52px",
+      width:"100%",
+      // lineHeight: "80px",
+      // textTransform: "full-width",
+      // paddingTop: ".5em",
+      // textAlign: "center"
       '::placeholder': {
-        color: "#E7E7E7"
-      }
+        color: "#E7E7E7",
+      },
     }
 
   };
 
-  // var card = elements.create("card", { style: style });
-  // card.mount("#card-element");
+  var card = elements.create("card", { style: style });
+  card.mount("#card-element");
 
-   // var checkoutButton = document.getElementById('checkout-button');
+   var checkoutButton = document.getElementById('checkout-button');
 
   $scope.order = {
     recipient: {
