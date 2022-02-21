@@ -269,8 +269,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     // $('.accountNavAncs').css('background','none');
     $('.accountNavAncs').css('color','#C4B0FF');
 
-    $('#headerCollapsedDropdown a').css('background','rgba(196, 176, 255, 0.8)','color','#ffff63');
-    $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)','color','#C4B0FF');
+    // $('#headerCollapsedDropdown a').css('background','rgba(196, 176, 255, 0.8)','color','#ffff63');
+    // $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)','color','#C4B0FF');
 
 
     // $('#collapsedHeaderNav a').css('background','#ffff63');
