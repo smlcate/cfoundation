@@ -284,7 +284,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       // $('#'+p+'DropdownAnc').css('background','#ffff63');
       // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
 
-      $('#'+p+'DropdownAnc').css('background','rgba(196, 176, 255, 0.8)');
+      // $('#'+p+'DropdownAnc').css('background','rgba(196, 176, 255, 0.8)');
 
 
       // $('#'+p+'Anc').css('color','#ffff63');
@@ -299,7 +299,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       //   backgroundImage: "url('../../images/stripesBackgroundPurple.png')"
       // }
       $("html").css({
-        backgroundImage: "url('../../images/homeBags-min.jpg')"
+        // backgroundImage: "url('../../images/homeBags-min.jpg')"
       })
 
     } else {
@@ -309,7 +309,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       // $('#'+p+'DropdownAnc').css('background','#ffff63');
       // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
       // $('#'+p+'Anc').css('color','#C4B0FF');
-      $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)');
+      // $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)');
 
 
       $('#'+p+'Anc').animate({
@@ -320,7 +320,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       })
 
       $("html").css({
-        backgroundImage: "url('../../images/homeBags-min.jpg')"
+        // backgroundImage: "url('../../images/homeBags-min.jpg')"
       })
     }
 
