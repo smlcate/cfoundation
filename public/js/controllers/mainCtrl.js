@@ -40,7 +40,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       for (var i = 0; i < $scope.ribbons.length; i++) {
         $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
       }
-      makeBackground();
+      // makeBackground();
     })
     .catch(function(err) {
       console.log(err);
