@@ -6358,7 +6358,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log($scope.order.recipient.diagnosies);
       var html = '<select id="receiverInfoDiagnosiesDropdown'+($scope.order.recipient.diagnosies.length-1)+'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option></select><a id="receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)+'" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
 
-      $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
+      // $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
 
       angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
 
