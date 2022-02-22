@@ -100,9 +100,14 @@
         <p>Already have an account?</p>
         <a href="/#!/signIn">Log in</a>
       </span>
+      <span ng-if="signedIn == true">
+        <p>Signed In</p>
+        <a href="/#!/signIn">Change Account</a>
+      </span>
       <span>
         <!-- <p>Email</p> -->
-        <input type="text" name="email" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+        <input ng-if="signedIn == false" type="text" name="email" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+        <input ng-if="signedIn == true" type="text" name="email" value="" ng-model="donations.inputs.billing.email" placeholder="Email" disabled>
       </span>
       <span>
         <!-- <p>Email</p> -->
@@ -114,7 +119,8 @@
       </span>
       <span>
         <!-- <p>Full Name</p> -->
-        <input type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+        <input ng-if="signedIn == false" type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+        <input ng-if="signedIn == true" type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name" disabled>
       </span>
       <span class="donationBillingCheckboxSpans" id="donationBillingAnonCheckboxSpan">
         <input type="checkbox" name="" value="" ng-model="donations.inputs.anon">
