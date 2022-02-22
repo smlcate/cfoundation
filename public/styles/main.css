@@ -358,6 +358,28 @@ margin-bottom: -50px;
   color: #E7E1FB !important;
 
 }
+.requireIcons {
+  display: none;
+  /* position:absolute; */
+  /* align-self: center; */
+  margin-left: 0px !important;
+  margin-top: 0px !important;
+  margin-right: -.25em !important;
+  color: red;
+  width: .25em !important;
+  /* left: 0; */
+}
+.requireBillingIcons {
+  display: none;
+  position:absolute;
+  /* align-self: center; */
+  margin-left: -.5em !important;
+  margin-top: 0px !important;
+  margin-right: -.25em !important;
+  color: red;
+  width: .25em !important;
+  /* left: 0; */
+}
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #E7E1FB;
 }
@@ -1706,7 +1728,7 @@ footer {
     }
     #receiverInfoPackageDisplay span {
       padding-left: 0px;
-      width: 80vw;
+      /* width: 80vw; */
       align-items: flex-start;
       flex-direction: column;
       height: auto;
@@ -1718,7 +1740,7 @@ footer {
     } */
     #receiverInfoDiagnosiesDropdownContainer {
       /* font-size:1em; */
-      height: 3em;
+      /* height: 3em; */
     }
     #receiverInfoDiagnosiesDropdownContainer select option {
       font-size: .5em;
@@ -1736,7 +1758,7 @@ footer {
     #shippingInfoCheckoutFormDiv span {
       /* margin-top:1.5em; */
       height: auto;
-      width: 80vw;
+      /* width: 80vw; */
       display: flex;
       flex-direction: column;
     }
@@ -1745,6 +1767,15 @@ footer {
       height: 1.5em;
       font-size: 1em;
       margin-bottom: .25em;
+      /* display: flex;
+      flex-direction: row; */
+    }
+    .requireIcons {
+      display: none;
+      /* position:absolute; */
+      /* align-self: center; */
+      color: red;
+      right: 0;
     }
     #receiverCheckoutPackageDisplay {
 
