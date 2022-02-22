@@ -6360,7 +6360,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
       $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
 
-      angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
+      // angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
 
     }
 
