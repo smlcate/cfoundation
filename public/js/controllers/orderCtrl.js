@@ -6356,9 +6356,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         name:''
       })
       console.log($scope.order.recipient.diagnosies);
-      var html = '<select id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select><a id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
+      var html = '<select id="receiverInfoDiagnosiesDropdown'+($scope.order.recipient.diagnosies.length-1)+'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select><a id="receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)+'" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
 
-      $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+      $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
 
       angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
 
@@ -6373,9 +6373,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     var arr = $scope.order.recipient.diagnosies;
     console.log(i);
 
-    $('#'+(i)+'receiverInfoDiagnosiesDropdown').remove();
-    $('#'+(i)+'receiverInfoDiagnosiesRemoveAnc').remove();
-    $('#'+(i+1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+    $('#receiverInfoDiagnosiesDropdown'+(i)).remove();
+    $('#receiverInfoDiagnosiesRemoveAnc'+(i)).remove();
+    $('#receiverInfoDiagnosiesRemoveAnc'+(i+1)).remove();
 
     $('#receiverInfoDiagnosiesDropdownContainer').empty();
     $scope.order.recipient.diagnosies = [];
