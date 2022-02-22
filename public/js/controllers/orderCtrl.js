@@ -6214,27 +6214,27 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   //
   //  var checkoutButton = document.getElementById('checkout-button');
   //
-  // $scope.order = {
-  //   recipient: {
-  //     name:'',
-  //     diagnosies:[]
-  //   },
-  //   contents:[],
-  //   card_message:'',
-  //   shipping: {
-  //     address:'',
-  //     city:'',
-  //     state:'Indiana',
-  //     room:''
-  //   },
-  //   billing: {
-  //     email:'',
-  //     fName:'',
-  //     lName:''
-  //   }
-  // }
+  $scope.order = {
+    recipient: {
+      name:'',
+      diagnosies:[]
+    },
+    contents:[],
+    card_message:'',
+    shipping: {
+      address:'',
+      city:'',
+      state:'Indiana',
+      room:''
+    },
+    billing: {
+      email:'',
+      fName:'',
+      lName:''
+    }
+  }
   //
-  // $scope.display = 0;
+  $scope.display = 0;
   //
   // function pickCities() {
   //   console.log('hit cities');
@@ -6349,54 +6349,54 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   //   pickCities();
   // }
   //
-  // $scope.selectDiagnosis = function(i) {
+  $scope.selectDiagnosis = function(i) {
+
+    if (i == $scope.order.recipient.diagnosies.length - 1 || $scope.order.recipient.diagnosies.length == 0) {
+      $scope.order.recipient.diagnosies.push({
+        name:''
+      })
+      console.log($scope.order.recipient.diagnosies);
+      var html = '<select id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select><a id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
+
+      $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+
+      angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
+
+    }
+
+  }
   //
-  //   if (i == $scope.order.recipient.diagnosies.length - 1 || $scope.order.recipient.diagnosies.length == 0) {
-  //     $scope.order.recipient.diagnosies.push({
-  //       name:''
-  //     })
-  //     console.log($scope.order.recipient.diagnosies);
-  //     var html = '<select id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesDropdown" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option></select><a id="'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
-  //
-  //     $('#'+($scope.order.recipient.diagnosies.length-1)+'receiverInfoDiagnosiesRemoveAnc').remove();
-  //
-  //     angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
-  //
-  //   }
-  //
-  // }
-  //
-  // $scope.removeDiagnosis = function(i) {
-  //
-  //   var name = $scope.order.recipient.diagnosies[i].name;
-  //   console.log(name);
-  //   var arr = $scope.order.recipient.diagnosies;
-  //   console.log(i);
-  //
-  //   $('#'+(i)+'receiverInfoDiagnosiesDropdown').remove();
-  //   $('#'+(i)+'receiverInfoDiagnosiesRemoveAnc').remove();
-  //   $('#'+(i+1)+'receiverInfoDiagnosiesRemoveAnc').remove();
-  //
-  //   $('#receiverInfoDiagnosiesDropdownContainer').empty();
-  //   $scope.order.recipient.diagnosies = [];
-  //
-  //   arr = arr.filter(function(item) {
-  //     console.log(item, name);
-  //       return item.name != name
-  //   })
-  //
-  //   for (var i = 0; i < arr.length; i++) {
-  //     $scope.selectDiagnosis(i);
-  //     if (i == arr.length - 1) {
-  //       $scope.order.recipient.diagnosies = arr;
-  //     }
-  //   }
-  //
-  //
-  //
-  //   console.log($scope.order.recipient.diagnosies)
-  //
-  // }
+  $scope.removeDiagnosis = function(i) {
+
+    var name = $scope.order.recipient.diagnosies[i].name;
+    console.log(name);
+    var arr = $scope.order.recipient.diagnosies;
+    console.log(i);
+
+    $('#'+(i)+'receiverInfoDiagnosiesDropdown').remove();
+    $('#'+(i)+'receiverInfoDiagnosiesRemoveAnc').remove();
+    $('#'+(i+1)+'receiverInfoDiagnosiesRemoveAnc').remove();
+
+    $('#receiverInfoDiagnosiesDropdownContainer').empty();
+    $scope.order.recipient.diagnosies = [];
+
+    arr = arr.filter(function(item) {
+      console.log(item, name);
+        return item.name != name
+    })
+
+    for (var i = 0; i < arr.length; i++) {
+      $scope.selectDiagnosis(i);
+      if (i == arr.length - 1) {
+        $scope.order.recipient.diagnosies = arr;
+      }
+    }
+
+
+
+    console.log($scope.order.recipient.diagnosies)
+
+  }
   //
   // $scope.changeOrderDisplay = function(d) {
   //   $('.packageDisplays').css('display','none');
@@ -6453,7 +6453,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     // if ($scope.careItems.length == 0) {
     //   getItems();
     // }
-    // $scope.selectDiagnosis(0);
+    $scope.selectDiagnosis(0);
     // pickCities();
     $scope.changePage('purchase');
   }
