@@ -12,11 +12,16 @@
     <span id="receiverInfoDiagnosiesSpan">
       <p>Diagnosies</p>
       <div class="" id="receiverInfoDiagnosiesDropdownContainer">
-        <select id="receiverInfoDiagnosiesDropdown'+ order.recipient.diagnosies.length-1 +'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[order.recipient.diagnosies.length-1].name" ng-change="selectDiagnosis(order.recipient.diagnosies.length-1)" name="">
+        <select id="receiverInfoDiagnosiesDropdown0" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[0].name" ng-change="selectDiagnosis(0)" name="">
           <option value="" disabled required="required">Add Diagnosis</option>
           <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option>
         </select>
-        <a id="receiverInfoDiagnosiesRemoveAnc' + $scope.order.recipient.diagnosies.length-1 + '" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ''" href="" ng-click="removeDiagnosis($scope.order.recipient.diagnosies.length-1)">X</a>
+        <a id="receiverInfoDiagnosiesRemoveAnc0" ng-if="order.recipient.diagnosies[0].name != ''" href="" ng-click="removeDiagnosis(0)">X</a>
+        <select id="receiverInfoDiagnosiesDropdown1" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[1].name" ng-change="selectDiagnosis(1)" name="">
+          <option value="" disabled required="required">Add Diagnosis</option>
+          <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option>
+        </select>
+        <a id="receiverInfoDiagnosiesRemoveAnc1" ng-if="order.recipient.diagnosies[1].name != ''" href="" ng-click="removeDiagnosis(1)">X</a>
       </div>
     </span>
 
