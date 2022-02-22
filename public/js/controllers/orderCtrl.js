@@ -6448,15 +6448,15 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   //
   //   }
   // }
-  // function start() {
-  // 
-  //   if ($scope.careItems.length == 0) {
-  //     getItems();
-  //   }
-  //   $scope.selectDiagnosis(0);
-  //   pickCities();
-  //   $scope.changePage('purchase');
-  // }
-  // start();
+  function start() {
+
+    // if ($scope.careItems.length == 0) {
+    //   getItems();
+    // }
+    // $scope.selectDiagnosis(0);
+    // pickCities();
+    $scope.changePage('purchase');
+  }
+  start();
 
 }])
