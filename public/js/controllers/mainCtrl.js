@@ -299,7 +299,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       //   backgroundImage: "url('../../images/stripesBackgroundPurple.png')"
       // }
       $("html").css({
-        backgroundImage: "url('../../images/homeBags-min.jpg')"
+        // backgroundImage: "url('../../images/homeBags-min.jpg')"
       })
 
     } else {
@@ -320,7 +320,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       })
 
       $("html").css({
-        backgroundImage: "url('../../images/homeBags-min.jpg')"
+        // backgroundImage: "url('../../images/homeBags-min.jpg')"
       })
     }
 
