@@ -7,7 +7,8 @@
     <h3>Tell us a little about them</h3>
     <span>
       <p>Recipient</p>
-      <input type="text" name="" value="" ng-model="order.recipient.name" required="required">
+      <input id="shippingRecipientInput" type="text" name="" value="" ng-model="order.recipient.name" required="required">
+      <!-- <p class="requireIcons" id="recipientRequireIcon">*</p> -->
     </span>
     <span id="receiverInfoDiagnosiesSpan">
       <p>Diagnosies</p>
@@ -30,14 +31,17 @@
     <div class="checkoutFormDivs" id="shippingInfoCheckoutFormDiv">
       <h3>Shipping Information</h3>
       <span>
-        <input type="text" name="address" value="" placeholder="Address" ng-model="order.shipping.address">
-        <select type="text" name="state" value="" placeholder="State" default="State" ng-model="order.shipping.state" ng-change="selectShippingState()" required="required">
+        <input type="text" id="shippingAddressInput" name="address" value="" placeholder="Address" ng-model="order.shipping.address" required="required">
+        <!-- <p class="requireIcons" id="addressRequireIcon">*</p> -->
+        <select type="text" id="shippingStateDropdown" name="state" value="" placeholder="State" default="State" ng-model="order.shipping.state" ng-change="selectShippingState()" required="required">
           <option value="" disabled selected>State</option>
           <option value="{{s.name}}" ng-repeat="s in states">{{s.code}}</option>
         </select>
+        <!-- <p class="requireIcons" id="stateRequireIcon">*</p> -->
         <select id="shippingCityDropdown" type="text" name="city" value="" placeholder="City" ng-model="order.shipping.city" required="required">
           <option value="" disabled selected>City</option>
         </select>
+        <!-- <p class="requireIcons" id="cityRequireIcon">*</p> -->
         <input type="text" name="apt" value="" placeholder="Apt/Rm #" ng-model="order.shipping.room">
       </span>
 
@@ -49,7 +53,7 @@
     </div>
 
   </div>
-  <div class="packageDisplays" id="receiverItemPackageDisplay">
+  <!-- <div class="packageDisplays" id="receiverItemPackageDisplay">
 
     <div class="careItemCells" ng-if="careItemsToDisplay" ng-repeat="item in careItemsToDisplay">
 
@@ -62,7 +66,7 @@
       <a href="" ng-click="changeOrderDisplay('c')">Continue</a>
     </div>
 
-  </div>
+  </div> -->
 
   <div class="packageDisplays" id="receiverCheckoutPackageDisplay">
 
@@ -74,9 +78,9 @@
       <h3>Billing Information</h3>
 
       <span>
-        <input type="text" name="" value="" placeholder="Email" ng-model="order.billing.email">
-        <input type="text" name="" value="" placeholder="First Name" ng-model="order.billing.fName">
-        <input type="text" name="" value="" placeholder="Last Name" ng-model="order.billing.lName">
+        <input id="billingEmailInput" type="text" name="" value="" placeholder="Email" ng-model="order.billing.email">
+        <input id="billingFNameInput" type="text" name="" value="" placeholder="First Name" ng-model="order.billing.fName">
+        <input id="billingLNameInput" type="text" name="" value="" placeholder="Last Name" ng-model="order.billing.lName">
       </span>
 
 

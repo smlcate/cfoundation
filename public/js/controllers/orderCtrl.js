@@ -6403,53 +6403,96 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
   //
   $scope.changeOrderDisplay = function(d) {
-    $('.packageDisplays').css('display','none');
-    if (d == 'c') {
-      $scope.display ++;
-    } else {
+    console.log($scope.display);
+    if (d == 'b') {
       $scope.display --;
+    } else {
+      $scope.display ++;
     }
     if ($scope.display == 0) {
+      $('.packageDisplays').css('display','none');
       $('#receiverInfoPackageDisplay').css('display','flex');
-    } else if ($scope.display == 1) {
-      $('#receiverCheckoutPackageDisplay').css('display','flex');
-    }
-    else if ($scope.display == 1) {
-     $('#receiverItemPackageDisplay').css('display','flex');
-     buildItemDisplay();
-   } else if ($scope.display == 2) {
-     $('#receiverCardPackageDisplay').css('display','flex');
+
+   } else if ($scope.display == 1) {
+     var alert = '<p class="requireIcons">*</p>';
+     var passes = true;
+     if ($scope.order.recipient.name == '' || $scope.order.recipient.name == null) {
+       passes = false;
+       $(alert).insertAfter('#shippingRecipientInput');
+     }
+     if ($scope.order.shipping.address == '' || $scope.order.shipping.address == null) {
+       passes = false;
+       $(alert).insertAfter('#shippingAddressInput');
+     }
+     if ($scope.order.shipping.state == '' || $scope.order.shipping.state == null) {
+       passes = false;
+       $(alert).insertAfter('#shippingStateDropdown');
+     }
+     if ($scope.order.shipping.city == '' || $scope.order.shipping.city == null) {
+       passes = false;
+       $(alert).insertAfter('#shippingCityDropdown');
+     }
+     if (passes) {
+       console.log('passes');
+       $('.packageDisplays').css('display','none');
+       $('#receiverCheckoutPackageDisplay').css('display','flex');
+     } else {
+       $scope.display --;
+       // $('#receiverInfoPackageDisplay').css('display','flex');
+     }
    }
   }
 
   $scope.confirmOrder = async (e) => {
-    e.preventDefault();
-    const clientSecret = await $http.post('createOrderPaymentIntent', {paymentMethodType:card, currency:'usd'})
-    .then(function(res) {
-      return res.data.clientSecret;
-    });
+    console.log(e);
+    console.log('hit submit');
+    var alert = '<p class="requireBillingIcons">*</p>';
+    var passes = true;
+    if ($scope.order.billing.email == '' || $scope.order.billing.email == null) {
+      console.log('fail here');
+      passes = false;
+      $(alert).insertAfter('#billingEmailInput');
+    }
+    if ($scope.order.billing.fName == '' || $scope.order.billing.fName == null) {
+      console.log('fail here');
+      passes = false;
+      $(alert).insertAfter('#billingFNameInput');
+    }
+    if ($scope.order.billing.lName == '' || $scope.order.billing.lName == null) {
+      console.log('fail here');
+      passes = false;
+      $(alert).insertAfter('#billingLNameInput');
+    }
+    if (passes) {
 
-    const {paymentIntent} = await stripe.confirmCardPayment(
-      clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name: $scope.order.billing.fName + $scope.order.billing.lName,
-            email: $scope.order.billing.email,
-          }
-        }
-      }
-    );
-    if (paymentIntent.status == 'succeeded') {
-      $scope.order.contents = $scope.careItemsToDisplay;
-      $http.post('newOrder',{order:$scope.order})
+      // e.preventDefault();
+      const clientSecret = await $http.post('createOrderPaymentIntent', {paymentMethodType:card, currency:'usd'})
       .then(function(res) {
-        console.log(res);
-      })
-      .catch(function(error) {
-        console.error('Error:', error);
+        return res.data.clientSecret;
       });
 
+      const {paymentIntent} = await stripe.confirmCardPayment(
+        clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              name: $scope.order.billing.fName + $scope.order.billing.lName,
+              email: $scope.order.billing.email,
+            }
+          }
+        }
+      );
+      if (paymentIntent.status == 'succeeded') {
+        $scope.order.contents = $scope.careItemsToDisplay;
+        $http.post('newOrder',{order:$scope.order})
+        .then(function(res) {
+          console.log(res);
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+        });
+
+      }
     }
   }
   function start() {

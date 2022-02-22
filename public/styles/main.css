@@ -264,8 +264,8 @@ margin-bottom: -50px;
   border-radius: 10px;
 }
 .packageDisplays p, h3, a {
-  margin-left: 1em;
-  margin-right: 1em;
+  /* margin-left: 1em;
+  margin-right: 1em; */
 }
 .packageDisplayNavs a {
   width: auto;
@@ -357,6 +357,28 @@ margin-bottom: -50px;
 #shippingInfoCheckoutFormDiv input {
   color: #E7E1FB !important;
 
+}
+.requireIcons {
+  display: none;
+  /* position:absolute; */
+  /* align-self: center; */
+  margin-left: 0px !important;
+  margin-top: 0px !important;
+  margin-right: -.25em !important;
+  color: red;
+  width: .25em !important;
+  /* left: 0; */
+}
+.requireBillingIcons {
+  display: none;
+  position:absolute;
+  /* align-self: center; */
+  margin-left: -.5em !important;
+  margin-top: 0px !important;
+  margin-right: -.25em !important;
+  color: red;
+  width: .25em !important;
+  /* left: 0; */
 }
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #E7E1FB;
@@ -978,6 +1000,7 @@ input[type=number]::-webkit-outer-spin-button {
   align-items: center;
   text-decoration: none;
   color: #C4B0ff;
+  margin: .25em;
 }
 #donationDetailsCarePackAmountSelectDiv span p {
   font-size: 30px;
@@ -1024,6 +1047,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: .05em;
   text-decoration:none;
   padding: .1em;
+  color: #E7E1FB !important;
   /* border-top: 2px solid #C4B0ff; */
   margin-top: 0px;
   position: relative;
@@ -1036,7 +1060,6 @@ input[type=number]::-webkit-outer-spin-button {
   height: 60px;
   width: 60px;
   position:relative;
-  margin-left: -50%;
   opacity: .8;
 }
 .donationBillingCheckboxSpans {
@@ -1101,7 +1124,7 @@ input[type=number]::-webkit-outer-spin-button {
 #donationBillingDiv {
   /* padding: 20px; */
   justify-content: flex-start;
-  min-height: 70vh;
+  /* min-height: 70vh; */
 }
 #donationBillingDiv input {
   margin-bottom: 2px;
@@ -1465,6 +1488,7 @@ footer {
       filter: drop-shadow(0px 2px 2px #222);
       fill: yellow;
       height: 4.28em;
+      margin-right: 2em;
     }
     /* #collapsedHeaderNav img {
       fill: purple;
@@ -1476,17 +1500,19 @@ footer {
       color: #ffff63;
       background: rgba(196, 176, 255, 0.8);
       font-size: 1.5em;
-      text-shadow: 1px 1px #222;
+      padding-left: .25em;
+
+      /* text-shadow: 1px 1px #222; */
       /* padding-left: .25em;
       padding-right: .25em; */
     }
     #headerCollapsedDropdown {
       background: none;
-      right: 1.5em
+      right: .4em
     }
     #collapsedHeaderNav #userSettingsNav {
       display:flex;
-      flex-direction: column
+      flex-direction: column;
     }
     #headerCollapsedDropdown {
       width: auto;
@@ -1503,6 +1529,7 @@ footer {
     }
     #headerCollapsedDropdown a {
       width: 100%;
+
       /* padding-left: 10px; */
       /* font-size:120%; */
       /* padding-left: 10px; */
@@ -1603,28 +1630,32 @@ footer {
       height: 15em;
       width: 100vw;
       border-radius: 0;
+      justify-content: space-between;
     }
     #testimonialImg {
       display: none;
     }
     #welcomeTestimonialViewport {
       height: 12em;
-      margin: 10px;
+      /* margin: 10px; */
+      /* width: 100% !important; */
+
     }
     #testimonialIndexNav a img{
       height: 1em;
       width: 1em;
+      margin: 0px !important;
     }
     #welcomeTestimonialDiv img {
-      height: 20px;
-      width: 20px;
+      /* height: 20px;
+      width: 20px; */
     }
     #welcomeTestimonialDiv .navArrows img {
       display: flex;
       justify-content:center;
       align-items:center;
       height: 10em;
-      width: 2em;
+      width: 1.5em;
     }
     #lowerInfoDiv {
       width: 15em;
@@ -1639,7 +1670,7 @@ footer {
       border-radius: 7em;
     }
     .infoDivs {
-      width: 100vw;
+      width: 100vw !important;
     }
     .infoDivHeaders {
       display: flex;
@@ -1648,6 +1679,23 @@ footer {
     }
     .infoDivHeaders h2 {
       margin: 0px;
+    }
+    #welcomeInfoDiv a {
+      width: 100%;
+    }
+    .navArrows {
+      width: 1em;
+    }
+    #leftTestimonialNavArrow {
+      margin-left: 0px !important;
+      /* width: 2em; */
+      display: flex;
+      align-items: flex-start !important;
+    }
+    #rightTestimonialNavArrow {
+      margin-right: 0px !important;
+      /* width: 1em; */
+
     }
     #quickShopInfoDivAncContainer {
       flex-direction: column;
@@ -1660,6 +1708,9 @@ footer {
     }
     #receiverInfoPackageDisplay {
 
+    }
+    #receiverInfoPackageDisplay h3 {
+      width: 100%;
     }
     #receiverInfoPackageDisplay h4 {
       height: auto;
@@ -1706,7 +1757,7 @@ footer {
     }
     #receiverInfoPackageDisplay span {
       padding-left: 0px;
-      width: 80vw;
+      /* width: 80vw; */
       align-items: flex-start;
       flex-direction: column;
       height: auto;
@@ -1718,7 +1769,7 @@ footer {
     } */
     #receiverInfoDiagnosiesDropdownContainer {
       /* font-size:1em; */
-      height: 3em;
+      /* height: 3em; */
     }
     #receiverInfoDiagnosiesDropdownContainer select option {
       font-size: .5em;
@@ -1736,7 +1787,7 @@ footer {
     #shippingInfoCheckoutFormDiv span {
       /* margin-top:1.5em; */
       height: auto;
-      width: 80vw;
+      /* width: 80vw; */
       display: flex;
       flex-direction: column;
     }
@@ -1745,6 +1796,15 @@ footer {
       height: 1.5em;
       font-size: 1em;
       margin-bottom: .25em;
+      /* display: flex;
+      flex-direction: row; */
+    }
+    .requireIcons {
+      display: none;
+      /* position:absolute; */
+      /* align-self: center; */
+      color: red;
+      right: 0;
     }
     #receiverCheckoutPackageDisplay {
 
