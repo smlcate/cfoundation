@@ -6217,7 +6217,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.order = {
     recipient: {
       name:'',
-      diagnosies:[]
+      diagnosies:['']
     },
     contents:[],
     card_message:'',
@@ -6350,45 +6350,49 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   // }
   //
   $scope.selectDiagnosis = function(i) {
-
-    if (i == $scope.order.recipient.diagnosies.length - 1 || $scope.order.recipient.diagnosies.length == 0) {
-      $scope.order.recipient.diagnosies.push({
-        name:''
-      })
-      console.log($scope.order.recipient.diagnosies);
-      var html = '<select id="receiverInfoDiagnosiesDropdown'+($scope.order.recipient.diagnosies.length-1)+'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option></select><a id="receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)+'" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
+    console.log(i);
+    if ($scope.order.recipient.diagnosies[i] != '' && $scope.order.recipient.diagnosies[i] != null && $scope.order.recipient.diagnosies.length - 1 == i) {
+      // var html = '<select id="receiverInfoDiagnosiesDropdown'+($scope.order.recipient.diagnosies.length-1)+'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option></select><a id="receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)+'" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
 
       // $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
 
       // angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
 
+      $scope.order.recipient.diagnosies.push('');
+    } else if($scope.order.recipient.diagnosies.length != 1) {
+
     }
+    console.log($scope.order.recipient.diagnosies);
 
   }
   //
   $scope.removeDiagnosis = function(i) {
 
-    var name = $scope.order.recipient.diagnosies[i].name;
+    var name = i;
     console.log(name);
     var arr = $scope.order.recipient.diagnosies;
     console.log(i);
 
-    $('#receiverInfoDiagnosiesDropdown'+(i)).remove();
-    $('#receiverInfoDiagnosiesRemoveAnc'+(i)).remove();
-    $('#receiverInfoDiagnosiesRemoveAnc'+(i+1)).remove();
+    // $('#receiverInfoDiagnosiesDropdownCell'+(i)).remove();
+    // $('#receiverInfoDiagnosiesRemoveAnc'+(i)).remove();
+    // $('#receiverInfoDiagnosiesRemoveAnc'+(i+1)).remove();
 
-    $('#receiverInfoDiagnosiesDropdownContainer').empty();
+    // $('#receiverInfoDiagnosiesDropdownContainer').empty();
     $scope.order.recipient.diagnosies = [];
 
     arr = arr.filter(function(item) {
       console.log(item, name);
-        return item.name != name
+        return item != name
     })
 
     for (var i = 0; i < arr.length; i++) {
-      $scope.selectDiagnosis(i);
+      // $scope.selectDiagnosis(i);
       if (i == arr.length - 1) {
         $scope.order.recipient.diagnosies = arr;
+        if($scope.order.recipient.diagnosies.length == 0) {
+          console.log('hit here');
+          $scope.order.recipient.diagnosies.push('');
+        }
       }
     }
 
@@ -6453,7 +6457,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     // if ($scope.careItems.length == 0) {
     //   getItems();
     // }
-    $scope.selectDiagnosis(0);
+    // $scope.selectDiagnosis(0);
     // pickCities();
     $scope.changePage('purchase');
   }

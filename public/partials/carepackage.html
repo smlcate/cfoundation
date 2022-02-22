@@ -12,16 +12,18 @@
     <span id="receiverInfoDiagnosiesSpan">
       <p>Diagnosies</p>
       <div class="" id="receiverInfoDiagnosiesDropdownContainer">
-        <select id="receiverInfoDiagnosiesDropdown0" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[0].name" ng-change="selectDiagnosis(0)" name="">
+        <div ng-if="order.recipient.diagnosies[$index-1] != ''" id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in order.recipient.diagnosies track by $index">
+          <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[$index]" ng-change="selectDiagnosis($index)" name="">
+            <option value="" disabled required="required">Add Diagnosis</option>
+            <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+          </select>
+          <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a>
+        </div>
+        <!-- <select id="receiverInfoDiagnosiesDropdown1" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[1].name" ng-change="selectDiagnosis(1)" name="">
           <option value="" disabled required="required">Add Diagnosis</option>
           <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option>
         </select>
-        <a id="receiverInfoDiagnosiesRemoveAnc0" ng-if="order.recipient.diagnosies[0].name != ''" href="" ng-click="removeDiagnosis(0)">X</a>
-        <select id="receiverInfoDiagnosiesDropdown1" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[1].name" ng-change="selectDiagnosis(1)" name="">
-          <option value="" disabled required="required">Add Diagnosis</option>
-          <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option>
-        </select>
-        <a id="receiverInfoDiagnosiesRemoveAnc1" ng-if="order.recipient.diagnosies[1].name != ''" href="" ng-click="removeDiagnosis(1)">X</a>
+        <a id="receiverInfoDiagnosiesRemoveAnc1" ng-if="order.recipient.diagnosies[1].name != ''" href="" ng-click="removeDiagnosis(1)">X</a> -->
       </div>
     </span>
 
