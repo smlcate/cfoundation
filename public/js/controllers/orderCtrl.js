@@ -6224,7 +6224,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     shipping: {
       address:'',
       city:'',
-      state:'Indiana',
+      state:'',
       room:''
     },
     billing: {
@@ -6238,7 +6238,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.display = 0;
   //
   function pickCities() {
-    $scope.citiesTo = [];
+    $scope.citiesToShow = [];
 
     for (var k = 0; k < cities.length; k++) {
       if (cities[k].state == $scope.order.shipping.state){
@@ -6400,6 +6400,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
       }
     }
+  }
+  $scope.selectShippingState = function() {
+    pickCities();
   }
   function start() {
 
