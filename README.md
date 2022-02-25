@@ -1,4 +1,6 @@
-# cfoundation
-! One Care package on start, Allow future expansion of store.
-! If some random pops on this repo, just know I am a lone dev so no, I am not too worried about CI or readability. I will clean this up once we are launched.
-!If you're just wanting coding examples, this website will show some decent yet sloppy implementations with Node.js, angular.js, express, knex (psql). Hope you manage to learn something!
+### Yellow Bag of Humanity
+
+- Hello to our repository, feel free to look around!;
+- If you are here looking at my work, dont judge the cleanliness of the code too much. I am the only developer we have and I will clean up as we move forward;
+
+### yellowbagofhumanity.com
