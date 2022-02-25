@@ -11,7 +11,6 @@ app.controller('resetPasswordCtrl', ['$scope', '$http', '$window', '$compile', f
     if ($scope.auth.password == $scope.auth.confirmPassword) {
       $http.post('resetPassword', {auth: $scope.auth})
       .then(function(res) {
-        console.log(res);
         window.location.href = '/#!/signin';
         $window.location.reload();
       })
@@ -35,7 +34,6 @@ app.controller('resetPasswordCtrl', ['$scope', '$http', '$window', '$compile', f
       } else if (res.data.status = 'error') {
 
       }
-      console.log(res);
     })
     .catch(function(err) {
       console.log(err);

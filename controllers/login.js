@@ -16,7 +16,6 @@ var stripe = require('stripe')(process.env.STRIPE_KEY)
 const JWT_SECRET = "Some password here...";
 
 exports.verifyPasswordReset = function(req, res, next) {
-  console.log(req.body);
 
   const {id, token} = req.body.user;
 
@@ -42,49 +41,20 @@ exports.requestPasswordReset = function(req, res, next) {
   .select('*')
   .where({email: req.body.email},0)
   .then(function(data) {
-    console.log(data);
     if (data.length > 0) {
+
       const secret = JWT_SECRET + data[0].password;
+
       const payload = {
         email: data[0].email,
         id: data[0].id,
       }
+
       const token = jwt.sign(payload, secret, {expiresIn:'15m'});
-      const link = `http://localhost:8080/#!/resetPassword/${data[0].id}/${token}`
-      console.log(link);
+      const link = `http://localhost:8080/#!/resetPassword/${data[0].id}/${token}`;
 
       res.send({status:'Password reset link has been sent',link:link});
-      // let testAccount = await nodemailer.createTestAccount();
 
-      // create reusable transporter object using the default SMTP transport
-      // async function main() {
-      //   let transporter = nodemailer.createTransport({
-      //     host: "mx1.forwardemail.net",
-      //     port: 465,
-      //     secure: true, // true for 465, false for other ports
-      //     auth: {
-      //       user: process.env.USER, // generated ethereal user
-      //       pass: process.env.PASS, // generated ethereal password
-      //     },
-      //   });
-
-        // send mail with defined transport object
-        // let info = await transporter.sendMail({
-        //   from: '"Yellow Bag of Humanity" <contact@yellowbagofhumanity.com>', // sender address
-        //   to: data[0].email, // list of receivers
-        //   subject: "Password Reset Link", // Subject line
-        //   text: "Here is your secured link to reset your Yellow Bag of Humanity account password", // plain text body
-        //   html: "<a href="+link+">link</a>", // html body
-        // });
-        //
-        // console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-        // Preview only available when sending through an Ethereal account
-        // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-      // }
-      // main().catch(console.error);
     } else {
       res.send("Email isn't registered");
     }
@@ -95,16 +65,16 @@ exports.requestPasswordReset = function(req, res, next) {
   })
 }
 exports.resetPassword = function(req, res, next) {
+
   var auth = req.body.auth
   var saltRounds = 10;
   var plainTextPassword = auth.password;
-  console.log(saltRounds, plainTextPassword);
+
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(plainTextPassword, salt, function(err, hash) {
       // Store hash in your password DB.
-      console.log(auth);
       var hashed_passcode = hash;
-      console.log(hash);
+
       knex('users')
       .where({email:auth.email})
       .select('*')
@@ -182,24 +152,25 @@ exports.signUp = function(req, res, next) {
 
     });
   });
-
-
-
-
 }
 
 exports.signIn = function(req, res, next) {
   var auth = req.body.auth;
   var login;
+
   knex('users')
   .select('*')
   .where({email:auth.email})
   .then(function(data) {
+
     if (data.length == 0) {
-      res.send({success:false, message:'Account does not exist'})
+
+      res.send({success:false, message:'Account does not exist'});
+
     } else {
 
       bcrypt.compare(auth.password, data[0].hashed_passcode, function(err, acc) {
+
         if (err) {
           console.log(err);
           res.send(err);
@@ -212,12 +183,14 @@ exports.signIn = function(req, res, next) {
               permission:JSON.parse(data[0].user_data).permission,
               donations:JSON.parse(data[0].user_data).donations,
               id:data[0].id
-            }
-            console.log(user);
-            res.send(user)
+            };
+
+            res.send(user);
 
           } else {
-            res.send(acc)
+
+            res.send(acc);
+
           }
         } else {
           // response is OutgoingMessage object that server response http request
