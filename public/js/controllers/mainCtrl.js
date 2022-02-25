@@ -24,7 +24,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
 
   ];
 
-  // console.log(cities.map);
 
   $scope.testimonialIndex = 0;
 
@@ -75,23 +74,18 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
         bag.classList.add("ribbonIcons");
         $(bag).attr("src",selectedRibbon);
       }
-      // bag.style.content = "../../icons.bag1.svg";
-      // bag.style.fill = colors[Math.floor(Math.random() * colors.length)];
+
       bag.style.left = `${Math.floor(Math.random() * 60)+15}vw`;
       bag.style.top = `${Math.floor(Math.random() * 2)+0.5}vh`;
       bag.style.transform = `scale(${Math.random()})`;
       bag.style.width = `${Math.random()+0.3}em`;
       bag.style.height = bag.style.width;
-      // console.log(bag.style);
       bags.push(bag);
       $('header').prepend(bag);
-      // document.body.append(bag);
 
     }
       // Keyframes
     bags.forEach((el, i, ra) => {
-      // $(el).attr("fill",colors[Math.floor(Math.random() * colors.length)]);
-      // console.log(el.style);
       let to = {
         x: Math.random() * (i % 2 === 0 ? -7 : 7),
         y: Math.random() * 3
@@ -133,22 +127,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     }
   }
 
-  // function buildFilterNav() {
-  //   for (var j = 0; j < $scope.ribbons.length; j++) {
-  //   for (var i = 0; i < $scope.filterTags.length; i++) {
-  //
-  //       if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-  //
-  //       }
-  //
-  //       if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
-  //         ribbon = $scope.ribbons[j].ribbonData;
-  //         $scope.ribbonsToShow.push(ribbon);
-  //       }
-  //     }
-  //   }
-  // }
-
   function getTestimonials() {
     $http.get('getTestimonials')
     .then(function(res) {
@@ -157,9 +135,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
           res.data[i].testimonial_data = JSON.parse(res.data[i].testimonial_data);
           $scope.testimonials = res.data;
         }
-        console.log('hit')
       }
-      console.log(res);
       buildTestimonials();
     })
   }
@@ -171,7 +147,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       ts[i].index = i;
     }
     $scope.testimonials = ts;
-    console.log($scope.testimonials);
+
   }
 
   function changeTestimonial(c) {
@@ -226,7 +202,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
         }
         if (i == res.data.length-1) {
           buildItemDisplay('all');
-          // buildFilterNav();
         }
 
       }
@@ -266,28 +241,11 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
 
     $('#headerNav a').css('background','none');
     $('.pageNavAncs').css('color','#ffff63');
-    // $('.accountNavAncs').css('background','none');
     $('.accountNavAncs').css('color','#C4B0FF');
-
-    // $('#headerCollapsedDropdown a').css('background','rgba(196, 176, 255, 0.8)','color','#ffff63');
-    // $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)','color','#C4B0FF');
-
-
-    // $('#collapsedHeaderNav a').css('background','#ffff63');
-    // $('.pageNavDropdownAncs').css('color','#C4B0FF');
-    // $('.accountNavAncs').css('background','none');
-    // $('.accountNavDropdownAncs').css('color','#ffff63');
 
     if (account) {
 
       $('#'+p+'Anc').css('background','#C4B0FF');
-      // $('#'+p+'DropdownAnc').css('background','#ffff63');
-      // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
-
-      // $('#'+p+'DropdownAnc').css('background','rgba(196, 176, 255, 0.8)');
-
-
-      // $('#'+p+'Anc').css('color','#ffff63');
 
       $('#'+p+'Anc').animate({
         color: '#ffff63',
@@ -295,22 +253,13 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       $("header").animate({
         borderColor: '#C4B0FF',
       })
-      // $("html").animate({
-      //   backgroundImage: "url('../../images/stripesBackgroundPurple.png')"
-      // }
       $("html").css({
         backgroundImage: "url('../../images/homeBags-min.jpg')"
       })
 
     } else {
-      console.log('#'+p+'Anc');
-      console.log('#'+p+'DropdownAnc');
-      $('#'+p+'Anc').css('background','#ffff63');
-      // $('#'+p+'DropdownAnc').css('background','#ffff63');
-      // $('#'+p+'DropdownAnc').css('color','#C4B0FF');
-      // $('#'+p+'Anc').css('color','#C4B0FF');
-      // $('#headerCollapsedDropdown a').css('background','rgba(255, 255, 99, 0.95)');
 
+      $('#'+p+'Anc').css('background','#ffff63');
 
       $('#'+p+'Anc').animate({
         color: '#C4B0FF',
@@ -337,35 +286,25 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   }
 
   $scope.toggleCollapsedNav = function() {
-    console.log('hit');
     if ($scope.collapsedToggle == true) {
       $scope.collapsedToggle = false;
-      // $('#toggleCollapsedNavBtn img').css('background','#C4B0FF');
-      // $('#toggleCollapsedNavBtn img').css('fill','#ffff63');
     } else {
       $scope.collapsedToggle = true;
-      // $('#toggleCollapsedNavBtn img').css('background','none');
-      // $('#toggleCollapsedNavBtn img').css('fill','#C4B0FF');
-
     }
   }
 
   function start() {
 
     var path = $location.path();
-    console.log(path);
     if (path.length > 1) {
-      console.log('hit split');
       path = path.split('/')[1];
 
     }
-    console.log(path);
     if (path == '') {
       path = '/';
     }
     if (path) {
       if (path == '' || path == '/') {
-        console.log('hit here');
         $scope.changePage('home', false);
       } else if (path[0] == 's') {
         $scope.changePage(path, true);
@@ -378,10 +317,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     getItems();
     getRibbons();
     checkSignIn();
-    // $('#bagsvg').load(function () {
-    // });
-
-    console.log($scope.user);
 
   }
 

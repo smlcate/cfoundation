@@ -38,7 +38,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   $scope.requestPasswordReset = function() {
     $http.post('requestPasswordReset', {email:$scope.recovery.email})
     .then(function(res) {
-      console.log(res.data);
       if (res.data == "Email isn't registered") {
         $scope.recovery.exists = false;
       } else {
@@ -49,7 +48,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         }
         emailjs.send('service_v3v8m39','template_d9f448g', tempParams)
         .then(function(res) {
-          console.log('success', res.status);
           $('#forgotPasswordConfirmationDisplay').css('display','flex');
           $('#forgotPasswordFormDisplay').css('display','none');
         })
@@ -101,14 +99,12 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
       if (pass === true) {
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
-          // console.log(res.data);
           $scope.user = res.data.user_data;
           $scope.user.email = res.data.email;
           $scope.user.donations = [];
           // $scope.user.permission = res.data.permission;
           // $scope.user.donations = res.data.donations;
           $scope.signedIn = true;
-          // console.log('USER' + $scope.user);
           sessionStorage.setItem('user',JSON.stringify($scope.user));
           $('#signInUpHeaderInfoCell').css('display','none')
           window.location.href = '#!/welcomePage';
@@ -126,8 +122,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
     $http.post('signIn', {auth:$scope.auth})
     .then(function(res) {
-      // console.log(res);
-      // console.log(res.data);
       if (res.data.success == false) {
 
         $scope.signIn.error = res.data.message;
@@ -141,7 +135,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
         // $scope.user.permission = res.data.permission;
         // $scope.user.donations = res.data.donations;
         $scope.signedIn = true;
-        // console.log('USER' + $scope.user);
         sessionStorage.setItem('user',JSON.stringify($scope.user));
         $('#signInUpHeaderInfoCell').css('display','none')
 
@@ -156,13 +149,11 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   }
 
   $scope.adjustRecurringDonation = function(donation) {
-    console.log(donation);
     $scope.donationAdjustment = {
       newTotal: donation.reg.donation_data.invoice.total,
       adjusting: true,
       donation: donation
     }
-    console.log($scope.donationAdjustment);
   }
 
   $scope.cancelRecPledgeAdjustment = function() {
@@ -170,10 +161,9 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   }
 
   $scope.endRecPledge = function() {
-    console.log($scope.donationAdjustment);
     $http.post('endRecPledge', {donation:$scope.donationAdjustment.donation})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -183,7 +173,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   $scope.updateRecPledge = function() {
     $http.post('updateRecPledge', $scope.donationAdjustment)
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
@@ -205,12 +195,10 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     if ($scope.user != null && $scope.user.email) {
       $http.post('getUsersDonations',$scope.user)
       .then(function(res) {
-        console.log(res.data);
-        // var hello = 'hello';
+        // console.log(res.data);
         for (var i = 0; i < res.data.length; i++) {
 
           res.data[i].reg.donation_data = JSON.parse(res.data[i].reg.donation_data);
-          console.log(i);
           if (res.data[i].reg.donation_data.invoice && res.data[i].reg.donation_data.invoice.recurring == true) {
 
             var donor;
@@ -227,7 +215,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
               ]
               creationDate[2] = JSON.stringify(creationDate[2]);
               creationDate[2] = creationDate[2].slice(1);
-              console.log(creationDate);
 
               res.data[i].reg.donation_data.invoice.pretty_creation_date = monthNames[creationDate[0]] + " " + creationDate[1] + ", " + "20" + creationDate[2];
 
@@ -247,29 +234,24 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
                 creationDate[1],
                 dateToCheck[2]
               ]
-              // console.log(nextChargeDate);
               if (dateToCheck[0] == creationDate[0] && dateToCheck[1] == creationDate[1] && dateToCheck[2] == creationDate[2]) {
                 nextChargeDate[0]++;
               } else
               //check if date is past charge date (already charged this month)
               if (dateToCheck[1] > creationDate[1] && dateToCheck[0] == 11) {
-                console.log('hit');
                 nextChargeDate[0] = 0;
                 Number(nextChargeDate[2])++;
               }
               if (dateToCheck[1] > creationDate[1]) {
-                console.log('hit 2');
                 nextChargeDate[0] = dateToCheck[0] + 1;
                 if (nextChargeDate[0] > 11) {
                   nextChargeDate[0] = 0;
                 }
               }
               if (monthDays[nextChargeDate[0]] < creationDate[1]) {
-                console.log('hit 3');
                 nextChargeDate[1] = monthDays[nextChargeDate[0]];
               }
 
-              console.log(nextChargeDate);
               res.data[i].reg.donation_data.invoice.pretty_next_charge_date = monthNames[nextChargeDate[0]] + " " + nextChargeDate[1] + ", " + "20" + nextChargeDate[2];
             } else {
               donor = res.data[i].reg.donation_data;
@@ -299,8 +281,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
             $scope.userDonations.push(res.data[i]);
           }
         }
-        console.log($scope.userDonations);
-        console.log($scope.usersRecDonations);
       })
       .catch(function(err) {
         console.log(err);

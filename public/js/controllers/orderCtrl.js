@@ -6237,7 +6237,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.display = 0;
   //
   function pickCities() {
-    console.log('hit cities');
     $scope.citiesTo = [];
 
     for (var k = 0; k < cities.length; k++) {
@@ -6262,148 +6261,47 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   function sendOrder() {
     $http.post('newOrder', {order:JSON.stringify($scope.order)})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
     })
   }
-  //
-  // function buildFilterNav() {
-  //   for (var j = 0; j < $scope.ribbons.length; j++) {
-  //   for (var i = 0; i < $scope.filterTags.length; i++) {
-  //
-  //       if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-  //       }
-  //
-  //       if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
-  //         ribbon = $scope.ribbons[j].ribbonData;
-  //         $scope.ribbonsToShow.push(ribbon);
-  //         buildDisplays();
-  //
-  //       }
-  //     }
-  //   }
-  // }
-  //
-  // function getItems() {
-  //   $http.get('getItems')
-  //   .then(function(res) {
-  //     $scope.careItems = [];
-  //     for (var i = 0; i < res.data.length; i++) {
-  //       var data = JSON.parse(res.data[i].itemData)
-  //       $scope.careItems.push(data);
-  //       $scope.careItems[i].id = res.data[i].id;
-  //       if (data.tags.split(',')[0] != 'all') {
-  //         tags = data.tags.split(',');
-  //         if ($scope.filterTags.length > 0) {
-  //           for (var k = 0; k < tags.length; k++) {
-  //             var exists = false;
-  //             for (var j = 0; j < $scope.filterTags.length; j++) {
-  //
-  //               if ($scope.filterTags[j] == tags[k][0].toLowerCase() + tags[k].slice(1)) {
-  //                 exists == true;
-  //                 j = $scope.filterTags.length;
-  //               } else if(j == $scope.filterTags.length-1 && exists == false) {
-  //                 $scope.filterTags.push(tags[k]);
-  //               }
-  //
-  //             }
-  //           }
-  //         } else {
-  //           $scope.filterTags = data.tags.split(',');
-  //         }
-  //
-  //       }
-  //       if (i == res.data.length-1) {
-  //         buildFilterNav();
-  //       }
-  //
-  //     }
-  //   })
-  // }
-  //
-  //
-  // function buildItemDisplay() {
-  //   $scope.careItemsToDisplay = [];
-  //   for (var i = 0; i < $scope.careItems.length; i++) {
-  //     var tags = $scope.careItems[i].tags.split(',');
-  //     if (tags[0] == 'all') {
-  //       $scope.careItemsToDisplay.push($scope.careItems[i])
-  //     } else {
-  //       for (var j = 0; j < tags.length; j++) {
-  //         for (var k = 0; k < $scope.order.recipient.diagnosies.length; k++) {
-  //           if (tags[j] == $scope.order.recipient.diagnosies[k].name[0].toLowerCase()+$scope.order.recipient.diagnosies[k].name.slice(1)) {
-  //             $scope.careItemsToDisplay.push($scope.careItems[i])
-  //           }
-  //         }
-  //       }
-  //
-  //     }
-  //   }
-  // }
-  //
-  //
-  //
-  // $scope.selectShippingState = function() {
-  //   pickCities();
-  // }
-  //
+
   $scope.selectDiagnosis = function(i) {
-    console.log(i);
     if ($scope.order.recipient.diagnosies[i] != '' && $scope.order.recipient.diagnosies[i] != null && $scope.order.recipient.diagnosies.length - 1 == i) {
-      // var html = '<select id="receiverInfoDiagnosiesDropdown'+($scope.order.recipient.diagnosies.length-1)+'" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name" ng-change="selectDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')" name=""><option value="" disabled required="required">Add Diagnosis</option><option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option></select><a id="receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)+'" ng-if="order.recipient.diagnosies['+($scope.order.recipient.diagnosies.length-1)+'].name != ' + `''` + '" href="" ng-click="removeDiagnosis('+($scope.order.recipient.diagnosies.length-1)+')">X</a>'
-
-      // $('#receiverInfoDiagnosiesRemoveAnc'+($scope.order.recipient.diagnosies.length-1)).remove();
-
-      // angular.element($('#receiverInfoDiagnosiesDropdownContainer')).append($compile(html)($scope));
 
       $scope.order.recipient.diagnosies.push('');
     } else if($scope.order.recipient.diagnosies.length != 1) {
 
     }
-    console.log($scope.order.recipient.diagnosies);
 
   }
   //
   $scope.removeDiagnosis = function(i) {
 
     var name = i;
-    console.log(name);
     var arr = $scope.order.recipient.diagnosies;
-    console.log(i);
 
-    // $('#receiverInfoDiagnosiesDropdownCell'+(i)).remove();
-    // $('#receiverInfoDiagnosiesRemoveAnc'+(i)).remove();
-    // $('#receiverInfoDiagnosiesRemoveAnc'+(i+1)).remove();
-
-    // $('#receiverInfoDiagnosiesDropdownContainer').empty();
     $scope.order.recipient.diagnosies = [];
 
     arr = arr.filter(function(item) {
-      console.log(item, name);
         return item != name
     })
 
     for (var i = 0; i < arr.length; i++) {
-      // $scope.selectDiagnosis(i);
       if (i == arr.length - 1) {
         $scope.order.recipient.diagnosies = arr;
         if($scope.order.recipient.diagnosies.length == 0) {
-          console.log('hit here');
           $scope.order.recipient.diagnosies.push('');
         }
       }
     }
 
 
-
-    console.log($scope.order.recipient.diagnosies)
-
   }
   //
   $scope.changeOrderDisplay = function(d) {
-    console.log($scope.display);
     if (d == 'b') {
       $scope.display --;
     } else {
@@ -6433,33 +6331,26 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
        $(alert).insertAfter('#shippingCityDropdown');
      }
      if (passes) {
-       console.log('passes');
        $('.packageDisplays').css('display','none');
        $('#receiverCheckoutPackageDisplay').css('display','flex');
      } else {
        $scope.display --;
-       // $('#receiverInfoPackageDisplay').css('display','flex');
      }
    }
   }
 
   $scope.confirmOrder = async (e) => {
-    console.log(e);
-    console.log('hit submit');
     var alert = '<p class="requireBillingIcons">*</p>';
     var passes = true;
     if ($scope.order.billing.email == '' || $scope.order.billing.email == null) {
-      console.log('fail here');
       passes = false;
       $(alert).insertAfter('#billingEmailInput');
     }
     if ($scope.order.billing.fName == '' || $scope.order.billing.fName == null) {
-      console.log('fail here');
       passes = false;
       $(alert).insertAfter('#billingFNameInput');
     }
     if ($scope.order.billing.lName == '' || $scope.order.billing.lName == null) {
-      console.log('fail here');
       passes = false;
       $(alert).insertAfter('#billingLNameInput');
     }
@@ -6486,7 +6377,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         $scope.order.contents = $scope.careItemsToDisplay;
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
-          console.log(res);
+          // console.log(res);
+          window.location.href = '/#!/thankyou';
+          $window.location.reload();
         })
         .catch(function(error) {
           console.error('Error:', error);

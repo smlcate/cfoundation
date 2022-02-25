@@ -287,13 +287,13 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                           }
                           emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
                           .then(function(res) {
-                            window.location.href = '/#!/';
+                            window.location.href = '/#!/thankyou';
                             $window.location.reload();
 
                           })
                           .catch(function(err) {
                             console.log(err);
-                            window.location.href = '/#!/';
+                            window.location.href = '/#!/thankyou';
                             $window.location.reload();
                           })
                         })
@@ -318,7 +318,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
             $http.post('makeDonation', {donation:donation})
             .then(function(res) {
-              console.log(res);
+              // console.log(res);
               var tempParams = {
                 to_name: donation.fullName,
                 to_email: donation.email,
@@ -326,13 +326,13 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
               }
               emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
               .then(function(res) {
-                window.location.href = '/#!/';
+                window.location.href = '/#!/thankyou';
                 $window.location.reload();
 
               })
               .catch(function(err) {
                 console.log(err);
-                window.location.href = '/#!/';
+                window.location.href = '/#!/thankyou';
                 $window.location.reload();
               })
 
@@ -364,7 +364,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     if (window.innerWidth <= 1000) {
       card.update({style: {base: {fontSize: '60px', width: '100%'}}});
     } else {
-      console.log('hit');
       card.update({style: {base: {fontSize: '15px', width: '100%'}}});
     }
   });
@@ -374,14 +373,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
     $scope.changePage('donate');
     $scope.selectDonationType();
     $scope.selectBillingType('credit');
-    // getItems();
     $scope.selectCarePackAmounts(1);
     buildDonationPage();
-    console.log(window.innerWidth);
     if (window.innerWidth <= 1000) {
       card.update({style: {base: {fontSize: '60px', width: '100%'}}});
     } else {
-      console.log('hit');
       card.update({style: {base: {fontSize: '30px'}}});
     }
   }

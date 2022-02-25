@@ -28,7 +28,6 @@ function checkRecurringDonors() {
       var chargeUser = false;
       var donor = JSON.parse(data[i].recurring_donor_data);
       var donorStartDate = new Date(donor.billingTimestamp);
-      console.log(donor);
       var creationDate = [
       donorStartDate.getMonth(),
       donorStartDate.getDate(),
@@ -38,7 +37,6 @@ function checkRecurringDonors() {
       if (creationDate[1] > monthDays[dateToCheck[0]]) {
         creationDate[1] = monthDays[dateToCheck[0]];
       }
-      console.log(creationDate[1],monthDays[dateToCheck[0]]);
       if (dateToCheck[2] == creationDate[2] && dateToCheck[1] == creationDate[1] && dateToCheck[0] == creationDate[0]) {
 
         chargeUser = false;
@@ -59,7 +57,6 @@ function checkRecurringDonors() {
           chargeUser = true;
         }
       }
-      console.log(creationDate);
       if (chargeUser) {
 
         stripe.charges.create({
@@ -74,20 +71,15 @@ function checkRecurringDonors() {
             console.log(err);
 
           } else if(charge) {
-            console.log(data.length);
             if (i < data.length) {
               knex('donations')
               .insert({donation_data:JSON.stringify({invoice:donor.invoice,customer:donor.customer})},'id')
               .then(function(data) {
-                console.log(data);
                 var donationId = data[0];
-                console.log(donor);
                 knex('users')
                 .where({email:donor.customer.email})
                 .select('*')
                 .then(function(user) {
-                  // console.log(user.email);
-                  console.log(user);
                   userData = JSON.parse(user[0].user_data);
                   if (userData.donations) {
                     userData.donations.push(donationId);
@@ -144,7 +136,6 @@ function recurringChargeTimer(hr) {
 
   // calc time remaining until the next 4pm
    // get current time
-   console.log('Timer started');
    var now = new Date();
 
    // create time at the desired hr
@@ -191,8 +182,6 @@ function addRecurringDonor(donation, user, res, donationId) {
       knex('recurring_doners')
       .insert({recurring_donor_data:JSON.stringify(invoice)},'id')
       .then(function(recDonId) {
-        // res.send(customer);
-        console.log(user);
         userData = JSON.parse(user[0].user_data);
         if (userData.donations) {
           userData.donations.push([donationId,recDonId]);
@@ -241,15 +230,12 @@ exports.makeDonation = async function(req, res, next) {
   knex('donations')
   .insert({donation_data:JSON.stringify(req.body.donation)},'id')
   .then(function(data) {
-    console.log(data);
     var donationId = data[0];
     if (req.body.donation.invoice.recurring == true) {
       knex('users')
       .where({email:req.body.donation.email})
       .select('*')
       .then(function(user) {
-        // console.log(user.email);
-
         addRecurringDonor(req.body.donation, user, res, donationId);
       })
     } else {
@@ -257,8 +243,6 @@ exports.makeDonation = async function(req, res, next) {
       .where({email:req.body.donation.email})
       .select('*')
       .then(function(user) {
-        // console.log(user.email);
-        console.log(user);
         userData = JSON.parse(user[0].user_data);
         if (userData.donations) {
           userData.donations.push(donationId);

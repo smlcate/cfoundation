@@ -11,9 +11,7 @@ exports.getUsersDonations = async function(req, res, next) {
     .select('user_data')
     .where({id:req.body.id})
     .then(function(data) {
-      console.log(data);
       var donations = JSON.parse(data[0].user_data).donations;
-      console.log(donations);
       var donationData = [];
       var i = 0;
       function iterateDonations() {
@@ -27,7 +25,6 @@ exports.getUsersDonations = async function(req, res, next) {
         .where({id:thisId})
         .select('*')
         .then(function(data) {
-          console.log('data',data);
           var don = {
             reg:data[0],
             rec:null
@@ -39,9 +36,7 @@ exports.getUsersDonations = async function(req, res, next) {
             .then(function(data) {
               don.rec = data[0];
               donationData.push(don);
-              console.log(i, donations.length);
               if (i == donations.length - 1) {
-                console.log('hit');
                 res.send(donationData);
               } else {
                 i++;
@@ -50,9 +45,7 @@ exports.getUsersDonations = async function(req, res, next) {
             })
           } else {
             donationData.push(don);
-            console.log(i, donations.length);
             if (i == donations.length - 1) {
-              console.log('hit');
               res.send(donationData);
             } else {
               i++;
@@ -80,18 +73,15 @@ exports.getUsersDonations = async function(req, res, next) {
     .select('id')
     .where({email:req.body.email})
     .then(function(data) {
-      console.log(data);
       req.body.id = data[0].id;
       runIt();
     })
 
   }
-  console.log(req.body);
 
 }
 
 exports.endRecPledge = function(req, res, next) {
-  console.log(req.body.donation);
   knex("recurring_doners")
   .where({id:req.body.donation.rec.id})
   .delete()
@@ -105,6 +95,5 @@ exports.endRecPledge = function(req, res, next) {
 }
 
 exports.updateRecPledge = function(req, res, next) {
-  console.log(req.body);
   res.send('success');
 }
