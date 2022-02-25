@@ -1388,7 +1388,7 @@ input:checked + .slider:after {
   margin-top: 40px;
 }
 #profileRecurringDonationAdjustmentDivFooter a {
-  color: red;
+  color: #F7567C;
 }
 
 #signUpDisplay {
