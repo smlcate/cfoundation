@@ -180,14 +180,14 @@
       <div class="orderCells" ng-repeat="order in orders">
         <div class="orderCellRecipientDivs">
           <p>{{order.orderData.recipient.name}}</p>
-          <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diognosies">
-            <p>{{dio.name}}</p>
+          <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
+            <!-- <p ng-if="dio.name">{{dio.name}}</p> -->
+            <p>{{dio}}</p>
           </div>
         </div>
         <div class="orderCellShippingDivs">
-          <p>{{order.orderData.shipping.address}}, </p>
-          <p> {{order.orderData.shipping.city}}, </p>
-          <p> {{order.orderData.shipping.state}}</p>
+          <p>{{order.orderData.shipping.address}} {{order.orderData.shipping.city}}, {{order.orderData.shipping.state}}</p>
+
           <p ng-if="order.orderData.shipping.room != ''">{{order.orderData.shipping.room}}</p>
         </div>
       </div>

@@ -6230,7 +6230,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     billing: {
       email:'',
       fName:'',
-      lName:''
+      lName:'',
+      total:0
     }
   }
   //
@@ -6276,6 +6277,18 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     }
 
+  }
+
+  function getPackagePrice() {
+    $http.get('getCarePackagePrice')
+    .then(function(res) {
+      console.log(res);
+      $scope.order.billing.total = JSON.parse(res.data[0].settingsData);
+      console.log($scope.order.billing.total);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
   //
   $scope.removeDiagnosis = function(i) {
@@ -6394,6 +6407,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     //   getItems();
     // }
     // $scope.selectDiagnosis(0);
+    getPackagePrice();
     pickCities();
     $scope.changePage('purchase');
   }
