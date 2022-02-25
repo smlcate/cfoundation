@@ -67,13 +67,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function buildOrderCSV() {
     var orders = $scope.orders;
     var rows = [
-        ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height"]
+        ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height","Diagnosies","Diagnosies2","Diagnosies3"]
     ];
 
     for (var i = 0; i < orders.length; i++) {
       var shipping = orders[i].orderData.shipping;
       var recipient = orders[i].orderData.recipient;
-      rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20"]);
+      rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20",recipient.diagnosies]);
       if (i == orders.length - 1) {
         let csvContent = "data:text/csv;charset=utf-8,"
         + rows.map(e => e.join(",")).join("\n");
@@ -104,7 +104,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].orderData = JSON.parse(res.data[i].orderData);
         $scope.orders.push(res.data[i]);
+
       }
+      console.log($scope.orders);
     })
     .catch(function(err) {
       console.log(err);

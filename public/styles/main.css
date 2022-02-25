@@ -424,6 +424,9 @@ margin-bottom: -50px;
   border-bottom: 1px solid #C4B0ff;
   margin-bottom: .5em;
 }
+#receiverCheckoutPackageDisplay h3 {
+  margin: 0px;
+}
 
 #billingInfoCheckoutFormDiv span {
   flex-direction: column;
@@ -459,6 +462,7 @@ margin-bottom: -50px;
 
 #adminParentDisplay {
   padding-top:0px;
+  background: #E7E1FB;
 }
 #adminNav {
   /* margin-top: 0px; */
@@ -467,20 +471,25 @@ margin-bottom: -50px;
   height: 40px;
   display:flex;
   align-items: center;
+  border-top: 2px solid #C4B0ff;
 }
 #adminNav a {
   /* height: 100%; */
-  padding: 10px;
+  padding: .25em;
   /* background: #C4B0ff; */
   display: flex;
   align-items: center;
   border-radius: 0 0 5px 5px;
-  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.8)
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.8);
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0em !important;
 }
 .adminPages {
   display: flex;
   flex-direction: column;
   width: 100vw;
+  align-items: center;
   /* background: blue; */
 }
 
@@ -493,12 +502,12 @@ margin-bottom: -50px;
 #testimonialsAdminPage span {
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 2em;
   margin-bottom: 0px;
 }
 #testimonialsAdminPage textarea {
-  margin-top:-20px;
-  height: 200px;
+  margin-top:-.5em;
+  height: 10em;
   width: 80vw;
   font-size: 1em;
 }
@@ -518,18 +527,25 @@ margin-bottom: -50px;
 }
 
 #ordersAdminPage {
+  width:100vw;
+}
+#ordersDisplay {
+  display: flex;
+  justify-content: space-between;
 
 }
 #donationsAdminPage {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100vw;
 }
 #donationsDisplay {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
+  width: 100%;
 }
 .donationCells {
   width: 70%;
@@ -539,20 +555,22 @@ margin-bottom: -50px;
 
 .orderCells {
   display: flex;
-  width: 80vw;
-  justify-content: space-between;
+  width: 100vw;
+  justify-content: space-around;
 }
 .orderCellRecipientDivs {
   display: flex;
   justify-content: space-between;
-  min-width: 25%;
+  width: 50%;
 }
 .orderCellShippingDivs {
   display: flex;
+  /* width: 50%; */
 }
-.orderCellShippingDivs p {
+/* .orderCellShippingDivs p {
   padding: 5px;
-}
+  width: 25%;
+} */
 #carePackageSettingsDiv {
   display: flex;
   flex-direction: column;
@@ -605,8 +623,11 @@ margin-bottom: -50px;
   /* min-width: 0px; */
 }
 .submitButtons {
-  width: 100px;
+  width: 100%;
   margin-top: 20px;
+  background: #C4B0ff;
+  color: #E7E1FB;
+  font-size:1.5em;
 }
 .validationPrompts {
   display: none;
@@ -1087,6 +1108,8 @@ input[type=number]::-webkit-outer-spin-button {
   font-weight: bold;
   font-size: 20px;
   color: #f7f5ff;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 #creditBillingDiv {
