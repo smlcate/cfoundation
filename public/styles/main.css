@@ -333,6 +333,13 @@ margin-bottom: -50px;
 }
 #receiverInfoPackageDisplay select:required:invalid {
   /* color: red; */
+  background: rgba(247, 86, 124, 0.1);
+  border-color: #F7567C;
+}
+#receiverInfoPackageDisplay input:required:invalid {
+  /* color: red; */
+  background: rgba(247, 86, 124, 0.1);
+  border-color: #F7567C;
 }
 #receiverInfoPackageDisplay option[value=""][disabled] {
   display: none;
@@ -1937,7 +1944,8 @@ footer {
       height: auto;
       /* width: 80vw; */
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
     }
     #shippingInfoCheckoutFormDiv input {
       width: 100%;
@@ -1947,12 +1955,27 @@ footer {
       /* display: flex;
       flex-direction: row; */
     }
+    #shippingInfoCheckoutFormDiv select {
+      max-width: 50%;
+      height: 1.5em;
+      font-size: 1em;
+      margin-bottom: .25em;
+      /* display: flex;
+      flex-direction: row; */
+    }
+    #shippingInfoCheckoutFormDiv #rmNum {
+      width: 2em;
+
+    }
     .requireIcons {
       display: none;
       /* position:absolute; */
       /* align-self: center; */
       color: #F7567C;
       right: 0;
+      width: 0em !important;
+      height: 0em !important;
+      opacity: 0;
     }
     #receiverCheckoutPackageDisplay {
 
