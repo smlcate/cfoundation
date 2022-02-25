@@ -40,5 +40,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/profile',
       templateUrl: '../partials/profile.html'
   })
+  .state('forgotPassword', {
+      url: '/forgotPassword',
+      templateUrl: '../partials/forgotPassword.html'
+  })
+  .state('resetPassword', {
+      url: '/resetPassword/:id/:token',
+      templateUrl: '../partials/resetPassword.html',
+      controller: function($stateParams, $scope) {
+        $scope.recoverId = $stateParams.id;
+        $scope.recoverToken = $stateParams.token;
+      }
+  })
 
 })
