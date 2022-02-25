@@ -280,8 +280,22 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
                         $http.post('makeDonation', {donation:donation})
                         .then(function(res) {
-                          window.location.href = '/#!/';
-                          $window.location.reload();
+                          var tempParams = {
+                            to_name: donation.fullName,
+                            to_email: donation.email,
+                            amount: donation.invoice.total
+                          }
+                          emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+                          .then(function(res) {
+                            window.location.href = '/#!/';
+                            $window.location.reload();
+
+                          })
+                          .catch(function(err) {
+                            console.log(err);
+                            window.location.href = '/#!/';
+                            $window.location.reload();
+                          })
                         })
                         .catch(function(err) {
                           console.log(err);
@@ -304,8 +318,24 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
             $http.post('makeDonation', {donation:donation})
             .then(function(res) {
-              window.location.href = '/#!/';
-              $window.location.reload();
+              console.log(res);
+              var tempParams = {
+                to_name: donation.fullName,
+                to_email: donation.email,
+                amount: donation.invoice.total
+              }
+              emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+              .then(function(res) {
+                window.location.href = '/#!/';
+                $window.location.reload();
+
+              })
+              .catch(function(err) {
+                console.log(err);
+                window.location.href = '/#!/';
+                $window.location.reload();
+              })
+
             })
             .catch(function(err) {
               console.log(err);

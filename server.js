@@ -4,6 +4,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+var jwt = require('jsonwebtoken');
+
 var server = {
   admin: require('./controllers/admin.js'),
   orders: require('./controllers/orders.js'),
@@ -43,6 +45,10 @@ app.get('/getItems', server.admin.getItems);
 app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
+app.post('/requestPasswordReset', server.login.requestPasswordReset);
+
+app.post('/verifyPasswordReset', server.login.verifyPasswordReset);
+app.post('/resetPassword', server.login.resetPassword);
 
 app.post('/checkPermission', server.login.checkPermission);
 

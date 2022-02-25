@@ -19,6 +19,13 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     pass:true
   }
 
+  $scope.recovery = {
+    email:'',
+    exists:true,
+    newPass:'',
+    confirmPass:''
+  }
+
   $scope.userDonations = [];
   $scope.usersRecDonations = [];
 
@@ -26,6 +33,34 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     newTotal:0,
     adjusting:false,
     donation: {}
+  }
+
+  $scope.requestPasswordReset = function() {
+    $http.post('requestPasswordReset', {email:$scope.recovery.email})
+    .then(function(res) {
+      console.log(res.data);
+      if (res.data == "Email isn't registered") {
+        $scope.recovery.exists = false;
+      } else {
+        var tempParams = {
+          to_email: $scope.recovery.email,
+          from_name: 'yellowbagofhumanity.com',
+          link:res.data.link
+        }
+        emailjs.send('service_v3v8m39','template_d9f448g', tempParams)
+        .then(function(res) {
+          console.log('success', res.status);
+          $('#forgotPasswordConfirmationDisplay').css('display','flex');
+          $('#forgotPasswordFormDisplay').css('display','none');
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
   $scope.passwordStart = function() {
