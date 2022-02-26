@@ -46,7 +46,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.testimonialSettings = {
     inputs:{
-      name:'Annonymous',
+      name:'Anonymous',
       testimonial:'',
       ribbons:[]
     },
