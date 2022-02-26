@@ -898,6 +898,10 @@ margin-bottom: -50px;
 }
 #yellowTitle {
   color: #ffff63;
+  margin-bottom: 0px;
+}
+#welcomeInfoDiv h4 {
+  margin-top: -1em;
 }
 .infoDivHeaders {
   display: flex;
