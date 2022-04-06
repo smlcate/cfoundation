@@ -6189,7 +6189,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   ]
   $scope.citiesToShow = [];
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+
   var elements = stripe.elements();
 
 
@@ -6353,6 +6355,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.confirmOrder = async (e) => {
+
+    $('.loading').css('display', 'inline-block');
+
     var alert = '<p class="requireBillingIcons">*</p>';
     var passes = true;
     if ($scope.order.billing.email == '' || $scope.order.billing.email == null) {
@@ -6380,19 +6385,33 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
           payment_method: {
             card: card,
             billing_details: {
-              name: $scope.order.billing.fName + $scope.order.billing.lName,
+              name: $scope.order.billing.fName + ' ' + $scope.order.billing.lName,
               email: $scope.order.billing.email,
             }
           }
         }
       );
+      var tempParams = {
+        to_name: $scope.order.billing.fName + ' ' + $scope.order.billing.lName,
+        to_email: $scope.order.billing.email,
+        amount: $scope.order.billing.total
+      }
       if (paymentIntent.status == 'succeeded') {
         $scope.order.contents = $scope.careItemsToDisplay;
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
           // console.log(res);
-          window.location.href = '/#!/thankyou';
-          $window.location.reload();
+          $('.loading').css('display', 'none');
+          emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+          .then(function(res) {
+            window.location.href = '/#!/thankyou';
+            $window.location.reload();
+          })
+          .catch(function(err) {
+            console.log(err);
+            window.location.href = '/#!/thankyou';
+            $window.location.reload();
+          })
         })
         .catch(function(error) {
           console.error('Error:', error);

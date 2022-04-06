@@ -208,6 +208,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   $scope.confirmDonation  = async (e) => {
     // e.preventDefault();
+    $('.loading').css('display', 'inline-block');
     const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
     .then(function(res) {
       return res.data.clientSecret;
@@ -288,11 +289,13 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                           }
                           emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
                           .then(function(res) {
+                            $('.loading').css('display', 'none');
                             window.location.href = '/#!/thankyou';
                             $window.location.reload();
 
                           })
                           .catch(function(err) {
+                            $('.loading').css('display', 'none');
                             console.log(err);
                             window.location.href = '/#!/thankyou';
                             $window.location.reload();
@@ -310,9 +313,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                 }
               } else {
                 //check password error
+                $('.loading').css('display', 'none');
               }
             } else {
               // password error
+              $('.loading').css('display', 'none');
             }
 
           } else {
@@ -325,6 +330,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                 to_email: donation.email,
                 amount: donation.invoice.total
               }
+              $('.loading').css('display', 'none');
               emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
               .then(function(res) {
                 window.location.href = '/#!/thankyou';
@@ -345,15 +351,18 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
           }
         } else {
           //only name error
+          $('.loading').css('display', 'none');
         }
 
       } else {
         //email error
+        $('.loading').css('display', 'none');
         if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
           //email and name error
         }
       }
     } else {
+      $('.loading').css('display', 'none');
       console.log('Payment Failed');
     }
 
