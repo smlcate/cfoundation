@@ -1179,6 +1179,22 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-box-shadow: rgba(130, 0, 300, 0.75) 1.5em 0 0 0, rgba(130, 0, 300, 0.5) 1.1em 1.1em 0 0, rgba(130, 0, 300, 0.75) 0 1.5em 0 0, rgba(130, 0, 300, 0.5) -1.1em 1.1em 0 0, rgba(130, 0, 300, 0.75) -1.5em 0 0 0, rgba(130, 0, 300, 0.5) -1.1em -1.1em 0 0, rgba(130, 0, 300, 0.75) 0 -1.5em 0 0, rgba(130, 0, 300, 0.5) 1.1em -1.1em 0 0;
   box-shadow: rgba(130, 0, 300, 0.75) 1.5em 0 0 0, rgba(130, 0, 300, 0.5) 1.1em 1.1em 0 0, rgba(130, 0, 300, 0.75) 0 1.5em 0 0, rgba(130, 0, 300, 0.5) -1.1em 1.1em 0 0, rgba(130, 0, 300, 0.75) -1.5em 0 0 0, rgba(130, 0, 300, 0.5) -1.1em -1.1em 0 0, rgba(130, 0, 300, 0.75) 0 -1.5em 0 0, rgba(130, 0, 300, 0.5) 1.1em -1.1em 0 0;
 }
+.loading-a:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(196, 176, 255, 0.75) 1.5em 0 0 0, rgba(196, 176, 255, 0.5) 1.1em 1.1em 0 0, rgba(196, 176, 255, 0.75) 0 1.5em 0 0, rgba(196, 176, 255, 0.5) -1.1em 1.1em 0 0, rgba(196, 176, 255, 0.75) -1.5em 0 0 0, rgba(196, 176, 255, 0.5) -1.1em -1.1em 0 0, rgba(196, 176, 255, 0.75) 0 -1.5em 0 0, rgba(196, 176, 255, 0.5) 1.1em -1.1em 0 0;
+  box-shadow: rgba(196, 176, 255, 0.75) 1.5em 0 0 0, rgba(196, 176, 255, 0.5) 1.1em 1.1em 0 0, rgba(196, 176, 255, 0.75) 0 1.5em 0 0, rgba(196, 176, 255, 0.5) -1.1em 1.1em 0 0, rgba(196, 176, 255, 0.75) -1.5em 0 0 0, rgba(196, 176, 255, 0.5) -1.1em -1.1em 0 0, rgba(196, 176, 255, 0.75) 0 -1.5em 0 0, rgba(196, 176, 255, 0.5) 1.1em -1.1em 0 0;
+}
 
 /* Animation */
 
