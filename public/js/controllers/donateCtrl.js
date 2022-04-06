@@ -1,7 +1,7 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
-  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  // var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
 
   var elements = stripe.elements();
 
@@ -208,7 +208,6 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   $scope.confirmDonation  = async (e) => {
     // e.preventDefault();
-    $('.loading').css('display', 'inline-block');
     const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
     .then(function(res) {
       return res.data.clientSecret;
@@ -226,6 +225,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
       }
     );
     if (paymentIntent.status == 'succeeded') {
+      $('.loading').css('display', 'inline-block'); 
 
       // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
       if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
