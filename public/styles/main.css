@@ -38,7 +38,6 @@ body {
   margin-left: 0px;
   margin-top: 0px;
   font-size: 1.5em;
-
 }
 
 #bagsvg {
@@ -90,6 +89,11 @@ header {
   align-items: baseline;
   padding-left:1em;
   margin-top: 1em;
+}
+#headerLogoDiv object {
+  height: 6em;
+  width: 6em;
+  margin-bottom: -2em;
 }
 #accountNav {
   padding: 1em;
@@ -148,15 +152,13 @@ header {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
-
 }
 #headerNav span {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
-  height: 50px;
-  padding: 0px;
+  height: 2em;
   margin: 0px;
   color: #C4B0ff;
 }
@@ -168,23 +170,22 @@ header {
   flex-direction: row;
   align-items: flex-end;
   align-self: center;
-  font-size: 170%;
+  font-size: 1.7em;
   color: #240115;
-  /* height: 100%; */
 }
 #headerLogoDiv {
   display: flex;
   /* flex-direction: column; */
   align-items: flex-end;
   filter: drop-shadow(0px 4px 2px #222);
-  margin-bottom: -30px;
+  margin-bottom: -1em;
 }
 #headerLogoDiv img {
-  height: 125px;
-  width: 125px;
+  height: 5.5em;
+  width: 5.5em;
   /* margin-top: 20px; */
-/* align-self: baseline; */
-margin-bottom: -50px;
+  /* align-self: baseline; */
+  margin-bottom: -50px;
 }
 #headerLogoDiv h1 {
   height:20px;
@@ -253,6 +254,7 @@ margin-bottom: -50px;
 #carepackageParentDisplay h1 {
   filter: drop-shadow(0px 2px 2px #222);
 }
+
 .packageDisplays {
   width: 60vw;
   font-size: 1.5em;
