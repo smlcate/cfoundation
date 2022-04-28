@@ -270,6 +270,17 @@ header {
   border-radius: 10px;
   backdrop-filter: blur(5px);
 }
+.packageDisplays::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(50px);
+  z-index:-10;
+}
 .packageDisplays p, h3, a {
   /* margin-left: 1em;
   margin-right: 1em; */
@@ -877,10 +888,11 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  box-shadow: inset 0 0 3000px rgba(255, 255, 255, .5);
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
   filter: blur(100px);
   height: 100%;
   width: 100%;
+  z-index: -15;
 }
 .infoDivs, .infodivs h3, p{
   /* filter: drop-shadow(0px 2px 2px #222); */
@@ -1481,7 +1493,7 @@ input:checked + .slider:after {
   left: 0;
   right: 0;
   bottom: 0;
-  box-shadow: inset 0 0 1000px rgba(255, 255, 255, .5);
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
   filter: blur(50px);
 }
 .profileContainers h2 {
@@ -1586,6 +1598,9 @@ input:checked + .slider:after {
   color: #E7E1FB !important;
 }
 #signUpForm {
+  border-radius: 10px;
+  background: rgba(231, 225, 251,0.2);
+  margin-top: 2em;
   width: 80%;
   height: 80vh;
   display: flex;
@@ -1599,6 +1614,19 @@ input:checked + .slider:after {
   /* text-shadow: 0px 2px 2px rgba(0, 0, 0, 1); */
   filter: drop-shadow(0px 3px 3px #222);
   color: #E7E1FB;
+  backdrop-filter: blur(5px);
+}
+#signUpForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0px 0px 1000px rgba(255, 255, 255, .5), 0px 0px 1px 2px rgba(0, 0, 0, 0.8);
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  z-index: -1;
 }
 #signUpFormInputDiv {
   width: 600px;
@@ -1641,10 +1669,10 @@ input:checked + .slider:after {
   font-weight: bold;
   font-size: 1.5em;
 }
-#signUpForm button {
+.signInBtns {
   border: none;
   background: #C4B0ff;
-  color: #E7E1FB;
+  color: #E7E1FB !important;
   padding: .25em;
   border-radius: 5px;
   margin-bottom: .5em;
@@ -2087,16 +2115,7 @@ footer {
       width: 100vw;
       backdrop-filter: blur(5px);
     }
-    .packageDisplays::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      box-shadow: inset 0 0 1000px rgba(255, 255, 255, .5);
-      filter: blur(50px);
-    }
+
     .packageDisplays p {
       margin: .25em !important;
       /* width: 100%; */
