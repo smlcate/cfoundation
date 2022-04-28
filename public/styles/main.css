@@ -454,6 +454,7 @@ header {
 }
 #receiverCheckoutPackageDisplay h3 {
   margin: 0px;
+  margin-left: 1em;
 }
 
 #billingInfoCheckoutFormDiv span {
@@ -1601,8 +1602,9 @@ input:checked + .slider:after {
   border-radius: 10px;
   background: rgba(231, 225, 251,0.2);
   margin-top: 2em;
+  margin-bottom: 2em;
   width: 80%;
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1668,6 +1670,7 @@ input:checked + .slider:after {
   margin-bottom: .5em;
   font-weight: bold;
   font-size: 1.5em;
+  text-align: center;
 }
 .signInBtns {
   border: none;
@@ -1958,6 +1961,9 @@ footer {
 
     .toggleDropdownSplitter {
       border: 2px solid grey;
+    }
+    #headerLogoDiv {
+      margin-bottom: .5em;
     }
     #headerLogoDiv  img {
       /* margin-bottom: -130px; */

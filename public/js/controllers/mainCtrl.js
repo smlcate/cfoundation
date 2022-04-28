@@ -78,7 +78,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       bag.style.left = `${Math.floor(Math.random() * 60)+15}vw`;
       bag.style.top = `${Math.floor(Math.random() * 2)+0.5}vh`;
       bag.style.transform = `scale(${Math.random()})`;
-      bag.style.width = `${Math.random()+0.3}em`;
+      bag.style.width = `${Math.random()+0.5}em`;
       bag.style.height = bag.style.width;
       bags.push(bag);
       $('header').prepend(bag);
