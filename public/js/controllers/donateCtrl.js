@@ -1,7 +1,7 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
-  // var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
 
   var elements = stripe.elements();
 
@@ -225,8 +225,10 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
       }
     );
     if (paymentIntent.status == 'succeeded') {
-      $('.loading').css('display', 'inline-block'); 
-
+      // $('.loading').css('display', 'inline-block'); 
+      $('.HYPE_document').css('display','block');
+      $('.loadMask').css('display','flex');
+      thankyouLoadingBagAnim();
       // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
       if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
         if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
@@ -333,14 +335,18 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
               $('.loading').css('display', 'none');
               emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
               .then(function(res) {
-                window.location.href = '/#!/thankyou';
-                $window.location.reload();
+                setTimeout(function() {
+                  window.location.href = '/#!/thankyou';
+                  $window.location.reload();
+                }, "8500")
 
               })
               .catch(function(err) {
                 console.log(err);
-                window.location.href = '/#!/thankyou';
-                $window.location.reload();
+                setTimeout(function() {
+                  window.location.href = '/#!/thankyou';
+                  $window.location.reload();
+                }, "8500")
               })
 
             })

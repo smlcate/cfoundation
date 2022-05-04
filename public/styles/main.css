@@ -1172,6 +1172,37 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
+.loadMask {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vw;
+  margin: 0px;
+  background: rgba(196, 176, 255, 0.2) !important;
+}
+#yellowbagloadinganim1_hype_container {
+  display: none;
+  justify-content:center;
+  align-items:center;
+  background: rgba(196, 176, 255, 0) !important;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height: 100vh;
+  width: 100vw;
+  margin: 0px;
+}
+.HYPE_scene {
+  /* display: none; */
+  background-color: rgba(196, 176, 255, 0) !important;
+  /* position: absolute; */
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+}
+
 /* Absolute Center Spinner */
 .loading {
   display: none;
