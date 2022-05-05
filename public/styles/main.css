@@ -665,6 +665,7 @@ header {
   margin-left: 1em;
 }
 #ribbonsSpan {
+  height:auto;
   min-height: 3em;
   flex-wrap: wrap;
   justify-content: center;
