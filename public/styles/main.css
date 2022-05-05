@@ -667,7 +667,8 @@ header {
 #ribbonsSpan {
   min-height: 3em;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
+  max-width: 100%;
   /* padding-left: 30px; */
 }
 #ribbonsSpan img {
