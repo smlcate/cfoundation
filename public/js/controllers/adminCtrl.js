@@ -170,7 +170,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getCarePackagePrice() {
     $http.get('getCarePackagePrice')
     .then(function(res) {
-      $scope.carePackagePrice = Number(res.data[0].settingsData);
+      $scope.carePackagePrice = Number(res.data[0].settingsData).toFixed(2);
     })
     .catch(function(err) {
       console.log(err);
