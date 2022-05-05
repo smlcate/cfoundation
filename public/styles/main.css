@@ -680,7 +680,7 @@ header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-left: 1em;
+  /* margin-left: 1em; */
 }
 #ribbonsSpan {
   height:auto;
