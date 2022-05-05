@@ -200,6 +200,19 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   }
 
+
+  $scope.editCarePackagePrice = function() {
+    $('#saveCPPriceBtn, #cancelCPEditBtn').css('display','flex');
+    $('#editCPPriceBtn').css('display','none');
+    $('#carePackagePriceInput').css('display','flex');
+    $('#carePackagePriceText').css('display','none');
+  }
+  $scope.cancelEditCarePackagePrice = function() {
+    $('#saveCPPriceBtn, #cancelCPEditBtn').css('display','none');
+    $('#editCPPriceBtn').css('display','flex');
+    $('#carePackagePriceInput').css('display','none');
+    $('#carePackagePriceText').css('display','flex');
+  }
   $scope.saveCarePackagePrice = function() {
     $http.post('saveCarePackagePrice', {price:$scope.carePackagePrice})
     .then(function(res) {
@@ -209,6 +222,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log(err);
     })
   }
+
 
   $('#newRibbonImageInput').click(function(){
       $(this).attr("value", "");

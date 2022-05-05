@@ -1,5 +1,5 @@
 <div class="parentDisplays" id="adminParentDisplay" ng-controller="adminCtrl">
-  <title>Yellow Bag of Humanity Administration Controller</title> 
+  <title>Yellow Bag of Humanity Administration Controller</title>
 
   <div class="" id="adminNav">
 
@@ -46,15 +46,16 @@
 
     <div class="" id="carePackageSettingsDiv">
 
-      <span>
+      <span id="carePackagePriceSpan">
         <p>Care Package Price  $</p>
-        <input class="numberInputs" min="0"  type="number" name="" value="" ng-model="carePackagePrice">
-        <button type="button" name="button" ng-click="editCarePackagePrice()">Edit</button>
-        <button type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
-        <button type="button" name="button" ng-click="cancelEditCarePackagePrice()">Cancel</button>
+        <p id="carePackagePriceText">{{carePackagePrice}}</p>
+        <input id="carePackagePriceInput" class="numberInputs" min="0"  type="number" name="" value="" ng-model="carePackagePrice">
+        <button id="editCPPriceBtn" type="button" name="button" ng-click="editCarePackagePrice()">Edit</button>
+        <button id="saveCPPriceBtn" type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
+        <button id="cancelCPEditBtn" type="button" name="button" ng-click="cancelEditCarePackagePrice()">Cancel</button>
       </span>
       <span>
-        <h3>Costs</h3>
+        <h3>Package Costs</h3>
         <span class="packageCostsDiv" ng-repeat="tag in packageCosts.tags">
 
           <p>{{tag.tag}}</p>
@@ -66,7 +67,7 @@
 
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
           <h3>New Ribbon</h3>
-          <input type="text" name="" value="" ng-model="newRibbon.name">
+          <input type="text" name="" value="" ng-model="newRibbon.name" placeholder="Ribbon Name">
           <input id="newRibbonImageInput" type="file" name="" value="">
           <div id="newRibbonImageDiv">
 
@@ -174,16 +175,16 @@
   <div class="adminPages" id="ordersAdminPage">
     <h1>Orders</h1>
 
-    <button type="button" name="button" ng-click="buildOrderCSV()">To CSV</button>
+    <button id="buildOrderCSVBtn" type="button" name="button" ng-click="buildOrderCSV()">To CSV</button>
     <div class="" id="ordersDisplay">
 
       <div class="orderCells" ng-repeat="order in orders">
         <div class="orderCellRecipientDivs">
           <p>{{order.orderData.recipient.name}}</p>
-          <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
-            <!-- <p ng-if="dio.name">{{dio.name}}</p> -->
-            <p>{{dio}}</p>
-          </div>
+        </div>
+        <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
+          <!-- <p ng-if="dio.name">{{dio.name}}</p> -->
+          <p>{{dio}}</p>
         </div>
         <div class="orderCellShippingDivs">
           <p>{{order.orderData.shipping.address}} {{order.orderData.shipping.city}}, {{order.orderData.shipping.state}}</p>
@@ -199,11 +200,12 @@
     <h1>Donations</h1>
     <div class="" id="donationsDisplay">
       <div class="donationCells" ng-repeat="donation in donations track by $index">
-        <p>{{donation.fullName}}</p>
-        <p>{{donation.email}}</p>
-        <p ng-if="donation.invoice.recurring == false">One-time</p>
-        <p ng-if="donation.invoice.recurring == true">Recurring</p>
-        <p>{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per, plus ${{donation.invoice.rollover}} for a total of ${{donation.invoice.total}}</p>
+        <p class="donationCellNames">{{donation.fullName}}</p>
+        <p class="donationCellEmails">{{donation.email}}</p>
+        <p class="donationCellTypes" ng-if="donation.invoice.recurring == false">One-time:</p>
+        <p class="donationCellTypes" ng-if="donation.invoice.recurring == true">Recurring:</p>
+        <p class="donationCellDescriptions">{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per, plus ${{donation.invoice.rollover}} for a total of </p>
+        <p class="donationCellTotals">${{donation.invoice.total}}</p>
       </div>
     </div>
   </div>
