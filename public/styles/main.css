@@ -687,7 +687,7 @@ header {
   min-height: 3em;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 100%;
+  max-width: 90%;
   overflow: hidden;
   /* padding-left: 30px; */
 }
