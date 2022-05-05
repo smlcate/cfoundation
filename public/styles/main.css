@@ -631,7 +631,7 @@ header {
   display: flex;
   /* height: 40px; */
   align-items:center;
-  justify-content: center
+  justify-content: center;
   /* padding-left: 1em; */
   font-size: 1em;
   flex-wrap: wrap;
@@ -656,6 +656,24 @@ header {
 #adminRibbonController {
   display: flex;
   flex-wrap: wrap;
+  max-width: 100%;
+}
+#packageCostsSpan {
+  flex-direction: column;
+  min-height: 1em;
+  padding: 0em;
+}
+#packageCostsSpan h3 {
+  height: 1em;
+}
+.packageCostsDiv {
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-between;
+}
+.packageCostsDiv p {
+  /* height: .5em; */
 }
 .ribbonControllerDivs {
   min-height: 1em;

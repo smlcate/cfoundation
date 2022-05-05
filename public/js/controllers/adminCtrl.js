@@ -158,6 +158,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               }
 
             } else if(j == $scope.careItems.length-1) {
+              for (var k = 0; k < $scope.packageCosts.tags.length; k++) {
+                $scope.packageCosts.tags[k].cost = $scope.packageCosts.tags[k].cost.toFixed(2);
+              }
               buildDisplays();
             }
 
