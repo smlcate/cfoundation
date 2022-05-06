@@ -668,6 +668,9 @@ header {
 .ribbonNameInputs {
   width: 5em;
 }
+.ribbonTexts {
+  filter: drop-shadow(0px 2px 3px #222);
+}
 #packageCostsSpan {
   flex-direction: column;
   min-height: 1em;
@@ -706,17 +709,21 @@ header {
   padding-top: 1em;
 }
 #ribbonsSpan {
-  height:auto;
-  min-height: 1em;
+  height:3em;
+  /* min-height: 1em; */
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 12em;
   /* max-width: 90%; */
-  overflow: hidden;
+  /* overflow: hidden; */
   /* padding-left: 30px; */
 }
-#ribbonsSpan img {
+#ribbonsSpan svg {
+  margin: 0px;
   /* margin-left: -30px; */
-  height: 3em;
+  /* height: 3em; */
+  /* margin-top: -3em; */
 }
 #carePackageItemDiv {
   display: none;

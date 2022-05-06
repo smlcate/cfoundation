@@ -25,7 +25,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.newRibbon = {
     name:'',
-    image:''
+    colors:[],
+    build: {}
+    // image:''
   };
 
   $scope.ribbonToEdit = {
@@ -56,8 +58,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   function buildDisplays() {
 
-    var html = '<img src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons track by $index" ng-click="selectRibbon(ribbon)">';
-    angular.element($('#ribbonsSpan')).append($compile(html)($scope))
+    var svg = '<svg ng-repeat="ribbon in ribbons" height="" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="3em" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="TextBounds"><rect height="861.588" transform="matrix(0.614981 -0.788542 0.788542 0.614981 -275.584 92.8005)" width="683.244" x="213.828" y="160.239"/></clipPath></defs><clipPath id="ArtboardFrame"><rect height="1024" width="1024" x="0" y="0"/></clipPath><g clip-path="url(#ArtboardFrame)" id="Layer-1" vectornator:layerName="Layer 1"><path d="M337.357 56.1719C337.357 56.1719 364.349 2.38001 499.309 2.38001C634.27 2.38001 661.262 56.1719 661.262 56.1719C661.262 56.1719 688.254 190.652 634.27 217.548C634.27 217.548 602.689 190.652 499.309 190.652C395.93 190.652 364.349 217.548 364.349 217.548C312.902 203.266 337.357 56.1719 337.357 56.1719Z" fill="{{ribbon.ribbonData.colors.dark}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M599.531 277.526C641.962 214.643 665.149 146.542 665.149 115.128C665.149 83.6596 661.262 56.1719 661.262 56.1719C661.262 56.1719 738.405 226.45 761.537 281.452C784.67 336.508 753.818 411.198 722.966 458.347C692.114 505.549 279.459 1024.43 279.459 1024.43L121.42 890.753C121.42 890.753 557.126 340.408 599.531 277.526Z" fill="{{ribbon.ribbonData.colors.secondary}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M877.198 890.753L719.16 1024.43C719.16 1024.43 306.532 505.549 275.653 458.347C244.801 411.198 213.949 336.508 237.081 281.452C260.213 226.45 337.357 56.1719 337.357 56.1719C337.357 56.1719 333.47 83.6596 333.47 115.128C333.47 146.542 356.629 214.643 399.088 277.526C441.492 340.408 877.198 890.753 877.198 890.753Z" fill="{{ribbon.ribbonData.colors.primary}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M499.309 746.86C452.694 687.769 406.106 628.464 367.318 578.733C355.846 593.338 344.402 607.915 333.011 622.412C372.527 673.057 418.981 732.094 464.921 790.351C476.312 775.988 487.784 761.438 499.309 746.86ZM499.309 409.719C538.421 460.149 584.658 519.293 631.301 578.733C643.555 562.999 654.973 548.287 665.392 534.839C616.941 473.086 571 414.238 533.373 365.664C522.819 379.354 511.429 394.066 499.309 409.719Z" fill="{{ribbon.ribbonData.colors.shadow}}" fill-rule="evenodd" opacity="1" stroke="none"/></g><g id="Name" vectornator:layerName="Name"><text class="ribbonTexts" clip-path="url(#TextBounds)" fill="#efe9f0" font-family="Helvetica-Bold" font-size="{{ribbon.ribbonData.fontSize}}" opacity="1" stroke="none" text-anchor="middle" transform="matrix(0.614981 0.788542 -0.788542 0.614981 242.656 160.239)" vectornator:text="Multiple&#x20;Myeloma" vectornator:width="100%" x="0" y="0"><tspan x="532.062" y="97">{{ribbon.ribbonData.name}}</tspan></text></g></svg>';
+    angular.element($('#ribbonsSpan')).append($compile(svg)($scope))
 
     html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
     angular.element($('#carePackageItemsDiv')).append($compile(html)($scope))
@@ -185,6 +187,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         $scope.ribbons.push({id:res.data[i].id, ribbonData:JSON.parse(res.data[i].ribbonData)})
       }
+      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -357,9 +360,167 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log(err);
     })
   }
+  $scope.newRibbonPreview = function() {
+      // colors to add:     all #B395D6, brain #C0C0C0, breast #FF69B4, Childhood #FFD700, colon #06008B, esophageal #B29CD9, head #810020 #FFFFEF, kidney #32CD32, leiomysarcoma #690BD3, leukemia #FFA500, liver #04A86B, lung #E9E0C8, lymphoma #8F00FF, melanoma #151516, multiple myeloma #810020, overian #008080, pancreatic #800080, prostate #AED8E6, sarcoma #E2E130, stomach #C2CCFF, testicular #DA70D6, thyroid #FEC0CA #1500FF #008080, uterine #FFBFA3, rectal #45B7FE, gynecological #800080, bladder #002266 #690BD3 #D8D722, cervical #008080 #F8F8FE
+    var ribbon = {
+      colors: {
+        primary:'#BA68C8',
+        secondary:'#AB46BB',
+        dark:'#6A1B99',
+        shadow:'#883795'
+      },
+      name:$scope.newRibbon.name,
+      fontSize:100
+    }
 
+    if (ribbon.name.length <= 9) {
+      ribbon.fontSize = 130;
+    }
+    if (ribbon.name.length >= 12) {
+      ribbon.fontSize = 90;
+    }
+    // if ($scope.ribbons.colors[1].length = 0 && $scope.ribbons.colors[2].length = 0) {
+    //
+    // } else {
+    //   result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[1]);
+    // }
+    var i = 0;
+    var secondHandled = false;
+    function handleShader() {
+      console.log($scope.newRibbon.colors);
+      var result;
+      if($scope.newRibbon.colors[1] && $scope.newRibbon.colors[2] && $scope.newRibbon.colors[1].length > 0 && $scope.newRibbon.colors[2].length > 0) {
+        // THREE colors
+        console.log('three colors');
+        ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
+        result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i+1]);
+      } else if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[1].length > 0) {
+        //TWO colors
+        console.log('two colors');
+        ribbon.colors.primary = '#'
+        + $scope.newRibbon.colors[0];
+        result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i+1]);
+      } else {
+        console.log('one color');
+          result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i]);
+      }
+      if (result != null) {
+        console.log('hit this');
+        var r = parseInt(result[1], 16);
+        var g = parseInt(result[2], 16);
+        var b = parseInt(result[3], 16);
+        r /= 255, g /= 255, b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+
+        if(max == min){
+          h = s = 0; // achromatic
+        } else {
+          var d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch(max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h /= 6;
+        }
+
+        s = s*100;
+        s = Math.round(s);
+        l = l*100;
+        l = Math.round(l);
+        h = Math.round(360*h);
+
+
+
+        if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[2] && $scope.newRibbon.colors[1].length > 0 && $scope.newRibbon.colors[2].length > 0) {
+
+          console.log('hit three');
+
+          ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
+          console.log(l);
+
+          if (secondHandled == false) {
+            ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)'
+            ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
+            console.log(l-15);
+          }
+
+
+          if (l-25 <= 0) {
+            l = l - ((l-15) * -1) + 5;
+          }
+          console.log(l);
+          ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
+
+          i++;
+          if (secondHandled == false) {
+            secondHandled = true;
+            handleShader()
+          }
+
+        } else if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[1].length > 0) {
+
+          console.log('hit two');
+
+          ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
+          console.log(l);
+
+          ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)';
+          console.log(l-10);
+
+          ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
+          console.log(l-15);
+
+          if (l-25 <= 0) {
+            l = l - ((l-25) * -1) + 5;
+          }
+          console.log(l);
+          ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-25) + '%)';
+
+        } else {
+
+          console.log('hit one');
+
+          ribbon.colors.primary = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+          console.log(l);
+
+          ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)';
+          console.log(l-10);
+
+          ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
+          console.log(l-15);
+
+          if (l-25 <= 0) {
+            l = l - ((l-25) * -1) + 5;
+          }
+          console.log(l);
+          ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-25) + '%)';
+
+        }
+      }
+    }
+    handleShader();
+
+    $scope.newRibbon.build = ribbon;
+    // $rootScope.$emit('colorChanged', {colorInHSL});
+    $('#ribbonPreviewContainer svg').remove();
+
+    var svg = '<svg height="" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="3em" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="TextBounds"><rect height="861.588" transform="matrix(0.614981 -0.788542 0.788542 0.614981 -275.584 92.8005)" width="683.244" x="213.828" y="160.239"/></clipPath></defs><clipPath id="ArtboardFrame"><rect height="1024" width="1024" x="0" y="0"/></clipPath><g clip-path="url(#ArtboardFrame)" id="Layer-1" vectornator:layerName="Layer 1"><path d="M337.357 56.1719C337.357 56.1719 364.349 2.38001 499.309 2.38001C634.27 2.38001 661.262 56.1719 661.262 56.1719C661.262 56.1719 688.254 190.652 634.27 217.548C634.27 217.548 602.689 190.652 499.309 190.652C395.93 190.652 364.349 217.548 364.349 217.548C312.902 203.266 337.357 56.1719 337.357 56.1719Z" fill="' + ribbon.colors.dark + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M599.531 277.526C641.962 214.643 665.149 146.542 665.149 115.128C665.149 83.6596 661.262 56.1719 661.262 56.1719C661.262 56.1719 738.405 226.45 761.537 281.452C784.67 336.508 753.818 411.198 722.966 458.347C692.114 505.549 279.459 1024.43 279.459 1024.43L121.42 890.753C121.42 890.753 557.126 340.408 599.531 277.526Z" fill="' + ribbon.colors.secondary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M877.198 890.753L719.16 1024.43C719.16 1024.43 306.532 505.549 275.653 458.347C244.801 411.198 213.949 336.508 237.081 281.452C260.213 226.45 337.357 56.1719 337.357 56.1719C337.357 56.1719 333.47 83.6596 333.47 115.128C333.47 146.542 356.629 214.643 399.088 277.526C441.492 340.408 877.198 890.753 877.198 890.753Z" fill="' + ribbon.colors.primary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M499.309 746.86C452.694 687.769 406.106 628.464 367.318 578.733C355.846 593.338 344.402 607.915 333.011 622.412C372.527 673.057 418.981 732.094 464.921 790.351C476.312 775.988 487.784 761.438 499.309 746.86ZM499.309 409.719C538.421 460.149 584.658 519.293 631.301 578.733C643.555 562.999 654.973 548.287 665.392 534.839C616.941 473.086 571 414.238 533.373 365.664C522.819 379.354 511.429 394.066 499.309 409.719Z" fill="' + ribbon.colors.shadow + '" fill-rule="evenodd" opacity="1" stroke="none"/></g><g id="Name" vectornator:layerName="Name"><text class="ribbonTexts" clip-path="url(#TextBounds)" fill="#efe9f0" font-family="Helvetica-Bold" font-size="' + ribbon.fontSize + '" opacity="1" stroke="none" text-anchor="middle" transform="matrix(0.614981 0.788542 -0.788542 0.614981 242.656 160.239)" vectornator:text="Multiple&#x20;Myeloma" vectornator:width="100%" x="0" y="0"><tspan x="532.062" y="97">' + ribbon.name + '</tspan></text></g></svg>';
+
+    angular.element($('#ribbonPreviewContainer')).append($compile(svg)($scope));
+
+    if ($scope.newRibbon.colors) {
+
+    }
+
+  }
+  $scope.newRibbonColor = function() {
+    console.log('hit');
+  }
   $scope.addNewRibbon = function() {
-    $http.post('addNewRibbon', {ribbon:$scope.newRibbon})
+    $http.post('addNewRibbon', {ribbon:$scope.newRibbon.build})
     .then(function(res) {
       // $scope.ribbons = res.data;
       $scope.ribbons = [];
@@ -571,9 +732,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
               $scope.thisAdminPage('carepackage');
 
+              getRibbons();
               getItems();
               getCarePackagePrice();
-              getRibbons();
               getOrders();
               getDonations();
               if ($scope.careItems.length > 0) {

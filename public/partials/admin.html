@@ -64,11 +64,16 @@
         </span>
       </span>
       <div class="" id="adminRibbonController">
+        <div class="" id="ribbonPreviewContainer">
 
+        </div>
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
           <p>New Ribbon</p>
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name">
-          <input id="newRibbonImageInput" type="file" name="" value="">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name" ng-change="newRibbonPreview()">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[0]" placeholder="Primary" ng-change="newRibbonPreview(); newRibbonColor();">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[1]" placeholder="Secondary" ng-change="newRibbonPreview(); newRibbonColor();">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[2]" placeholder="Third/Accent" ng-change="newRibbonPreview(); newRibbonColor();">
+          <!-- <input id="newRibbonImageInput" type="file" name="" value=""> -->
           <div id="newRibbonImageDiv">
 
           </div>
@@ -86,14 +91,14 @@
           <button type="button" name="button" ng-click="cancelRibbonEdit()">Cancel</button>
           <!-- <img id="newRibbonImage" src="" alt=""> -->
         </div>
-        <span id="ribbonsSpan">
-
-        </span>
 
       </div>
 
 
     </div>
+    <span id="ribbonsSpan">
+
+    </span>
 
     <div class="careItemMangementDivs" id="carePackageItemDiv">
       <h3 class="careItemTitles" id="newCareItemTitle" ng-if="mode == 'new'">New Care Item</h3>
