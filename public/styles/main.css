@@ -690,9 +690,12 @@ header {
   overflow-x: hidden;
   /* margin-left: 1em; */
 }
+#newRibbonImageInput, #editRibbonImageInput {
+  width: 10em;
+}
 #ribbonsSpan {
   height:auto;
-  min-height: 3em;
+  min-height: 1em;
   flex-wrap: wrap;
   justify-content: center;
   /* max-width: 90%; */
