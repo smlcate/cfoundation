@@ -68,6 +68,14 @@ body {
   order: -1;
   z-index: -1;
 }
+.headerIcons {
+  position: absolute;
+  order: -1;
+  z-index: -50;
+  left: 50vw;
+  filter: drop-shadow(0px 2px 2px #222);
+  opacity: 0.6;
+}
 
 header {
   display: flex;
