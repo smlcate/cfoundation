@@ -682,6 +682,7 @@ header {
 .ribbonControllerDivs {
   min-height: 1em;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
