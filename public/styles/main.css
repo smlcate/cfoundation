@@ -691,7 +691,13 @@ header {
   /* margin-left: 1em; */
 }
 #newRibbonImageInput, #editRibbonImageInput {
-  width: 10em;
+  width: 90%;
+  min-height: 2em;
+  display: flex;
+  flex-direction: row;
+  align-content:center;
+  justify-content:center;
+  padding-top: 1em;
 }
 #ribbonsSpan {
   height:auto;
