@@ -545,7 +545,7 @@ header {
 }
 #testimonialsAdminPage input {
   margin-bottom: 0px;
-  height: 30px;
+  /* height: 30px; */
   font-size: 1em;
 }
 #testimonialsAdminPage p {
@@ -617,6 +617,12 @@ header {
 }
 .orderCells:hover .orderCellShippingDivs {
   display: flex;
+}
+.orderCellRecipientDiagnosiesDivsDivs {
+  flex-wrap: wrap;
+}
+.orderCellRecipientDiagnosiesDivs p {
+  padding-right: .5em;
 }
 /* .orderCellShippingDivs p {
   padding: 5px;

@@ -48,7 +48,7 @@
 
       <span id="carePackagePriceSpan">
         <p>Care Package Price  $</p>
-        <p id="carePackagePriceText">{{carePackagePrice}}</p>
+        <p id="carePackagePriceText">{{carePackagePrice.toFixed(2)}}</p>
         <input id="carePackagePriceInput" class="numberInputs" min="0"  type="number" name="" value="" ng-model="carePackagePrice">
         <button id="editCPPriceBtn" type="button" name="button" ng-click="editCarePackagePrice()">Edit</button>
         <button id="saveCPPriceBtn" type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
@@ -182,7 +182,7 @@
         <div class="orderCellRecipientDivs">
           <p>{{order.orderData.recipient.name}}</p>
         </div>
-        <div class="orderCellRecipientDiognosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
+        <div class="orderCellRecipientDiagnosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
           <!-- <p ng-if="dio.name">{{dio.name}}</p> -->
           <p>{{dio}}</p>
         </div>
