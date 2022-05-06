@@ -648,7 +648,7 @@ header {
 }
 #carePackageSettingsDiv button, input {
   font-size:1em;
-  min-width: 2em;
+  /* min-width: 2em; */
 }
 #carePackageSettingsDiv img {
   height: 3em;
@@ -656,6 +656,7 @@ header {
 #adminRibbonController {
   display: flex;
   flex-wrap: wrap;
+  justify-content:center;
   /* max-width: 100%; */
 }
 #packageCostsSpan {
