@@ -659,6 +659,9 @@ header {
   justify-content:center;
   /* max-width: 100%; */
 }
+.ribbonNameInputs {
+  width: 5em;
+}
 #packageCostsSpan {
   flex-direction: column;
   min-height: 1em;
@@ -682,6 +685,7 @@ header {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  width: 90%;
   /* margin-left: 1em; */
 }
 #ribbonsSpan {

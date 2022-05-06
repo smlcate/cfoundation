@@ -67,7 +67,7 @@
 
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
           <p>New Ribbon</p>
-          <input type="text" name="" value="" ng-model="newRibbon.name" placeholder="Ribbon Name">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name">
           <input id="newRibbonImageInput" type="file" name="" value="">
           <div id="newRibbonImageDiv">
 
@@ -77,7 +77,7 @@
         </div>
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == true">
           <h3>Edit Ribbon</h3>
-          <input type="text" name="" value="" ng-model="ribbonToEdit.ribbonData.name">
+          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="ribbonToEdit.ribbonData.name" placeholder="Name">
           <input id="editRibbonImageInput" type="file" name="" value="">
           <div id="editRibbonImageDiv">
 
