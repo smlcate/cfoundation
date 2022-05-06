@@ -656,7 +656,7 @@ header {
 #adminRibbonController {
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  /* max-width: 100%; */
 }
 #packageCostsSpan {
   flex-direction: column;
