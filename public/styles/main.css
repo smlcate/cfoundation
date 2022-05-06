@@ -682,12 +682,12 @@ header {
 .ribbonControllerDivs {
   min-height: 1em;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 90%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   /* margin-left: 1em; */
 }
 #newRibbonImageInput, #editRibbonImageInput {
