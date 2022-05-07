@@ -106,7 +106,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     const bagElements = document.querySelectorAll(".headerIcons");
 
     bagElements.forEach((el, i, ra) => {
-      console.log(el);
       el.style.left = `${Math.floor(Math.random() * 60)+15}vw`;
       el.style.top = `${Math.floor(Math.random() * 2)+0.5}vh`;
       el.style.transform = `scale(${Math.random()})`;

@@ -16,7 +16,7 @@ var server = {
 
 }
 
-app.use(compression());
+app.use(compression({level:8}));
 app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 
