@@ -1,6 +1,7 @@
 const env = require('dotenv').config({path:'./.env'});
 
 var express = require('express');
+var compression = require('compression');
 var app = express();
 var bodyParser = require('body-parser');
 
@@ -15,6 +16,7 @@ var server = {
 
 }
 
+app.use(compression());
 app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
 
