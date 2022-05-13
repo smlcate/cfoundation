@@ -1017,6 +1017,10 @@ header {
 .infoDivs h3 {
   color: #E7E1FB;
 }
+.infoDivs img {
+  max-width: 7.5em;
+  border-radius: 1em;
+}
 #lowerInfoDiv {
   display: flex;
   width: 100vw;
