@@ -1,8 +1,13 @@
 <div class="parentDisplays" id="donateParentDisplay" ng-controller="donateCtrl">
-
+  <title>Donate to Yellow Bag of Humanity</title>
+  <div class="" id="donationBillingHeaderPhoneDiv">
+    <h2>Donate and help support someone through their struggle today</h2>
+  </div>
   <div class="donationDivs" id="donationDetailsDiv">
 
+
     <div class="" id="donationDetailsTopDiv">
+
 
       <div class="" id="donationDetailsDonationTypeDiv">
 
@@ -72,7 +77,7 @@
 
   <div class="donationDivs" id="donationBillingDiv">
 
-    <div class="" id="donationBillingHeaderDiv">
+    <div class="" id="donationBillingHeaderComputerDiv">
       <h2>Donate and help support someone through their struggle today</h2>
     </div>
 
@@ -82,7 +87,7 @@
 
       <a href="" id="creditTypeAnc" ng-click="selectBillingType('credit')">Credit/Debit</a>
       <!-- <a href="" id="paypalTypeAnc" ng-click="selectBillingType('paypal')">Pay-Pal</a> -->
-      <a href="" id="otherTypeAnc" ng-click="selectBillingType('other')">Other Ways To Give</a>
+      <!-- <a href="" id="otherTypeAnc" ng-click="selectBillingType('other')">Other Ways To Give</a> -->
 
     </div>
 
@@ -95,9 +100,14 @@
         <p>Already have an account?</p>
         <a href="/#!/signIn">Log in</a>
       </span>
+      <span ng-if="signedIn == true">
+        <p>Signed In</p>
+        <a href="/#!/signIn">Change Account</a>
+      </span>
       <span>
         <!-- <p>Email</p> -->
-        <input type="text" name="" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+        <input ng-if="signedIn == false" type="text" name="email" value="" ng-model="donations.inputs.billing.email" placeholder="Email">
+        <input ng-if="signedIn == true" type="text" name="email" value="" ng-model="donations.inputs.billing.email" placeholder="Email" disabled>
       </span>
       <span>
         <!-- <p>Email</p> -->
@@ -109,7 +119,8 @@
       </span>
       <span>
         <!-- <p>Full Name</p> -->
-        <input type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+        <input ng-if="signedIn == false" type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name">
+        <input ng-if="signedIn == true" type="text" name="" value="" ng-model="donations.inputs.billing.fullName" placeholder="Full Name" disabled>
       </span>
       <span class="donationBillingCheckboxSpans" id="donationBillingAnonCheckboxSpan">
         <input type="checkbox" name="" value="" ng-model="donations.inputs.anon">
@@ -126,6 +137,7 @@
         <div id="card-errors" role="alert"></div>
 
         <button id="submit" ng-click="confirmDonation()">Please Enter Valid Name and Email address</button>
+        <div class="loading">Loading&#8230;</div>
       </form>
 
     </div>

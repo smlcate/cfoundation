@@ -27,6 +27,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/donate',
       templateUrl: '../partials/donate.html'
   })
+  .state('thankyou', {
+      url: '/thankyou',
+      templateUrl: '../partials/thankyou.html'
+  })
 
   .state('signUp', {
       url: '/signUp',
@@ -35,6 +39,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
   .state('signIn', {
       url: '/signIn',
       templateUrl: '../partials/signIn.html'
+  })
+  .state('profile', {
+      url: '/profile',
+      templateUrl: '../partials/profile.html'
+  })
+  .state('forgotPassword', {
+      url: '/forgotPassword',
+      templateUrl: '../partials/forgotPassword.html'
+  })
+  .state('resetPassword', {
+      url: '/resetPassword/:id/:token',
+      templateUrl: '../partials/resetPassword.html',
+      controller: function($stateParams, $scope) {
+        $scope.recoverId = $stateParams.id;
+        $scope.recoverToken = $stateParams.token;
+      }
   })
 
 })

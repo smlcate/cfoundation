@@ -1,4 +1,4 @@
-app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
+app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location', function($scope, $http, $window, $compile, $location) {
 
   $scope.careItems = [];
   $scope.careItemsToDisplay = [];
@@ -8,8 +8,29 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   $scope.ribbons = [];
   $scope.ribbonsToShow = [];
 
+  $scope.testimonials = [
+    {
+      name:'Randa M.',
+      text:'Maecenas eget lacus quam. Vestibulum laoreet id ligula sit amet bibendum. Praesent scelerisque justo at lorem aliquet, sed mattis felis dapibus. Phasellus dolor elit, eleifend sed lacinia quis, bibendum ut libero. Curabitur a euismod augue. Nunc fringilla tortor vitae ipsum facilisis, at posuere nisl posuere. Proin auctor ligula tempor risus facilisis pretium. Mauris egestas neque non velit ornare, nec rutrum velit euismod.'
+    },
+    {
+      name:'Lema N.',
+      text:'Vestibulum vestibulum odio lorem. Maecenas elementum mauris quis est auctor dignissim. Curabitur convallis massa a leo vestibulum, in eleifend risus interdum. Duis maximus nisi non dolor sagittis feugiat. Suspendisse ornare turpis magna, et eleifend enim rutrum non. Vestibulum ac ullamcorper odio. Donec commodo mollis orci sed tristique. Etiam suscipit ultrices eleifend. Aliquam porttitor, quam nec posuere tristique, nisl purus venenatis magna, non egestas dui mauris nec tortor. Mauris lobortis purus hendrerit, fringilla quam sodales, iaculis lectus.'
+    },
+    {
+      name:'Annonymous',
+      text:'Cras mattis ligula vel nisi laoreet vulputate. Nullam at felis quis nulla sagittis ullamcorper. Donec aliquam lacus a rutrum congue. Sed imperdiet, odio ut consectetur aliquet, nisl nunc iaculis arcu, malesuada tristique ante nibh quis felis. Nullam posuere erat varius vestibulum maximus. Fusce justo sapien, pharetra a scelerisque quis, feugiat vitae nisi. Aenean maximus, est eget malesuada tempus, elit est aliquet odio, eu luctus nibh urna at massa. Vivamus quis neque ante. Praesent rhoncus erat quis lorem commodo consectetur. Aliquam at ipsum sed ante interdum mollis. Sed sit amet mattis enim, eu elementum dui. Aliquam maximus magna ac metus tempus aliquet tincidunt tincidunt elit. Curabitur accumsan lacus nec eros fermentum, aliquam pretium dolor molestie. Cras suscipit elit vitae nisl imperdiet tristique. Pellentesque turpis nunc, tincidunt ut mauris ultrices, dignissim aliquam mi.'
+    },
+
+  ];
+
+
+  $scope.testimonialIndex = 0;
+
   $scope.user = {};
   $scope.signedIn = false;
+
+  $scope.collapsedToggle = true;
 
   function getRibbons() {
     $http.get('getRibbons')
@@ -19,7 +40,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         $scope.ribbons[i].ribbonData = JSON.parse($scope.ribbons[i].ribbonData);
       }
       makeBackground();
-      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -34,7 +54,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     // const images = ["../../icons/bag2.png", "../../icons/bag3.png", "../../icons/bag4.png"];
     const iconTypes = ["black","yellowFilled",'ribbon'];
 
-    const numBags = 40;
+    const numBags = 20;
     const bags = [];
 
     var ribbons = [];
@@ -54,32 +74,27 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         bag.classList.add("ribbonIcons");
         $(bag).attr("src",selectedRibbon);
       }
-      // bag.style.content = "../../icons.bag1.svg";
-      // bag.style.fill = colors[Math.floor(Math.random() * colors.length)];
-      bag.style.left = `${Math.floor(Math.random() * 95)+2.5}vw`;
-      bag.style.top = `${Math.floor(Math.random() * 5)+0.5}vh`;
+
+      bag.style.left = `${Math.floor(Math.random() * 60)+15}vw`;
+      bag.style.top = `${Math.floor(Math.random() * 2)+0.5}vh`;
       bag.style.transform = `scale(${Math.random()})`;
-      bag.style.width = `${Math.random()+0.5}em`;
+      bag.style.width = `${Math.random()+0.3}em`;
       bag.style.height = bag.style.width;
-      // console.log(bag.style);
       bags.push(bag);
       $('header').prepend(bag);
-      // document.body.append(bag);
 
     }
       // Keyframes
     bags.forEach((el, i, ra) => {
-      // $(el).attr("fill",colors[Math.floor(Math.random() * colors.length)]);
-      // console.log(el.style);
       let to = {
-        x: Math.random() * (i % 2 === 0 ? -11 : 11),
-        y: Math.random() * 5
+        x: Math.random() * (i % 2 === 0 ? -7 : 7),
+        y: Math.random() * 3
       };
 
       let anim = el.animate(
         [
           { transform: "translate(0, 0)" },
-          { transform: `translate(${to.x}rem, ${to.y}rem)` }
+          { transform: `translate(${to.x}em, ${to.y}em)` }
         ],
         {
           duration: (Math.random() + 1) * 6000, // random duration
@@ -102,6 +117,8 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
       $scope.user = {
         email: user.email,
         fullName: user.fullName,
+        donations: user.donations,
+        permission: user.permission,
         id: user.id
       }
 
@@ -110,21 +127,48 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
     }
   }
 
-  // function buildFilterNav() {
-  //   for (var j = 0; j < $scope.ribbons.length; j++) {
-  //   for (var i = 0; i < $scope.filterTags.length; i++) {
-  //
-  //       if ($scope.ribbons[j].ribbonData.name == 'Rectal') {
-  //
-  //       }
-  //
-  //       if ($scope.filterTags[i] == $scope.ribbons[j].ribbonData.name[0].toLowerCase() + $scope.ribbons[j].ribbonData.name.slice(1)) {
-  //         ribbon = $scope.ribbons[j].ribbonData;
-  //         $scope.ribbonsToShow.push(ribbon);
-  //       }
-  //     }
-  //   }
-  // }
+  function getTestimonials() {
+    $http.get('getTestimonials')
+    .then(function(res) {
+      if (res.data.length > 0) {
+        for (var i = 0; i < res.data.length; i++) {
+          res.data[i].testimonial_data = JSON.parse(res.data[i].testimonial_data);
+          $scope.testimonials = res.data;
+        }
+      }
+      buildTestimonials();
+    })
+  }
+
+  function buildTestimonials() {
+
+    ts = $scope.testimonials;
+    for (var i = 0; i < ts.length; i++) {
+      ts[i].index = i;
+    }
+    $scope.testimonials = ts;
+
+  }
+
+  function changeTestimonial(c) {
+    if (c == 0) {
+      if ($scope.testimonialIndex == 0) {
+        $scope.testimonialIndex = $scope.testimonials.length - 1;
+      } else {
+        $scope.testimonialIndex --;
+      }
+    } else {
+      if ($scope.testimonialIndex == $scope.testimonials.length - 1) {
+        $scope.testimonialIndex = 0;
+      } else {
+        $scope.testimonialIndex ++;
+      }
+    }
+  }
+
+  function selectTestimonial(c) {
+    $scope.testimonialIndex = c;
+  }
 
 
   function getItems() {
@@ -158,7 +202,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
         }
         if (i == res.data.length-1) {
           buildItemDisplay('all');
-          // buildFilterNav();
         }
 
       }
@@ -182,17 +225,54 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
   }
 
 
+  $scope.changeTestimonial = function(c) {
+    changeTestimonial(c);
+  }
+
+  $scope.selectTestimonial = function(t) {
+    selectTestimonial(t);
+  }
+
   $scope.changeFilter = function(tag) {
     buildItemDisplay(tag[0].toLowerCase() + tag.slice(1));
   }
 
-  $scope.changePage = function(p) {
+  $scope.changePage = function(p, account) {
 
-    $('#headerNav a').css('background','#E7E1FB');
-    $('#headerNav a').css('color','#ffff63');
+    $('#headerNav a').css('background','none');
+    $('.pageNavAncs').css('color','#ffff63');
+    $('.accountNavAncs').css('color','#C4B0FF');
 
-    $('#'+p+'Anc').css('background','#ffff63');
-    $('#'+p+'Anc').css('color','#C4B0FF');
+    if (account) {
+
+      $('#'+p+'Anc').css('background','#C4B0FF');
+
+      $('#'+p+'Anc').animate({
+        color: '#ffff63',
+      })
+      $("header").animate({
+        borderColor: '#C4B0FF',
+      })
+      $("html").css({
+        backgroundImage: "url('../../images/homeBags-min.jpg')"
+      })
+
+    } else {
+
+      $('#'+p+'Anc').css('background','#ffff63');
+
+      $('#'+p+'Anc').animate({
+        color: '#C4B0FF',
+      })
+      $("header").animate({
+        borderColor: '#ffff63'
+      })
+
+      $("html").css({
+        backgroundImage: "url('../../images/homeBags-min.jpg')"
+      })
+    }
+
   }
 
   $scope.signOut = function() {
@@ -205,16 +285,38 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', function($
 
   }
 
+  $scope.toggleCollapsedNav = function() {
+    if ($scope.collapsedToggle == true) {
+      $scope.collapsedToggle = false;
+    } else {
+      $scope.collapsedToggle = true;
+    }
+  }
+
   function start() {
 
-    $('#homeAnc').css('background','#ffff63');
-    $('#homeAnc').css('color','#E7E1FB');
+    var path = $location.path();
+    if (path.length > 1) {
+      path = path.split('/')[1];
 
+    }
+    if (path == '') {
+      path = '/';
+    }
+    if (path) {
+      if (path == '' || path == '/') {
+        $scope.changePage('home', false);
+      } else if (path[0] == 's') {
+        $scope.changePage(path, true);
+      } else {
+        $scope.changePage(path, false);
+      }
+    }
+
+    getTestimonials()
     getItems();
     getRibbons();
     checkSignIn();
-    // $('#bagsvg').load(function () {
-    // });
 
   }
 

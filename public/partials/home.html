@@ -1,26 +1,69 @@
 <div class="parentDisplays" id="welcomeParentDisplay">
+  <title>Welcome to Yellow Bag of Humanity</title>
+  <div class="infoDivs" id="welcomeInfoDiv">
 
+    <div class="infoDivHeaders">
+      <h2 id="yellowTitle">Yellow</h2>
+      <h2> Bag of Humanity</h2>
+    </div>
+    <h4>A 501c3 Nonprofit</h4>
+      <!-- <h3>Who we are</h3> -->
+      <!-- <p>We are providing totes of support, offering comfort, care, and encouragement to those who are undergoing treatment.</p> -->
+      <p>We provide totes of support, offer comfort, care, and encouragement to those who undergo cancer treatment.</p>
 
+      <!-- <div class="infoDivs" id="aboutUsInfoDiv"> -->
+
+      <!-- <h3>What is our purpose?</h3> -->
+      <!-- <p>Our purpose is to provide an accessible, simple to navigate, outlet for friends, family, or anonymous supporters to uplift, gift a care package for their loved one, or make a donation to someone who has been diagnosed with cancer.</p> -->
+      <p>Our purpose is to provide an accessible and friendly outlet for friends, family, or anonymous supporters to gift care packages to loved ones with cancer.</p>
+
+      <!-- </div> -->
+      <h3>Are you interested in Donating?</h3>
+
+      <div class="" id="quickShopInfoDivAncContainer">
+        <a href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
+        <a href="/#!/packages" ng-click="changePage('packages',false)">Personal Donation</a>
+        <!-- <p><b>- or -</b></p> -->
+      </div>
+
+  </div>
 
   <!-- <div class="" id="homeRibbonDiv">
     <img ng-if="ribbon.ribbonData.image != ''" src="{{ribbon.ribbonData.image}}" alt="" ng-repeat="ribbon in ribbons">
   </div> -->
+  <div class="infoDivs" id="welcomeTestimonialDiv">
 
-  <div class="infoDivs" id="welcomeInfoDiv">
+    <img id="testimonialImg" src="../images/bagPicCloseup1HighContrastSlim-min.png" alt="">
 
-      <h3>Who is Yellow Bag of Humanity?</h3>
-      <p>We are providing totes of support, offering comfort, care, and encouragement to those who are undergoing treatment.</p>
+    <div class="navArrows" id="leftTestimonialNavArrow">
+      <a href="" ng-click="changeTestimonial(0)"><img src="../images/chevron_left_black_24dp_svg.svg" width="50" height="150"></a>
+    </div>
+    <div class="" id="welcomeTestimonialRightDiv">
+      <div class="" id="welcomeTestimonialViewport">
 
-  </div>
-  <div class="" id="lowerInfoDiv">
-    <div id="lowerLeftInfoDiv">
+        <div ng-if="testimonialIndex == t.index" class="testimonialCells" id="{{t.index}}TestimonialCell" ng-repeat="t in testimonials track by $index">
+          <h3>A testimonial from {{t.testimonial_data.name}}</h3>
 
-      <div class="infoDivs" id="aboutUsInfoDiv">
+          <p>{{t.testimonial_data.testimonial}}</p>
+        </div>
 
-        <h3>What is our purpose?</h3>
-        <p>Our purpose is to provide an accessible, simple to navigate, outlet for friends, family, or anonymous supporters to uplift, gift a care package for their loved one, or make a donation to someone who has been diagnosed with cancer.</p>
 
       </div>
+      <div id="testimonialIndexNav">
+        <a ng-repeat="t in testimonials track by $index" href="" ng-click="selectTestimonial(t.index)"><img ng-if="testimonialIndex != t.index" src="../images/viewportNavBubbleUnselected.png"><img ng-if="testimonialIndex == t.index" src="../images/viewportNavBubbleSelected.png"></a>
+      </div>
+
+    </div>
+    <div class="navArrows" id="rightTestimonialNavArrow">
+      <a href="" ng-click="changeTestimonial(1)"><img src="../images/chevron_left_black_24dp_svg.svg" width="50" height="150" fill="#C4B0FF"></a>
+    </div>
+
+  </div>
+
+  <!-- <div class="" id="lowerInfoDiv">
+    <div id="lowerLeftInfoDiv">
+
+
 
       <div class="" id="infoDivider">
 
@@ -31,16 +74,16 @@
         <h3>Are you interested in Donating?</h3>
 
         <div class="" id="quickShopInfoDivAncContainer">
-          <a href="/#!/browse">Check out our bags</a>
+          <a href="/#!/browse" ng-click="changePage('browse',false)">Check out our bag</a>
           <p><b>- or -</b></p>
-          <a href="/#!/donate">Donate Today!</a>
+          <a href="/#!/donate" ng-click="changePage('donate',false)">Donate Today!</a>
         </div>
 
       </div>
     </div>
     <div class="" id="lowerRightInfoDiv">
-      <img src="../images/bagPicCloseup1.png" alt="">
+      <img src="../images/gabbiesBags.png" alt="">
     </div>
-  </div>
+  </div> -->
 
 </div>

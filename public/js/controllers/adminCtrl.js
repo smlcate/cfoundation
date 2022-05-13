@@ -34,23 +34,25 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   };
 
   $scope.editRibbon = false;
-
   $scope.ribbons = [];
 
   $scope.editItemId;
 
   $scope.mode = 'view';
-  // $scope.editItem = {
-  //   name: '',
-  //   price: '', //the price we purchase the product for
-  //   image: '',
-  //   description: '',
-  //   tags:'all'
-  // }
 
   $scope.careItems = [];
 
   $scope.itemImageInput = '';
+
+  $scope.testimonialSettings = {
+    inputs:{
+      name:'Anonymous',
+      testimonial:'',
+      ribbons:[]
+    },
+    toEdit:{}, //Selected Testimonial
+    mode:'new'
+  }
 
   function buildDisplays() {
 
@@ -65,13 +67,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function buildOrderCSV() {
     var orders = $scope.orders;
     var rows = [
-        ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height"]
+        ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height","Diagnosies","Diagnosies2","Diagnosies3"]
     ];
 
     for (var i = 0; i < orders.length; i++) {
       var shipping = orders[i].orderData.shipping;
       var recipient = orders[i].orderData.recipient;
-      rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20"]);
+      rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20",recipient.diagnosies]);
       if (i == orders.length - 1) {
         let csvContent = "data:text/csv;charset=utf-8,"
         + rows.map(e => e.join(",")).join("\n");
@@ -102,7 +104,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].orderData = JSON.parse(res.data[i].orderData);
         $scope.orders.push(res.data[i]);
+
       }
+      console.log($scope.orders);
     })
     .catch(function(err) {
       console.log(err);
@@ -187,6 +191,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
     $('#'+p+'AdminPage').css('display','flex');
+
+    $('#adminNav a').css('background','none');
+    $('#adminNav a').css('color','#C4B0FF');
+
+    $('#'+p+'NavAnc').css('background','#C4B0FF');
+    $('#'+p+'NavAnc').css('color','#ffff63');
+
   }
 
   $scope.saveCarePackagePrice = function() {
@@ -263,6 +274,72 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     readUrl(files[0])
 
   })
+
+
+  $scope.addTestimonial = function() {
+    var t = $scope.testimonialSettings.inputs;
+
+    $http.post('addTestimonial', {testimonial_data:JSON.stringify(t)})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.thisTestimonial = function(t) {
+    console.log(t);
+    var hold = {
+      id:t.id,
+      index:t.index,
+      name:t.testimonial_data.name,
+      testimonial:t.testimonial_data.testimonial
+    };
+    $scope.testimonialSettings.toEdit = hold;
+    $scope.testimonialSettings.inputs = t.testimonial_data;
+    $scope.testimonialSettings.mode = 'edit';
+  }
+
+  $scope.cancelTestimonialEdit = function() {
+    $scope.testimonials[$scope.testimonialSettings.toEdit.index] = {testimonial_data:$scope.testimonialSettings.toEdit};
+    $scope.testimonialSettings.toEdit = {};
+    $scope.testimonialSettings.inputs = {
+      name:'Annonymous',
+      testimonial:''
+    };
+    $scope.testimonialSettings.mode = 'new';
+    console.log($scope.testimonials)
+  }
+
+  $scope.editTestimonial = function() {
+    var t = {
+      id: $scope.testimonialSettings.toEdit.id,
+      testimonial_data: JSON.stringify($scope.testimonialSettings.inputs)
+    }
+    $http.post('editTestimonial', t)
+    .then(function(res) {
+      console.log(res);
+      $scope.testimonialSettings.mode = 'new';
+      $scope.testimonialSettings.inputs = {
+        name:'Annonymous',
+        testimonial:''
+      };
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.removeTestimonial = function() {
+    $http.post('removeTestimonial', {id:$scope.testimonialSettings.toEdit.id})
+    .then(function(res) {
+      console.log(res);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 
   $scope.addNewRibbon = function() {
     $http.post('addNewRibbon', {ribbon:$scope.newRibbon})
@@ -484,6 +561,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               getDonations();
               if ($scope.careItems.length > 0) {
               }
+
+              $scope.changePage('admin',true);
 
         } else {
           window.location.href = '#!/signin';

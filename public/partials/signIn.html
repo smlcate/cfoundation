@@ -1,12 +1,16 @@
 <div class="parentDisplays" id="signInDisplay" ng-controller="authCtrl">
-
+  <title>Sign In to Yellow Bag of Humanity</title>
   <div class="" id="signUpForm">
 
     <h2>Sign In to your Yellow Bag account</h2>
 
     <div class="" id="signUpFormInputDiv">
-      <input type="text" name="email" value="" placeholder="Email" ng-model="auth.email">
-      <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password">
+      <span>
+        <input type="text" name="email" value="" placeholder="Email" ng-model="auth.email">
+      </span>
+      <span>
+        <input type="password" name="password" value="" placeholder="Password" ng-model="auth.password" autocomplete="new-password">
+      </span>
       <!-- <input type="password" name="check_password" value="" placeholder="Confirm Password" ng-model="auth.checkPassword">
       <input type="text" name="full_name" value=""ng-model="auth.fullName" placeholder="Full Name"> -->
     </div>
@@ -15,6 +19,8 @@
     <button type="button" name="button" ng-click="signIn()">Sign In</button>
     <p>Or</p>
     <a href="/#!/signUp"> Sign up for an account</a>
+
+    <a href="/#!/forgotPassword">Forgot Password?</a>
 
   </div>
 

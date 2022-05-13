@@ -1,37 +1,55 @@
 <div class="parentDisplays" id="carepackageParentDisplay" ng-controller="orderCtrl">
-
-  <h1>Donate a bag, and we will send it to someone you know!</h1>
+  <title>Donate a Bag to Someone You Know</title>
+  <h1>Donate a bag to someone you know</h1>
 
   <div class="packageDisplays" id="receiverInfoPackageDisplay">
+    <p>If you know someone who needs a little comfort; donate, and we will send a Yellow Bag to anyone in the Nation</p>
     <h3>Tell us a little about them</h3>
     <span>
-      <p>Recipient Name</p>
-      <input type="text" name="" value="" ng-model="order.recipient.name">
+      <!-- <p>Recipient</p> -->
+      <input id="shippingRecipientInput" type="text" name="" value="" placeholder="Recipient" ng-model="order.recipient.name" required="required">
+      <!-- <p class="requireIcons" id="recipientRequireIcon">*</p> -->
     </span>
-    <span>
-      <p>Diognosies</p>
-      <div class="" id="receiverInfoDiognosiesDropdownContainer">
-        <select id="0receiverInfoDiognosiesDropdown" class="receiverInfoDiognosiesDropdowns" ng-model="order.recipient.diognosies[0].name" ng-change="selectDiognosis(0)" name="">
-          <option ng-if="dio.ribbonData.name != '' && dio.ribbonData.name != 'All'" value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+    <span id="receiverInfoDiagnosiesSpan">
+      <p>Diagnosies</p>
+      <div class="" id="receiverInfoDiagnosiesDropdownContainer">
+        <div ng-if="order.recipient.diagnosies[$index-1] != ''" id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in order.recipient.diagnosies track by $index">
+          <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[$index]" ng-change="selectDiagnosis($index)" name="">
+            <option value="" disabled required="required">Add Diagnosis</option>
+            <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+          </select>
+          <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a>
+        </div>
+        <!-- <select id="receiverInfoDiagnosiesDropdown1" class="receiverInfoDiagnosiesDropdowns" ng-model="order.recipient.diagnosies[1].name" ng-change="selectDiagnosis(1)" name="">
+          <option value="" disabled required="required">Add Diagnosis</option>
+          <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons track by $index">{{dio.ribbonData.name}}</option>
         </select>
+        <a id="receiverInfoDiagnosiesRemoveAnc1" ng-if="order.recipient.diagnosies[1].name != ''" href="" ng-click="removeDiagnosis(1)">X</a> -->
       </div>
-      <a href="" ng-click="newDiognosis()" ng-if="order.diognosies[order.diognosies.length-1] != undefined">New Diognosis</a>
     </span>
 
     <div class="checkoutFormDivs" id="shippingInfoCheckoutFormDiv">
-      <p>Shipping Information</p>
+      <h3>Shipping Information</h3>
       <span>
-        <input type="text" name="address" value="" placeholder="Address" ng-model="order.shipping.address">
-        <input type="text" name="city" value="" placeholder="City" ng-model="order.shipping.city">
-        <input type="text" name="state" value="" placeholder="State" ng-model="order.shipping.state">
-        <input type="text" name="apt" value="" placeholder="Apt/Rm #" ng-model="order.shipping.room">
+        <input type="text" id="shippingAddressInput" name="address" value="" placeholder="Address" ng-model="order.shipping.address" required="required">
+        <!-- <p class="requireIcons" id="addressRequireIcon">*</p> -->
+        <select type="text" id="shippingStateDropdown" name="state" value="" placeholder="State" default="State" ng-model="order.shipping.state" ng-change="selectShippingState()" required="required">
+          <option value="" disabled selected>State</option>
+          <option value="{{s.name}}" ng-repeat="s in states">{{s.code}}</option>
+        </select>
+        <!-- <p class="requireIcons" id="stateRequireIcon">*</p> -->
+        <select id="shippingCityDropdown" type="text" name="city" value="" placeholder="City" ng-model="order.shipping.city" required="required">
+          <option value="" disabled selected>City</option>
+        </select>
+        <!-- <p class="requireIcons" id="cityRequireIcon">*</p> -->
+        <input id="rmNum" type="text" name="apt" value="" placeholder="Apt/Rm #" ng-model="order.shipping.room">
       </span>
 
 
     </div>
 
     <div class="packageDisplayNavs">
-      <a href="" ng-click="changeOrderDisplay('c')">Continue</a>
+      <a href="" ng-click="changeOrderDisplay('c')">To Checkout</a>
     </div>
 
   </div>
@@ -49,31 +67,25 @@
     </div>
 
   </div> -->
-  <!-- <div class="packageDisplays" id="receiverCardPackageDisplay">
 
-    <h3>Personal Message</h3>
-    <textarea name="name" rows="8" cols="80" ng-model="order.card_message"></textarea>
-
-    <div class="packageDisplayNavs">
-      <a href="" ng-click="changeOrderDisplay('b')">Back</a>
-      <a href="" ng-click="changeOrderDisplay('c')">Continue</a>
-    </div>
-
-  </div> -->
   <div class="packageDisplays" id="receiverCheckoutPackageDisplay">
 
+    <div class="packageDisplayNavs">
+      <a href="" ng-click="changeOrderDisplay('b')">Back to Shipping</a>
+    </div>
+
+    <h3>Package Cost: ${{order.billing.total}}</h3>
     <div class="checkoutFormDivs" id="billingInfoCheckoutFormDiv">
-      <p>Billing Information</p>
+      <h3>Billing Information</h3>
 
       <span>
-        <input type="text" name="" value="" placeholder="Email" ng-model="order.billing.email">
-        <input type="text" name="" value="" placeholder="First Name" ng-model="order.billing.fName">
-        <input type="text" name="" value="" placeholder="Last Name" ng-model="order.billing.lName">
+        <input id="billingEmailInput" type="text" name="" value="" placeholder="Email" ng-model="order.billing.email">
+        <input id="billingFNameInput" type="text" name="" value="" placeholder="First Name" ng-model="order.billing.fName">
+        <input id="billingLNameInput" type="text" name="" value="" placeholder="Last Name" ng-model="order.billing.lName">
       </span>
 
 
     </div>
-      <!-- <button type="button" id="checkout-button" name="button" ng-click="sendOrder()">Send Order</button> -->
     <form id="payment-form">
       <div id="card-element">
         <!-- Elements will create input elements here -->
@@ -82,10 +94,9 @@
       <!-- We'll put the error messages in this element -->
       <div id="card-errors" role="alert"></div>
 
-      <a href="" ng-click="changeOrderDisplay('b')">Back</a>
-      <button id="submit" ng-click="confirmOrder()">Submit Payment</button>
+      <div class="loading">Loading&#8230;</div>
+      <button id="submit" ng-click="confirmOrder()">Submit Donation</button>
     </form>
-    <!-- <button id="checkout-button">Checkout</button> -->
 
   </div>
 

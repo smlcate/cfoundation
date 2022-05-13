@@ -4,11 +4,15 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+var jwt = require('jsonwebtoken');
+
 var server = {
   admin: require('./controllers/admin.js'),
   orders: require('./controllers/orders.js'),
   login: require('./controllers/login.js'),
-  donations: require('./controllers/donations.js')
+  donations: require('./controllers/donations.js'),
+  profile: require('./controllers/profile.js')
+
 }
 
 app.use(express.static('public'));
@@ -24,6 +28,10 @@ app.get('/getRibbons', server.admin.getRibbons);
 app.post('/newOrder', server.orders.newOrder);
 app.get('/getOrders', server.orders.getOrders);
 
+app.get('/getTestimonials', server.admin.getTestimonials);
+app.post('/addTestimonial', server.admin.addTestimonial);
+app.post('/editTestimonial', server.admin.editTestimonial);
+app.post('/removeTestimonial', server.admin.removeTestimonial);
 
 // app.get('/createCheckoutSession', server.orders.createCheckoutSession);
 
@@ -37,6 +45,10 @@ app.get('/getItems', server.admin.getItems);
 app.get('/getUsers', server.login.getUsers);
 app.post('/signUp', server.login.signUp);
 app.post('/signIn', server.login.signIn);
+app.post('/requestPasswordReset', server.login.requestPasswordReset);
+
+app.post('/verifyPasswordReset', server.login.verifyPasswordReset);
+app.post('/resetPassword', server.login.resetPassword);
 
 app.post('/checkPermission', server.login.checkPermission);
 
@@ -48,7 +60,13 @@ app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);
 
-app.set('port', process.env.PORT || 3000);
+app.post('/endRecPledge', server.profile.endRecPledge);
+app.post('/updateRecPledge', server.profile.updateRecPledge);
+
+
+app.post('/getUsersDonations', server.profile.getUsersDonations);
+
+app.set('port', process.env.PORT || 8080);
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });

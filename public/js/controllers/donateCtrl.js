@@ -1,6 +1,7 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
 
   var elements = stripe.elements();
 
@@ -22,8 +23,11 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
   paypal.Buttons().render('#paypal-button-container');
 
   function setDonationAmount() {
+
     $scope.donations.inputs.amount = $scope.donations.inputs.packs * $scope.carePackagePrice;
+
     $scope.donations.totalAmount = $scope.donations.inputs.amount;
+
   }
 
   function getCarePackagePrice() {
@@ -204,6 +208,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   $scope.confirmDonation  = async (e) => {
     // e.preventDefault();
+    $('.loading').css('display', 'inline-block');
     const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
     .then(function(res) {
       return res.data.clientSecret;
@@ -277,8 +282,24 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
                         $http.post('makeDonation', {donation:donation})
                         .then(function(res) {
-                          window.location.href = '/#!/';
-                          $window.location.reload();
+                          var tempParams = {
+                            to_name: donation.fullName,
+                            to_email: donation.email,
+                            amount: donation.invoice.total
+                          }
+                          emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+                          .then(function(res) {
+                            $('.loading').css('display', 'none');
+                            window.location.href = '/#!/thankyou';
+                            $window.location.reload();
+
+                          })
+                          .catch(function(err) {
+                            $('.loading').css('display', 'none');
+                            console.log(err);
+                            window.location.href = '/#!/thankyou';
+                            $window.location.reload();
+                          })
                         })
                         .catch(function(err) {
                           console.log(err);
@@ -292,17 +313,36 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                 }
               } else {
                 //check password error
+                $('.loading').css('display', 'none');
               }
             } else {
               // password error
+              $('.loading').css('display', 'none');
             }
 
           } else {
 
             $http.post('makeDonation', {donation:donation})
             .then(function(res) {
-              window.location.href = '/#!/';
-              $window.location.reload();
+              // console.log(res);
+              var tempParams = {
+                to_name: donation.fullName,
+                to_email: donation.email,
+                amount: donation.invoice.total
+              }
+              $('.loading').css('display', 'none');
+              emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+              .then(function(res) {
+                window.location.href = '/#!/thankyou';
+                $window.location.reload();
+
+              })
+              .catch(function(err) {
+                console.log(err);
+                window.location.href = '/#!/thankyou';
+                $window.location.reload();
+              })
+
             })
             .catch(function(err) {
               console.log(err);
@@ -311,15 +351,18 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
           }
         } else {
           //only name error
+          $('.loading').css('display', 'none');
         }
 
       } else {
         //email error
+        $('.loading').css('display', 'none');
         if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
           //email and name error
         }
       }
     } else {
+      $('.loading').css('display', 'none');
       console.log('Payment Failed');
     }
 
@@ -327,14 +370,26 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   }
 
+  window.addEventListener('resize', function(event) {
+    if (window.innerWidth <= 1000) {
+      card.update({style: {base: {fontSize: '60px', width: '100%'}}});
+    } else {
+      card.update({style: {base: {fontSize: '15px', width: '100%'}}});
+    }
+  });
+
 
   function init() {
     $scope.changePage('donate');
     $scope.selectDonationType();
     $scope.selectBillingType('credit');
-    // getItems();
     $scope.selectCarePackAmounts(1);
     buildDonationPage();
+    if (window.innerWidth <= 1000) {
+      card.update({style: {base: {fontSize: '60px', width: '100%'}}});
+    } else {
+      card.update({style: {base: {fontSize: '30px'}}});
+    }
   }
 
   init();
