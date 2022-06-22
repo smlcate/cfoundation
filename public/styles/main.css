@@ -1025,7 +1025,7 @@ header {
 }
 .infoDivs {
   width: 60vw;
-  /* padding: 20px; */
+  padding-bottom: 1em;
   /* box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.9); */
   /* border-radius: 5px; */
   /* margin-bottom: 20px; */
@@ -1045,7 +1045,10 @@ header {
 }
 .infoDivs p {
   background: #E7E1FB;
-  width: 100%;
+  /* width: 100%; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 .infoDivs::before {
   content: '';
