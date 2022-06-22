@@ -4,16 +4,16 @@ module.exports = {
 
   development: {
     client: 'pg',
-    connection: {
-
-      database: 'cfoundation',
-      password: 'ncmpTk88'
-    }
     // connection: {
-    //   user: 'postgres',
-    //   database: 'postgres',
-    //   password: 'postgres'
+    //
+    //   database: 'cfoundation',
+    //   password: 'ncmpTk88'
     // }
+    connection: {
+      user: 'postgres',
+      database: 'postgres',
+      password: 'postgres'
+    }
   },
 
   staging: {

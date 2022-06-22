@@ -225,10 +225,12 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
       }
     );
     if (paymentIntent.status == 'succeeded') {
+
       // $('.loading').css('display', 'inline-block'); 
       $('.HYPE_document').css('display','block');
       $('.loadMask').css('display','flex');
       thankyouLoadingBagAnim();
+
       // Donations include: total donation amount, email and name of donor, if recurring - stripe/paypal customer id
       if ($scope.donations.inputs.billing.email != null && $scope.donations.inputs.billing.email != '' && $scope.donations.inputs.billing.email != undefined) {
         if ($scope.donations.inputs.billing.fullName != null && $scope.donations.inputs.billing.fullName != '' && $scope.donations.inputs.billing.fullName != undefined) {
