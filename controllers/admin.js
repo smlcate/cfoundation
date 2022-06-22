@@ -4,6 +4,54 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
+exports.savePackageDimensions = function(req, res, send) {
+  knex('package_dimensions')
+  .insert({package_dimensions_data:req.body})
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+
+exports.getPackageDimensions = function(req, res, send) {
+  knex('package_dimensions')
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+
+exports.uploadShippingRates = function(req, res, send) {
+  console.log(req.body);
+  knex('shippingRates')
+  .insert({shippingRate_data:req.body})
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+exports.getShippingRates = function(req, res, send) {
+  knex('shippingRates')
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send(err);
+  })
+}
+
 exports.addTestimonial = function(req, res, send) {
 
   knex('testimonials')

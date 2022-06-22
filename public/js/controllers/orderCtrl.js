@@ -1,6 +1,25 @@
 
 app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
+//   const data = null;
+//
+// const xhr = new XMLHttpRequest();
+// xhr.withCredentials = true;
+//
+// xhr.addEventListener("readystatechange", function () {
+// 	if (this.readyState === this.DONE) {
+// 		console.log(this.responseText);
+// 	}
+// });
+//
+// xhr.open("GET", "https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false");
+// xhr.setRequestHeader("X-RapidAPI-Key", "fc114bc61dmsh85d1dde27d710b4p170547jsn7ad33d199d24");
+// xhr.setRequestHeader("X-RapidAPI-Host", "distanceto.p.rapidapi.com");
+//
+// xhr.send(data);
+
+
+
   var cities = [
 
   {'city': 'Abbeville', 'state': 'Louisiana'},
@@ -6239,6 +6258,64 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   //
   $scope.display = 0;
   //
+
+  function findShippingCost() {
+
+    var city = "Sacramento";
+    var state = "California";
+
+    var lat1;
+    var lon1;
+
+    var lat2;
+    var lon2;
+    // Our Coordinates
+    // var lat2 = Number(39.806927);
+    // var lon2 = Number(-84.884875);
+
+    const settings = {
+    	"async": true,
+    	"crossDomain": true,
+    	"url": "https://distanceto.p.rapidapi.com/get?route=%5B%7B%22t%22%3A%22Richmond%2C%20Indiana%22%7D%2C%7B%22t%22%3A%22"+city+"%2C%20"+state+"%22%7D%5D&car=true",
+    	"method": "GET",
+    	"headers": {
+    		"X-RapidAPI-Key": "63fa26e228msh908d02ebe27c59fp1d45ffjsn2f1fe639a076",
+    		"X-RapidAPI-Host": "distanceto.p.rapidapi.com"
+    	}
+    };
+
+    $.ajax(settings).done(function (response) {
+    	console.log(response);
+      lat1 = Number(response.points[0].geometry.coordinates[0]);
+      lon1 = Number(response.points[0].geometry.coordinates[1]);
+      lat2 = Number(response.points[1].geometry.coordinates[0]);
+      lon2 = Number(response.points[1].geometry.coordinates[1]);
+      console.log(lat2, lon2);
+
+      function toRad(x) {
+        return x * Math.PI / 180;
+      }
+
+      isMiles = true;
+      var R = 6371; // km
+
+      var x1 = lat2 - lat1;
+      var dLat = toRad(x1);
+      var x2 = lon2 - lon1;
+      var dLon = toRad(x2)
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c;
+
+      // 5443.486815811564, 2529.0361748428363
+      if(isMiles) d /= 1.60934;
+      return d;
+    });
+
+  }
+
   function pickCities() {
     $scope.citiesToShow = [];
 
@@ -6346,6 +6423,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
        $(alert).insertAfter('#shippingCityDropdown');
      }
      if (passes) {
+       findShippingCost();
        $('.packageDisplays').css('display','none');
        $('#receiverCheckoutPackageDisplay').css('display','flex');
      } else {

@@ -5,12 +5,58 @@
 
     <a href="" id="carepackageNavAnc" ng-click="thisAdminPage('carepackage')">Care Packages</a>
     <a href="" id="ordersNavAnc" ng-click="thisAdminPage('orders')">Orders</a>
+    <a href="" id="shippingRatesNavAnc" ng-click="thisAdminPage('shippingRates')">Shipping Rates</a>
     <a href="" id="donationsNavAnc" ng-click="thisAdminPage('donations')">Donations</a>
     <a href="" id="testimonialsNavAnc" ng-click="thisAdminPage('testimonials')">Testimonials</a>
 
     <!-- <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a> -->
 
+  </div>
+
+  <div class="adminPages" id="shippingRatesAdminPage">
+
+    <div class="shippingRateInfoDisplays" id="shippingBoxSizeForm">
+
+      <span>
+        <input min="1" type="number" name="" value="" placeholder="Length (in)" ng-model="boxSize.length">
+        <p>x</p>
+        <input min="1" type="number" name="" value="" placeholder="Width (in)" ng-model="boxSize.width">
+        <p>x</p>
+        <input min="1" type="number" name="" value="" placeholder="Height (in)" ng-model="boxSize.height">
+      </span>
+
+      <input min="1" type="number" name="" value="" placeholder="Weight (lbs)" ng-model="boxSize.weight">
+
+      <a href="" ng-click="saveDimensionChanges()">Save Changes</a>
+
+    </div>
+
+    <div class="shippingRateInfoDisplays" id="shippingRatesForm">
+
+      <input type="file" name="" value="" id="shippingCsvInput" accept=".csv" ng-model="newShippingRates">
+      <input type="text" name="" value="" placeholder="Shipping Name" ng-model="newShippingRatesName">
+      <a href="" id="uploadShippingRatesAnc" ng-click="uploadShippingRates()">Upload Shipping Rates</a>
+
+    </div>
+    <div class="shippingRateInfoDisplays" id="shippingRateTiersDisplay">
+      <div class="shippingRatesOptions" ng-repeat="option in tierShippingRates track by $index">
+        <div class="shippingRateRows" ng-repeat="row in option track by $index">
+          <p class="shippingRateCells" ng-repeat="rate in row track by $index">{{rate}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="shippingRateInfoDisplays" id="shippingRatesDisplay">
+
+      <div class="shippingRatesOptions" ng-repeat="option in shippingRates track by $index">
+        <div class="shippingRateRows" ng-repeat="row in option.rates track by $index">
+          <p class="shippingRateCells" ng-repeat="rate in row track by $index">{{rate}}</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- <input type="submit" value="Submit" /> -->
   </div>
 
   <div class="adminPages" id="testimonialsAdminPage">
