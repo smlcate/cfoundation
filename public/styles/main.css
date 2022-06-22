@@ -265,9 +265,12 @@ header {
 }
 #carepackageParentDisplay h1 {
   filter: drop-shadow(0px 2px 2px #222);
+  font-size: 1.5em;
+  text-align: center;
 }
 
 .packageDisplays {
+  margin-top: 1.5em;
   width: 60vw;
   font-size: 1.5em;
   display: none;
@@ -289,9 +292,10 @@ header {
   filter: blur(50px);
   z-index:-10;
 }
-.packageDisplays p, h3, a {
+.packageDisplays p, .packageDisplays h3, .packageDisplays a {
   /* margin-left: 1em;
   margin-right: 1em; */
+  filter: drop-shadow(0px 2px 2px #222);
 }
 .packageDisplayNavs a {
   width: auto;
@@ -309,6 +313,7 @@ header {
   height: 60px;
   margin-top: 0px;
   margin-bottom: 0px;
+  text-align: center;
 }
 #receiverInfoPackageDisplay span {
   height: 1.5em;
@@ -327,6 +332,9 @@ header {
   /* margin-top:0px; */
   display: flex;
   align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: center;
 }
 #receiverInfoDiagnosiesDropdownContainer a {
   color: #F7567C;
@@ -996,6 +1004,7 @@ header {
   /* color:#7C7C7C; */
   border-radius: 10px;
   backdrop-filter: blur(5px);
+  filter: drop-shadow(0px 2px 2px #222);
 }
 .infoDivs::before {
   content: '';
@@ -1011,7 +1020,7 @@ header {
   z-index: -15;
 }
 .infoDivs, .infodivs h3, p{
-  /* filter: drop-shadow(0px 2px 2px #222); */
+  filter: drop-shadow(0px 1px 1px #222);
   /* color: #E7E1FB; */
 }
 .infoDivs h3 {
@@ -2301,6 +2310,9 @@ footer {
     .infoDivs {
       width: 100vw !important;
     }
+    .infoDivs p {
+      padding: 1em;
+    }
     .infoDivHeaders {
       display: flex;
       flex-direction: column;
@@ -2413,6 +2425,7 @@ footer {
     #shippingInfoCheckoutFormDiv {
       display: flex;
       flex-direction: column;
+      align-items: center;
       /* margin-top: 1.5em; */
     }
     #shippingInfoCheckoutFormDiv span {
