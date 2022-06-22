@@ -6414,9 +6414,11 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         amount: $scope.order.billing.total
       }
       if (paymentIntent && paymentIntent.status == 'succeeded') {
+
         $('.HYPE_document').css('display','block');
         $('.loadMask').css('display','flex');
         thankyouLoadingBagAnim();
+
         $scope.order.contents = $scope.careItemsToDisplay;
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
