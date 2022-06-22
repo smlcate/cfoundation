@@ -302,6 +302,7 @@ header {
   background: #C4B0ff;
   padding: .25em;
   color: #E7E1FB;
+  border-radius: 0px 0px 10px 0px;
 }
 .packageDisplays input {
   border: none;
@@ -539,6 +540,42 @@ header {
   max-width: 100vw;
   align-items: center;
   /* background: blue; */
+}
+
+#shippingRatesAdminPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+.shippingRateInfoDisplays {
+  margin-top: 1em;
+}
+.shippingRateInfoDisplays span {
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+}
+.shippingRateInfoDisplays input {
+  height: 1.5em;
+}
+#shippingRatesForm {
+
+}
+
+#shippingRatesDisplay {
+  width: 100%;
+  justify-content:center;
+}
+.shippingRateRows {
+  display: flex;
+  flex-direction:row;
+  justify-content:center;
+  width: 100vw;
+  gap: 0.5em;
+}
+.shippingRateCells {
+  width: 6em;
 }
 
 #testimonialsAdminPage {
@@ -997,7 +1034,7 @@ header {
   font-size: 1.5em;
   /* background: rgba(255, 255, 99,0.2); */
   background: rgba(231, 225, 251,0.2);
-  color: #E7E1FB;
+  color: #39393A;
   font-weight: bold;
   /* color: #C4B0ff; */
   /* color: #383D3B; */

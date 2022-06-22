@@ -16,6 +16,25 @@ var server = {
 
 }
 
+// const axios = require("axios");
+//
+// const options = {
+//   method: 'POST',
+//   url: 'https://distanceto.p.rapidapi.com/distance/point',
+//   headers: {
+//     'content-type': 'application/json',
+//     'X-RapidAPI-Key': '63fa26e228msh908d02ebe27c59fp1d45ffjsn2f1fe639a076',
+//     'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
+//   },
+//   data: '{"point":{"country":"DEU","name":"Berlin"}}'
+// };
+//
+// axios.request(options).then(function (response) {
+// 	console.log(response.data);
+// }).catch(function (error) {
+// 	console.error(error);
+// });
+
 app.use(compression());
 app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
@@ -29,6 +48,12 @@ app.get('/getRibbons', server.admin.getRibbons);
 
 app.post('/newOrder', server.orders.newOrder);
 app.get('/getOrders', server.orders.getOrders);
+
+app.post('/uploadShippingRates', server.admin.uploadShippingRates);
+app.get('/getShippingRates', server.admin.getShippingRates);
+
+app.post('/savePackageDimensions', server.admin.savePackageDimensions);
+app.get('/getPackageDimensions', server.admin.getPackageDimensions);
 
 app.get('/getTestimonials', server.admin.getTestimonials);
 app.post('/addTestimonial', server.admin.addTestimonial);

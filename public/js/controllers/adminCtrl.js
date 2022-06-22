@@ -8,6 +8,16 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     tags:'all'
   };
 
+  $scope.newShippingRates = [];
+  $scope.newShippingRatesName = '';
+
+  $scope.shippingRates = [];
+
+  $scope.tierShippingRates = [];
+
+  $scope.packageDimensions = {};
+  $scope.shippingTier = 0;
+
   $scope.carePackagePrice = 0;
 
   $scope.packageCosts = {
@@ -194,6 +204,48 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
+  function findShippingTier() {
+    for (var i = 0; i < $scope.shippingRates.length; i++) {
+      console.log($scope.shippingRates[i].rates);
+      $scope.tierShippingRates.push([$scope.shippingRates[i].rates[Math.floor($scope.shippingTier)+1]]);
+    }
+    console.log($scope.tierShippingRates);
+  }
+
+  function getPackageDimensions() {
+    $http.get('getPackageDimensions').then(function(res) {
+      console.log(res.data);
+      $scope.packageDimensions = res.data[res.data.length - 1];
+      $scope.packageDimensions = JSON.parse($scope.packageDimensions.package_dimensions_data);
+      var dim = $scope.packageDimensions;
+      if(dim.length * dim.width * dim.height / 166 > dim.weight) {
+        $scope.shippingTier = dim.length * dim.width * dim.height / 166;
+      } else {
+        $scope.shippingTier = dim.weight;
+      }
+      console.log($scope.shippingTier);
+      console.log($scope.packageDimensions);
+      findShippingTier();
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  function getShippingRates() {
+    $http.get('getShippingRates').then(function(res) {
+      console.log(res.data);
+      for (var i = 0; i < res.data.length; i++) {
+
+        $scope.shippingRates.push(JSON.parse(res.data[i].shippingRate_data));
+      }
+      console.log($scope.shippingRates);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
   $scope.thisAdminPage = function(p) {
     $('.adminPages').css('display','none');
     $('#'+p+'AdminPage').css('display','flex');
@@ -203,6 +255,63 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     $('#'+p+'NavAnc').css('background','#C4B0FF');
     $('#'+p+'NavAnc').css('color','#ffff63');
+
+  }
+
+  $scope.saveDimensionChanges = function() {
+    $http.post('savePackageDimensions', JSON.stringify({length:$scope.boxSize.length,width:$scope.boxSize.width,height:$scope.boxSize.height,weight:$scope.boxSize.weight}))
+    .then(function(res) {
+      console.log(res.data);
+    })
+  }
+
+  $scope.uploadShippingRates = function() {
+
+    const myForm = document.getElementById("shippingRatesForm");
+    const csvFile = document.getElementById("shippingCsvInput");
+
+    var parsedRates = [];
+    var seperatedRates = [];
+
+    // let valuesRegExp = /(?:\"([^\"]*(?:\"\"[^\"]*)*)\")|([^\",]+)/g;
+
+    const input = csvFile.files[0];
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      console.log(event.target.result); // the CSV content as string
+      parsedRates = event.target.result.split(',');
+      var rateRow = [];
+      var counter = 0;
+      var rowCounter = 0;
+      for (var i = 121; i < parsedRates.length; i++) {
+        rateRow.push(parsedRates[i].split('\\')[0]);
+        if (counter < 8) {
+          counter ++;
+        } else {
+          seperatedRates.push(rateRow);
+          rateRow = [];
+          counter = 0;
+          // var html = '<div class="shippingRateRows"><div class="shippingRateCells" ng-repeat="rate in newShippingRates['+rowCounter+']"><p>{{rate}}</p></div></div>';
+          //
+          // angular.element($('#shippingRatesDisplay')).append($compile(html)($scope))
+
+          rowCounter ++;
+          if (i == parsedRates.length - 1) {
+            // $scope.newShippingRates = seperatedRates;
+            $http.post('uploadShippingRates',JSON.stringify({name:$scope.newShippingRatesName,rates:seperatedRates}))
+            .then(function (res) {
+              console.log(res.data);
+            })
+            .catch(function (err) {
+              console.log(err);
+            })
+          }
+        }
+      }
+      console.log(parsedRates);
+      console.log(seperatedRates);
+    };
+    reader.readAsText(input);
 
   }
 
@@ -737,6 +846,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               getCarePackagePrice();
               getOrders();
               getDonations();
+              getShippingRates();
+              getPackageDimensions();
               if ($scope.careItems.length > 0) {
               }
 
