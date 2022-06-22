@@ -302,6 +302,7 @@ header {
   background: #C4B0ff;
   padding: .25em;
   color: #E7E1FB;
+  border-radius: 0px 0px 10px 0px;
 }
 .packageDisplays input {
   border: none;
