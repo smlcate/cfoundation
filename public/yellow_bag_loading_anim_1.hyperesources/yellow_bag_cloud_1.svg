@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+[
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:layerName CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:mask CDATA #IMPLIED >
+<!ATTLIST text
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:width CDATA #IMPLIED >
+<!ATTLIST text
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:text CDATA #IMPLIED >
+
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:blendMode CDATA #IMPLIED >
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowColor CDATA #IMPLIED >
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOpacity CDATA #IMPLIED >
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowRadius CDATA #IMPLIED >
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOffset CDATA #IMPLIED >
+<!ATTLIST path
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowAngle CDATA #IMPLIED >
+
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:blendMode CDATA #IMPLIED >
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowColor CDATA #IMPLIED >
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOpacity CDATA #IMPLIED >
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowRadius CDATA #IMPLIED >
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOffset CDATA #IMPLIED >
+<!ATTLIST image
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowAngle CDATA #IMPLIED >
+
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:blendMode CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowColor CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOpacity CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowRadius CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowOffset CDATA #IMPLIED >
+<!ATTLIST g
+  xmlns:vectornator CDATA #FIXED "http://vectornator.io"
+  vectornator:shadowAngle CDATA #IMPLIED >
+
+<!ENTITY % SVG.filter.extra.content  "| feDropShadow" >
+<!ELEMENT feDropShadow EMPTY>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  dx CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  dy CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  stdDeviation CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  flood-opacity CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  in CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  result CDATA #IMPLIED>
+<!ATTLIST feDropShadow
+  xmlns:svg CDATA #FIXED "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"
+  flood-color CDATA #IMPLIED>
+]
+>
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient" x1="186.942" x2="887.724" y1="448.261" y2="448.261">
+<stop offset="0.31962" stop-color="#ffff63"/>
+<stop offset="0.949522" stop-color="#a39fb2"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 0)" gradientUnits="userSpaceOnUse" id="LinearGradient_2" x1="24.2607" x2="1000.35" y1="473.289" y2="473.289">
+<stop offset="0.313606" stop-color="#f7567c" stop-opacity="0.092855"/>
+<stop offset="0.950081" stop-color="#ffff63" stop-opacity="0.34"/>
+</linearGradient>
+</defs>
+<g id="Layer-1" vectornator:layerName="Layer 1">
+<path d="M199.456 435.747C192.545 435.747 186.942 441.35 186.942 448.261C186.942 455.172 192.545 460.775 199.456 460.775C206.367 460.775 211.97 455.172 211.97 448.261C211.97 441.35 206.367 435.747 199.456 435.747ZM249.512 435.747C242.601 435.747 236.998 441.35 236.998 448.261C236.998 455.172 242.601 460.775 249.512 460.775C256.423 460.775 262.026 455.172 262.026 448.261C262.026 441.35 256.423 435.747 249.512 435.747ZM299.568 460.775C292.656 460.775 287.054 466.378 287.054 473.289C287.054 480.2 292.656 485.803 299.568 485.803C306.479 485.803 312.082 480.2 312.082 473.289C312.082 466.378 306.479 460.775 299.568 460.775ZM337.11 498.317C330.198 498.317 324.596 503.92 324.596 510.831C324.596 517.742 330.198 523.345 337.11 523.345C344.021 523.345 349.624 517.742 349.624 510.831C349.624 503.92 344.021 498.317 337.11 498.317ZM324.596 323.121C317.684 323.121 312.082 328.724 312.082 335.635C312.082 342.547 317.684 348.149 324.596 348.149C331.507 348.149 337.11 342.547 337.11 335.635C337.11 328.724 331.507 323.121 324.596 323.121ZM374.652 323.121C367.74 323.121 362.138 328.724 362.138 335.635C362.138 342.547 367.74 348.149 374.652 348.149C381.563 348.149 387.165 342.547 387.165 335.635C387.165 328.724 381.563 323.121 374.652 323.121ZM424.707 348.149C417.796 348.149 412.193 353.752 412.193 360.663C412.193 367.575 417.796 373.177 424.707 373.177C431.619 373.177 437.221 367.575 437.221 360.663C437.221 353.752 431.619 348.149 424.707 348.149ZM462.249 385.691C455.338 385.691 449.735 391.294 449.735 398.205C449.735 405.117 455.338 410.719 462.249 410.719C469.16 410.719 474.763 405.117 474.763 398.205C474.763 391.294 469.16 385.691 462.249 385.691ZM712.528 348.149C705.617 348.149 700.014 353.752 700.014 360.663C700.014 367.575 705.617 373.177 712.528 373.177C719.44 373.177 725.042 367.575 725.042 360.663C725.042 353.752 719.44 348.149 712.528 348.149ZM712.528 398.205C705.617 398.205 700.014 403.808 700.014 410.719C700.014 417.63 705.617 423.233 712.528 423.233C719.44 423.233 725.042 417.63 725.042 410.719C725.042 403.808 719.44 398.205 712.528 398.205ZM700.014 298.094C693.103 298.094 687.5 303.696 687.5 310.608C687.5 317.519 693.103 323.121 700.014 323.121C706.926 323.121 712.528 317.519 712.528 310.608C712.528 303.696 706.926 298.094 700.014 298.094ZM875.21 535.859C868.299 535.859 862.696 541.461 862.696 548.373C862.696 555.284 868.299 560.887 875.21 560.887C882.121 560.887 887.724 555.284 887.724 548.373C887.724 541.461 882.121 535.859 875.21 535.859ZM850.182 573.401C843.271 573.401 837.668 579.003 837.668 585.915C837.668 592.826 843.271 598.429 850.182 598.429C857.093 598.429 862.696 592.826 862.696 585.915C862.696 579.003 857.093 573.401 850.182 573.401Z" fill="url(#LinearGradient)" fill-rule="evenodd" opacity="0.710392" stroke="none"/>
+<path d="M894.707 502.209C898.198 488.956 900.238 475.116 900.238 460.775C900.238 370.925 827.407 298.094 737.556 298.094C724.442 298.094 711.753 299.808 699.539 302.749C671.007 226.964 598.063 172.954 512.305 172.954C414.408 172.954 333.068 243.245 315.648 336.086C252.19 340.178 200.52 387.13 189.307 448.374C188.506 448.374 187.743 448.261 186.942 448.261C97.0919 448.261 24.2607 521.092 24.2607 610.943C24.2607 700.793 97.0919 773.624 186.942 773.624L862.696 773.624C938.718 773.624 1000.35 711.993 1000.35 635.97C1000.35 570.985 955.262 516.662 894.707 502.209Z" fill="url(#LinearGradient_2)" fill-rule="evenodd" opacity="1" stroke="#ffff63" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="20"/>
+</g>
+</svg>

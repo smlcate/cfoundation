@@ -6414,20 +6414,26 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         amount: $scope.order.billing.total
       }
       if (paymentIntent && paymentIntent.status == 'succeeded') {
+        $('.HYPE_document').css('display','block');
+        $('.loadMask').css('display','flex');
+        thankyouLoadingBagAnim();
         $scope.order.contents = $scope.careItemsToDisplay;
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
           // console.log(res);
           emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
           .then(function(res) {
-            window.location.href = '/#!/thankyou';
-            $('.loading').css('display', 'none');
-            $window.location.reload();
+            setTimeout(function() {
+              window.location.href = '/#!/thankyou';
+              $window.location.reload();
+            }, "8500")
           })
           .catch(function(err) {
             console.log(err);
-            window.location.href = '/#!/thankyou';
-            $window.location.reload();
+            setTimeout(function() {
+              window.location.href = '/#!/thankyou';
+              $window.location.reload();
+            }, "8500")
           })
         })
         .catch(function(error) {

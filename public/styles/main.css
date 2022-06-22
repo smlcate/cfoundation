@@ -68,6 +68,14 @@ body {
   order: -1;
   z-index: -1;
 }
+.headerIcons {
+  position: absolute;
+  order: -1;
+  z-index: -50;
+  left: 50vw;
+  filter: drop-shadow(0px 2px 2px #222);
+  opacity: 0.6;
+}
 
 header {
   display: flex;
@@ -156,6 +164,7 @@ header {
   border-top-right-radius: 3px;
   text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);
 }
+
 #headerNav span {
   display: flex;
   flex-direction: row;
@@ -256,9 +265,12 @@ header {
 }
 #carepackageParentDisplay h1 {
   filter: drop-shadow(0px 2px 2px #222);
+  font-size: 1.5em;
+  text-align: center;
 }
 
 .packageDisplays {
+  margin-top: 1.5em;
   width: 60vw;
   font-size: 1.5em;
   display: none;
@@ -269,9 +281,21 @@ header {
   border-radius: 10px;
   backdrop-filter: blur(5px);
 }
-.packageDisplays p, h3, a {
+.packageDisplays::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(50px);
+  z-index:-10;
+}
+.packageDisplays p, .packageDisplays h3, .packageDisplays a {
   /* margin-left: 1em;
   margin-right: 1em; */
+  filter: drop-shadow(0px 2px 2px #222);
 }
 .packageDisplayNavs a {
   width: auto;
@@ -289,6 +313,7 @@ header {
   height: 60px;
   margin-top: 0px;
   margin-bottom: 0px;
+  text-align: center;
 }
 #receiverInfoPackageDisplay span {
   height: 1.5em;
@@ -307,6 +332,9 @@ header {
   /* margin-top:0px; */
   display: flex;
   align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-align: center;
 }
 #receiverInfoDiagnosiesDropdownContainer a {
   color: #F7567C;
@@ -442,6 +470,7 @@ header {
 }
 #receiverCheckoutPackageDisplay h3 {
   margin: 0px;
+  margin-left: 1em;
 }
 
 #billingInfoCheckoutFormDiv span {
@@ -484,27 +513,30 @@ header {
   /* margin-top: 0px; */
   /* padding-top: 10px;
   padding-bottom: 10px; */
-  height: 40px;
+  height: 2em;
   display:flex;
   align-items: center;
   border-top: 2px solid #C4B0ff;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 3em;
 }
 #adminNav a {
-  /* height: 100%; */
+  height: 100%;
   padding: .25em;
   /* background: #C4B0ff; */
   display: flex;
   align-items: center;
   border-radius: 0 0 5px 5px;
   text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.8);
-  position: -webkit-sticky !important;
+  /* position: -webkit-sticky !important;
   position: sticky !important;
-  top: 0em !important;
+  top: 0em !important; */
 }
 .adminPages {
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  max-width: 100vw;
   align-items: center;
   /* background: blue; */
 }
@@ -529,7 +561,7 @@ header {
 }
 #testimonialsAdminPage input {
   margin-bottom: 0px;
-  height: 30px;
+  /* height: 30px; */
   font-size: 1em;
 }
 #testimonialsAdminPage p {
@@ -548,7 +580,11 @@ header {
 #ordersDisplay {
   display: flex;
   justify-content: space-between;
-
+  flex-wrap: wrap;
+}
+#buildOrderCSVBtn {
+  font-size: 1em;
+  border-radius: .25em;
 }
 #donationsAdminPage {
   display: flex;
@@ -558,84 +594,173 @@ header {
 }
 #donationsDisplay {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-  width: 100%;
+  width: 100vw;
 }
 .donationCells {
-  width: 70%;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+}
+.donationCellDescriptions {
+  display: none;
+}
+.donationCells:hover .donationCellDescriptions {
+  display: flex;
+}
+.donationCellNames, .donationCellEmails {
+  margin-right: 2em;
 }
 
 .orderCells {
   display: flex;
+  flex-wrap: wrap;
   width: 100vw;
-  justify-content: space-around;
+  justify-content: center;
 }
 .orderCellRecipientDivs {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  margin-right: 2em;
+  /* justify-content: space-between; */
+  /* width: 50%; */
 }
 .orderCellShippingDivs {
-  display: flex;
+  display: none;
   /* width: 50%; */
+}
+.orderCells:hover .orderCellShippingDivs {
+  display: flex;
+}
+.orderCellRecipientDiagnosiesDivsDivs {
+  flex-wrap: wrap;
+}
+.orderCellRecipientDiagnosiesDivs p {
+  padding-right: .5em;
 }
 /* .orderCellShippingDivs p {
   padding: 5px;
   width: 25%;
 } */
+
 #carePackageSettingsDiv {
   display: flex;
   flex-direction: column;
 }
 #carePackageSettingsDiv span {
   display: flex;
-  height: 40px;
+  /* height: 40px; */
   align-items:center;
-  margin-left: 30px;
+  justify-content: center;
+  /* padding-left: 1em; */
+  font-size: 1em;
+  flex-wrap: wrap;
+  /* margin-left: 30px; */
+}
+#carePackagePriceSpan {
+
+}
+#saveCPPriceBtn, #cancelCPEditBtn {
+  display: none;
+}
+#carePackagePriceInput {
+  display: none;
+}
+#carePackageSettingsDiv button, input {
+  font-size:1em;
+  /* min-width: 2em; */
 }
 #carePackageSettingsDiv img {
-  height: 90px;
+  height: 3em;
 }
 #adminRibbonController {
   display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  /* max-width: 100%; */
+}
+.ribbonNameInputs {
+  width: 5em;
+}
+.ribbonTexts {
+  filter: drop-shadow(0px 2px 3px #222);
+}
+#packageCostsSpan {
+  flex-direction: column;
+  min-height: 1em;
+  padding: 0em;
+}
+#packageCostsSpan h3 {
+  height: 1em;
+}
+.packageCostsDiv {
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-between;
+}
+.packageCostsDiv p {
+  /* height: .5em; */
 }
 .ribbonControllerDivs {
-  height: 90px;
+  min-height: 1em;
   display: flex;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
   align-items: center;
-  margin-left: 30px;
+  justify-content: center;
+  width: 90%;
+  /* overflow-x: hidden; */
+  /* margin-left: 1em; */
+}
+#newRibbonImageInput, #editRibbonImageInput {
+  width: 90%;
+  min-height: 2em;
+  display: flex;
+  flex-direction: row;
+  align-content:center;
+  justify-content:center;
+  padding-top: 1em;
 }
 #ribbonsSpan {
-  height: 90px;
-  padding-left: 30px;
+  height:3em;
+  /* min-height: 1em; */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 12em;
+  /* max-width: 90%; */
+  /* overflow: hidden; */
+  /* padding-left: 30px; */
 }
-#ribbonsSpan img {
-  margin-left: -30px;
-  height: 80px;
+#ribbonsSpan svg {
+  margin: 0px;
+  /* margin-left: -30px; */
+  /* height: 3em; */
+  /* margin-top: -3em; */
 }
 #carePackageItemDiv {
   display: none;
   flex-direction: column;
   width: 70vw;
-  padding: 20px;
+  padding: .5em;
 }
 #carePackageItemDiv span {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 }
 #carePackageItemDiv input {
-  height: 50px;
-  /* min-width: 200px; */
-  margin-left: 10px;
-  margin-right: 30px;
+  height: 2em;
+  min-width: 200px;
+  margin-left: .25em;
+  margin-right: .5em;
 }
 .numberInputs {
-  width: 50px;
+  width: 2.5em;
   /* min-width: 0px; */
 }
 .submitButtons {
@@ -653,19 +778,23 @@ header {
 
 }
 #itemImageSpan img {
-  height: 120px;
+  height: 1.2em;
 }
 #careItemNameInput {
-  min-width: 200px
+  min-width: 5em
 }
 #carePackageToolBar {
   display: flex;
+  align-items:center;
+  /* height: 2em; */
+  padding: 1em;
 }
 #carePackageToolBarLeftDiv {
   display: flex;
 }
 #newItemBtn {
-
+  display: flex;
+  align-items:flex-end;
 }
 #cancelBtn {
   display: none;
@@ -685,7 +814,7 @@ header {
   display: flex;
   /* max-width: 300px; */
   margin-right: 20px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   border-radius: 3px;
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.9);
 }
@@ -695,7 +824,7 @@ header {
   /* max-width: 300; */
 }
 .careItemCellHeaders {
-  display: flex;
+  display: none;
   align-items: flex-start;
   /* justify-content: space-between; */
   align-items: center;
@@ -723,9 +852,15 @@ header {
   /* width: 100%; */
   height: 200px;
   /* padding: 20px; */
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: flex-end;
+}
+.careItemCells:hover .careItemCellInfoDivs {
+  display: flex;
+}
+.careItemCells:hover .careItemCellHeaders {
+  display: flex;
 }
 .careItemCellInfoDivs p {
   background: rgba(0, 0, 0, 0.5);
@@ -738,7 +873,7 @@ header {
   align-items: center;
   min-height: 90vh;
   width: 100vw;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   /* background-image: url('../images/allCancersRibbon.png'),url('../images/bladderRibbon.png');
   background-position: top left, top right;
 
@@ -766,6 +901,7 @@ header {
   font-size: 1.2em;
   padding-top: 1em;
   padding-bottom: 1em;
+  overflow-x: hidden;
 }
 #welcomeTestimonialDiv {
   width: 82.5vw;
@@ -868,13 +1004,31 @@ header {
   /* color:#7C7C7C; */
   border-radius: 10px;
   backdrop-filter: blur(5px);
+  filter: drop-shadow(0px 2px 2px #222);
+}
+.infoDivs::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(100px);
+  height: 100%;
+  width: 100%;
+  z-index: -15;
 }
 .infoDivs, .infodivs h3, p{
-  /* filter: drop-shadow(0px 2px 2px #222); */
+  filter: drop-shadow(0px 1px 1px #222);
   /* color: #E7E1FB; */
 }
 .infoDivs h3 {
   color: #E7E1FB;
+}
+.infoDivs img {
+  max-width: 7.5em;
+  border-radius: 1em;
 }
 #lowerInfoDiv {
   display: flex;
@@ -951,6 +1105,9 @@ header {
 }
 #quickShopInfoDivAncContainer a {
   color: #ffff63;
+}
+#quickShopInfoDivAncContainer a:hover {
+  font-size: 1.1em;
 }
 
 /* li {
@@ -1141,6 +1298,54 @@ input[type=number]::-webkit-outer-spin-button {
   color: #f7f5ff;
   pointer-events: all;
   cursor: pointer;
+}
+
+.loadMask {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background: rgba(196, 176, 255, 0.2) !important;
+  backdrop-filter: blur(5px);
+  z-index: 900;
+}
+.loadMask::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(100px);
+  height: 100%;
+  width: 100%;
+  z-index: -15;
+}
+#yellowbagloadinganim1_hype_container {
+  display: none;
+  justify-content:center;
+  align-items:center;
+  background: rgba(196, 176, 255, 0) !important;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  height: 100vh;
+  width: 100vw;
+  margin: 0px;
+  z-index: 1000;
+}
+.HYPE_scene {
+  /* display: none; */
+  background-color: rgba(196, 176, 255, 0) !important;
+  /* position: absolute; */
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 /* Absolute Center Spinner */
@@ -1458,6 +1663,16 @@ input:checked + .slider:after {
   padding: 10px;
   backdrop-filter: blur(5px);
 }
+.profileContainers::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(50px);
+}
 .profileContainers h2 {
   margin: 0px;
 }
@@ -1560,8 +1775,12 @@ input:checked + .slider:after {
   color: #E7E1FB !important;
 }
 #signUpForm {
+  border-radius: 10px;
+  background: rgba(231, 225, 251,0.2);
+  margin-top: 2em;
+  margin-bottom: 2em;
   width: 80%;
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1573,6 +1792,19 @@ input:checked + .slider:after {
   /* text-shadow: 0px 2px 2px rgba(0, 0, 0, 1); */
   filter: drop-shadow(0px 3px 3px #222);
   color: #E7E1FB;
+  backdrop-filter: blur(5px);
+}
+#signUpForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0px 0px 1000px rgba(255, 255, 255, .5), 0px 0px 1px 2px rgba(0, 0, 0, 0.8);
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  z-index: -1;
 }
 #signUpFormInputDiv {
   width: 600px;
@@ -1614,11 +1846,12 @@ input:checked + .slider:after {
   margin-bottom: .5em;
   font-weight: bold;
   font-size: 1.5em;
+  text-align: center;
 }
-#signUpForm button {
+.signInBtns {
   border: none;
   background: #C4B0ff;
-  color: #E7E1FB;
+  color: #E7E1FB !important;
   padding: .25em;
   border-radius: 5px;
   margin-bottom: .5em;
@@ -1763,6 +1996,21 @@ input:checked + .slider:after {
   filter: drop-shadow(0px 2px 2px #222);
   border-radius: 10px;
   padding: 1em;
+  backdrop-filter: blur(5px);
+  z-index: 500;
+}
+#thankyouDiv::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+  filter: blur(100px);
+  height: 100%;
+  width: 100%;
+  z-index: -15;
 }
 #thankyouDiv p {
   max-width: 16em;
@@ -1818,6 +2066,50 @@ footer {
       height: 8em;
       border-bottom-width: 4px;
     }
+
+    #adminNav {
+      top: 4.1em;
+    }
+
+    #donationsDisplay {
+    }
+    .donationCells {
+      flex-wrap: wrap;
+      /* justify-content: space-between; */
+    }
+    .donationCellNames {
+      display: none;
+    }
+    .donationCellEmails {
+      margin-right: 2em;
+    }
+
+    .careItemCells {
+      /* width: 100px; */
+      display: flex;
+      /* max-width: 300px; */
+      margin-right: 20px;
+      margin-top: 20px;
+      border-radius: .25em;
+      box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.8);
+      /* filter: drop-shadow(0px 2px 2px #222); */
+    }
+    .careItemCells img {
+      height: 8em;
+      border-radius: .25em;
+      /* max-width: 300; */
+    }
+    .careItemCellHeaders {
+      display: none;
+      align-items: flex-start;
+      /* justify-content: space-between; */
+      align-items: center;
+      position: absolute;
+      height: 1em;
+      /* width: 100%; */
+      background: rgba(0, 0, 0, 0.5);
+    }
+
     #collapsedHeaderNav {
       display: flex;
     }
@@ -1845,7 +2137,8 @@ footer {
     }
     #headerCollapsedDropdown {
       background: none;
-      right: .4em
+      right: .4em;
+      z-index: 1300;
     }
     #collapsedHeaderNav #userSettingsNav {
       display:flex;
@@ -1860,6 +2153,7 @@ footer {
       /* margin-right: 10px; */
       margin-top: 5px;
       /* border-top: 5px solid #ffff63; */
+      z-index: 1400;
     }
     #dropdownSignoutAnc {
       border-radius: 0px 0px 0px 20px;
@@ -1904,6 +2198,9 @@ footer {
 
     .toggleDropdownSplitter {
       border: 2px solid grey;
+    }
+    #headerLogoDiv {
+      margin-bottom: .5em;
     }
     #headerLogoDiv  img {
       /* margin-bottom: -130px; */
@@ -2013,6 +2310,9 @@ footer {
     .infoDivs {
       width: 100vw !important;
     }
+    .infoDivs p {
+      padding: 1em;
+    }
     .infoDivHeaders {
       display: flex;
       flex-direction: column;
@@ -2061,6 +2361,7 @@ footer {
       width: 100vw;
       backdrop-filter: blur(5px);
     }
+
     .packageDisplays p {
       margin: .25em !important;
       /* width: 100%; */
@@ -2124,6 +2425,7 @@ footer {
     #shippingInfoCheckoutFormDiv {
       display: flex;
       flex-direction: column;
+      align-items: center;
       /* margin-top: 1.5em; */
     }
     #shippingInfoCheckoutFormDiv span {
