@@ -9,12 +9,14 @@
   <div class="donationDivs" id="donationDetailsDiv">
 
 
+    <div class="" id="donationDetailsInfoDiv">
+      <p>Care totes cost us ${{carePackagePrice}} per individual, but any donation can do a lot!</p>
+    </div>
     <div class="" id="donationDetailsTopDiv">
-
 
       <div class="" id="donationDetailsDonationTypeDiv">
 
-        <p>Donations:</p>
+        <!-- <p>Donations:</p> -->
         <span>
           <p id="oneTimeText">One-Time</p>
           <div class="toggle-container">
@@ -65,8 +67,8 @@
 
           <p class="variableDonationTexts" id="oneTimeDonationSummaryText">One-time donation of</p>
           <p class="variableDonationTexts" id="monthlyDonationSummaryText">Monthly donations of</p>
-          <p ng-if="donations.inputs.packs == 1">{{donations.inputs.packs}} Care Pack</p>
-          <p ng-if="donations.inputs.packs > 1">{{donations.inputs.packs}} Care Packs</p>
+          <p ng-if="donations.inputs.packs == 1">{{donations.inputs.packs}} Care Tote</p>
+          <p ng-if="donations.inputs.packs > 1">{{donations.inputs.packs}} Care Totes</p>
 
         </span>
         <p ng-if="donations.rolloverAmount != 0"> plus ${{donations.rolloverAmount}}</p>

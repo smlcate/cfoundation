@@ -1197,7 +1197,9 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
+#donationDetailsInfoDiv {
+  text-align: center;
+}
 #donationAmountInput {
   border: none;
   width:80px;
