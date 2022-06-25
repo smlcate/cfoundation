@@ -2357,6 +2357,9 @@ footer {
     #welcomePageBagInfoContentsDisplay {
       padding-bottom: 1em;
     }
+    #homePageBagImage {
+      width: 100%;
+    }
     #welcomeInfoDiv h4 {
       margin-top: 0em;
     }
