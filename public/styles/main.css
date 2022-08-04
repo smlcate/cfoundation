@@ -2222,10 +2222,10 @@ footer {
       width: 100vw;
       min-height: 100vh;
       background-image: url("../images/homeBags-min.jpg");
-      background-repeat: no-repeat;
+      /* background-repeat: no-repeat;
       background-size: 100%;
       background-attachment: fixed;
-      background-position: center;
+      background-position: center; */
       color: #E7E1FB;
       font-size: 2em;
 
