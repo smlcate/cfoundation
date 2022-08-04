@@ -1224,6 +1224,7 @@ header {
 }
 #welcomeInfoDiv h4 {
   margin-top: -1em;
+  color: #E7E1FB;
 }
 .infoDivHeaders {
   display: flex;
@@ -2245,6 +2246,9 @@ footer {
       font-size: 2em; */
 
       /* order: 999; */
+    }
+    #scrollDownContainer {
+      margin-bottom: 10vh;
     }
     #adminNav {
       top: 4.1em;
