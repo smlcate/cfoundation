@@ -2209,14 +2209,18 @@ footer {
     }
     body {
       font-size:1.5em;
-      background: #2E4052;
-      order: 999;
+
     }
     header {
       height: 8em;
       border-bottom-width: 4px;
     }
+    #greetingDiv {
+      background-color: #2E4052;
+      background-image: url("../images/homeBags-min.jpg");
 
+      /* order: 999; */
+    }
     #adminNav {
       top: 4.1em;
     }
