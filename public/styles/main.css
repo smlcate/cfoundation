@@ -2216,7 +2216,7 @@ footer {
       border-bottom-width: 4px;
     }
     #greetingDiv {
-      background-color: #2E4052;
+      /* background-color: #2E4052; */
       background-image: url("../images/homeBags-min.jpg");
 
       /* order: 999; */
