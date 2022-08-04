@@ -2217,12 +2217,12 @@ footer {
     }
     #greetingDiv {
       background-color: #2E4052;
+      background-image: url("../images/homeBags-min.jpg");
       /* display: flex;
       flex-direction:column;
       justify-content: space-between;
       width: 100vw;
-      min-height: 100vh;
-      background-image: url("../images/homeBags-min.jpg"); */
+      min-height: 100vh; */
       /* background-repeat: no-repeat; */
       /* background-size:50%; */
       /* background-attachment: fixed;
