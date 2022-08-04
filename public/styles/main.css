@@ -2227,10 +2227,11 @@ footer {
       display: flex;
       width: 100vw;
       height: auto;
+      margin-top: -5em;
     }
     #greetingDiv {
       background-color: #2E4052;
-      /* background-image: url("../images/homeBags-min.jpg"); */
+      background-image: none;
       /* display: flex;
       flex-direction:column;
       justify-content: space-between;
