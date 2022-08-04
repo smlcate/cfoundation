@@ -43,10 +43,15 @@ body {
   /* overflow-y: scroll;
   scroll-snap-type: y mandatory; */
 }
-#greetingDiv img {
+#greetingIcon {
   height: 5em;
   width: 5em;
   margin-right: 1em;
+}
+#phoneGreetingImg {
+  display: none;
+}
+#greetingDiv img {
 }
 #greetingDiv {
   /* scroll-snap-align: start; */
@@ -2215,9 +2220,17 @@ footer {
       height: 8em;
       border-bottom-width: 4px;
     }
+    #greetingIcon {
+
+    }
+    #phoneGreetingImg {
+      display: flex;
+      width: 100vw;
+      height: auto;
+    }
     #greetingDiv {
       background-color: #2E4052;
-      background-image: url("../images/homeBags-min.jpg");
+      /* background-image: url("../images/homeBags-min.jpg"); */
       /* display: flex;
       flex-direction:column;
       justify-content: space-between;
@@ -2854,6 +2867,7 @@ footer {
     header:  {
       width: 100vw;
     }
+
 }
 
 /* Landscape */
@@ -2872,6 +2886,8 @@ footer {
   and (max-device-width: 766px)
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
+
+
 
 }
 
