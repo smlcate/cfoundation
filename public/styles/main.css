@@ -36,11 +36,68 @@ body {
   flex-direction: column;
   padding: 0px;
   width: 100vw;
+  height: 100%;
   margin-left: 0px;
   margin-top: 0px;
   font-size: 1.5em;
+  /* overflow-y: scroll;
+  scroll-snap-type: y mandatory; */
 }
-
+#greetingDiv img {
+  height: 5em;
+  width: 5em;
+  margin-right: 1em;
+}
+#greetingDiv {
+  /* scroll-snap-align: start; */
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url("../images/homeBags-min.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  color: #E7E1FB;
+  font-size: 2em;
+}
+.greetingDivContainers {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* margin: 0em; */
+  width: 100%;
+  filter: drop-shadow(0px 2px 2px #222);
+}
+.greetingDivContainers h1 {
+  text-align: center;
+}
+#scrollDownContainer {
+  justify-content: center;
+  align-items: center;
+}
+#scrollDownContainer a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:0em;
+}
+#scrollDownContainer a p {
+  font-size: 2em;
+  color: #E7E1FB;
+  text-align: center;
+  margin: 0px;
+}
+.arrowContainers {
+  display: flex;
+  gap: 4em;
+}
+#arrowDownIcon {
+  width: 1em;
+  height: 1em;
+}
 #bagsvg {
   display: none;
 }
@@ -79,6 +136,7 @@ body {
 }
 
 header {
+  /* scroll-snap-align: start; */
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
