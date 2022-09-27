@@ -6274,7 +6274,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         for (var i = 0; i < options.length; i++) {
           options[i].shippingRate_data = JSON.parse(options[i].shippingRate_data);
         }
-        console.log(options);
+        // console.log(options);
         var rateRanges = [];
         for (var i = 0; i < options.length; i++) {
           for (var j = 1; j < options[i].shippingRate_data.rates[0].length-1; j++) {
@@ -6286,14 +6286,14 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
               sep = [Number(sep[0].split('+')[0])];
             }
             rateRanges.push(sep);
-            console.log(sep);
+            // console.log(sep);
             if (j == options[i].shippingRate_data.rates[0].length-2 && i == options.length-1) {
-              console.log('hit this');
+              // console.log('hit this');
               for (var k = 0; k < res.data.length; k++) {
                 // console.log(res.data[i].rates);
                 $scope.tierShippingRates.push([res.data[k].shippingRate_data.rates[Math.floor($scope.shippingTier)+1]]);
               }
-              console.log($scope.tierShippingRates);
+              // console.log($scope.tierShippingRates);
 
               var city = $scope.order.shipping.city;
               var state = $scope.order.shipping.state;
@@ -6319,12 +6319,12 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
               };
 
               return $.ajax(settings).done(function (response) {
-                console.log(response);
+                // console.log(response);
                 lat1 = Number(response.points[0].geometry.coordinates[0]);
                 lon1 = Number(response.points[0].geometry.coordinates[1]);
                 lat2 = Number(response.points[1].geometry.coordinates[0]);
                 lon2 = Number(response.points[1].geometry.coordinates[1]);
-                console.log(lat2, lon2);
+                // console.log(lat2, lon2);
 
                 function toRad(x) {
                   return x * Math.PI / 180;
@@ -6340,32 +6340,36 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
                 var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                console.log(a);
+                // console.log(a);
                 var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                 var d = R * c;
 
                 // 5443.486815811564, 2529.0361748428363
                 if(isMiles) d /= 1.60934;
                 // return d;
-                console.log(d);
-                console.log(rateRanges);
-                console.log($scope.tierShippingRates);
+                // console.log(d);
+                // console.log(rateRanges);
+                // console.log($scope.tierShippingRates);
                 for(var k = 0; k < rateRanges.length; k++) {
                   if(rateRanges[k].length == 1 && rateRanges[k][0] < d) {
-                    console.log(k);
+                    // console.log(k);
                     var shippingTierRow = $scope.tierShippingRates[0];
                     // $scope.shippingPrice = shippingTierRow[0][k+1];
-                    console.log(shippingTierRow);
-                    console.log(shippingTierRow[0][k+1]);
-                    $scope.shippingPrice = shippingTierRow[0][k+1]
+                    // console.log(shippingTierRow);
+                    // console.log(shippingTierRow[0][k+1]);
+                    $scope.shippingPrice = shippingTierRow[0][k+1].split('$')[1];
+                    // console.log($scope.shippingPrice.split('$'))
+                    // $scope.order.billing.total += $scope.shippingPrice.pop(1)[0];
                     return shippingTierRow[0][k+1];
                   } else if(rateRanges[k][0] <= d && rateRanges[k][1] > d) {
-                    console.log(k);
+                    // console.log(k);
                     var shippingTierRow = $scope.tierShippingRates[0];
 
-                    console.log(shippingTierRow);
-                    console.log(shippingTierRow[0][k+1]);
-                    $scope.shippingPrice = shippingTierRow[0][k+1]
+                    // console.log(shippingTierRow);
+                    // console.log(shippingTierRow[0][k+1]);
+                    $scope.shippingPrice = shippingTierRow[0][k+1].split('$')[1];
+                    // console.log($scope.shippingPrice.split('$'))
+                    // $scope.order.billing.total += $scope.shippingPrice;
                     return shippingTierRow[0][k+1];
                   }
                 }
@@ -6381,7 +6385,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     function getPackageDimensions() {
       $http.get('getPackageDimensions').then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         $scope.packageDimensions = res.data[res.data.length - 1];
         $scope.packageDimensions = JSON.parse($scope.packageDimensions.package_dimensions_data);
         var dim = $scope.packageDimensions;
@@ -6390,8 +6394,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         } else {
           $scope.shippingTier = dim.weight;
         }
-        console.log($scope.shippingTier);
-        console.log($scope.packageDimensions);
+        // console.log($scope.shippingTier);
+        // console.log($scope.packageDimensions);
         return findShippingTier();
       })
       .catch(function(err) {
@@ -6450,7 +6454,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     $http.get('getCarePackagePrice')
     .then(function(res) {
       console.log(res);
-      $scope.order.billing.total = JSON.parse(res.data[0].settingsData);
+      $scope.order.billing.total += JSON.parse(res.data[0].settingsData);
       console.log($scope.order.billing.total);
     })
     .catch(function(err) {
@@ -6512,7 +6516,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
      }
      if (passes) {
        // $scope.shippingPrice = findShippingCost();
-       console.log(findShippingCost());
+       findShippingCost();
 
 
        $('.packageDisplays').css('display','none');
@@ -6580,8 +6584,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       var tempParams = {
         to_name: $scope.order.billing.fName + ' ' + $scope.order.billing.lName,
         to_email: $scope.order.billing.email,
-        amount: $scope.order.billing.total
+        amount: Number($scope.order.billing.total) + Number($scope.shippingPrice)
       }
+      console.log(tempParams);
       if (paymentIntent && paymentIntent.status == 'succeeded') {
         $('.HYPE_document').css('display','block');
         $('.loadMask').css('display','flex');
