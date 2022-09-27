@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<linearGradient gradientTransform="matrix(0.610831 0.791761 -0.791761 0.610831 573.936 -242.076)" gradientUnits="userSpaceOnUse" id="LinearGradient" x1="368.624" x2="697.814" y1="462.796" y2="462.796">
+<stop offset="0.0031136" stop-color="#ffffc1"/>
+<stop offset="0.995398" stop-color="#ffff4d"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 -4.36022)" gradientUnits="userSpaceOnUse" id="LinearGradient_2" x1="348.936" x2="493.73" y1="679.986" y2="679.986">
+<stop offset="0.0031136" stop-color="#ffffc1"/>
+<stop offset="0.995398" stop-color="#ffff4d"/>
+</linearGradient>
+<linearGradient gradientTransform="matrix(1 0 0 1 0 -4.36022)" gradientUnits="userSpaceOnUse" id="LinearGradient_3" x1="572.708" x2="717.502" y1="679.987" y2="679.987">
+<stop offset="0.0031136" stop-color="#ffffc1"/>
+<stop offset="0.995398" stop-color="#ffff4d"/>
+</linearGradient>
+</defs>
+<g id="Layer-1" vectornator:layerName="Layer 1">
+<path d="M663.494 362.291C607.998 290.305 504.646 276.955 432.679 332.476C360.713 387.997 347.398 491.354 402.944 563.301C458.44 635.287 561.793 648.637 633.759 593.116C705.725 537.595 719.04 434.238 663.494 362.291Z" fill="url(#LinearGradient)" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"/>
+<path d="M499.114 589.964C448.324 576.38 409.644 533.172 402.707 479.994" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-dasharray="5.234600067138672" stroke-linecap="square" stroke-linejoin="miter" stroke-width="4"/>
+<path d="M660.388 496.902C653.595 522.296 639.399 544.664 620.253 561.55C601.106 578.435 577.009 589.839 550.417 593.308" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-dasharray="5.234600067138672" stroke-linecap="square" stroke-linejoin="miter" stroke-width="4"/>
+<path d="M567.325 335.628C618.114 349.212 656.794 392.42 663.731 445.599" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-dasharray="5.234600067138672" stroke-linecap="square" stroke-linejoin="miter" stroke-width="4"/>
+<path d="M406.051 428.691C419.635 377.901 462.836 339.221 516.022 332.284" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-dasharray="5.234600067138672" stroke-linecap="square" stroke-linejoin="miter" stroke-width="4"/>
+<path d="M527.177 539.524L527.177 527.618C500.989 525.88 484.509 511.506 484.417 490.261L503.826 490.261C504.741 501.153 513.534 508.755 527.177 510.315L527.177 468.562L519.029 466.455C498.614 461.236 487.438 448.968 487.438 431.106C487.438 409.96 502.457 395.948 527.177 393.657L527.177 381.021L539.722 381.021L539.722 393.657C563.435 395.763 579 410.229 579.553 430.652L560.414 430.652C560.046 420.576 551.805 412.704 539.722 411.236L539.722 450.706L548.238 452.628C571.221 458.215 582.028 469.838 582.028 488.793C582.028 511.23 566.548 525.235 539.722 527.526L539.722 539.517L527.177 539.517C527.177 539.517 527.177 539.524 527.177 539.524ZM527.177 448.054L527.177 411.151C515.456 411.789 507.031 419.483 507.031 429.467C507.031 438.899 513.988 445.395 527.177 448.054ZM539.722 470.944L539.722 510.499C554.188 509.67 562.52 502.535 562.52 490.906C562.52 480.369 555.287 474.057 539.722 470.944Z" fill="#423a55" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M493.73 692.995C454.998 713.826 387.155 722.73 348.936 660.331C409.605 627.706 466.561 641.435 493.73 692.995Z" fill="url(#LinearGradient_2)" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"/>
+<path d="M427.915 675.626C427.915 675.626 500.312 675.626 533.219 728.279" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="round" stroke-linejoin="miter" stroke-width="6"/>
+<path d="M717.502 660.331C679.283 722.737 611.441 713.826 572.708 692.995C599.877 641.435 656.834 627.706 717.502 660.331Z" fill="url(#LinearGradient_3)" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="10"/>
+<path d="M533.219 728.279C566.127 675.626 638.524 675.626 638.524 675.626" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="round" stroke-linejoin="miter" stroke-width="6"/>
+<path d="M533.219 627.334L533.219 732.639" fill="none" fill-rule="evenodd" opacity="1" stroke="#423a55" stroke-linecap="round" stroke-linejoin="miter" stroke-width="10"/>
+</g>
+</svg>

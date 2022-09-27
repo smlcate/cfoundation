@@ -38,6 +38,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   $scope.requestPasswordReset = function() {
     $http.post('requestPasswordReset', {email:$scope.recovery.email})
     .then(function(res) {
+      console.log(res.data.link);
       if (res.data == "Email isn't registered") {
         $scope.recovery.exists = false;
       } else {
@@ -46,6 +47,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
           from_name: 'yellowbagofhumanity.com',
           link:res.data.link
         }
+        console.log(tempParams);
         emailjs.send('service_v3v8m39','template_d9f448g', tempParams)
         .then(function(res) {
           $('#forgotPasswordConfirmationDisplay').css('display','flex');

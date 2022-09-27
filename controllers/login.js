@@ -51,7 +51,7 @@ exports.requestPasswordReset = function(req, res, next) {
       }
 
       const token = jwt.sign(payload, secret, {expiresIn:'15m'});
-      const link = `http://www.yellowbagofhumanity.com/#!/resetPassword/${data[0].id}/${token}`;
+      const link = `https://www.yellowbagofhumanity.com/#!/resetPassword/${data[0].id}/${token}`;
 
       res.send({status:'Password reset link has been sent',link:link});
 
