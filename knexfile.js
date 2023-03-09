@@ -42,8 +42,8 @@ module.exports = {
     connection: {
       host: 'db-postgresql-xgamesmode-do-user-13719415-0.b.db.ondigitalocean.com',
       port: 25060, // replace with your database port number
-      user: 'doadmin',
-      password: 'AVNS_ngHlZp3g9AAu1t9qwFG',
+      user: 'samcate',
+      password: 'AVNS_-qEcuLSdmSxxZPusNEN',
       database: 'defaultdb',
       ssl: {
         ca
