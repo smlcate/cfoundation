@@ -1,5 +1,8 @@
 // Update with your config settings.
 
+const fs = require('fs');
+const ca = fs.readFileSync('./db/ca-certificate.crt');
+
 module.exports = {
 
   development: {
@@ -34,9 +37,18 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-
+    // connection: process.env.DATABASE_URL,
+    // ssl: true,
+    connection: {
+      host: 'db-postgresql-xgamesmode-do-user-13719415-0.b.db.ondigitalocean.com',
+      port: 25060, // replace with your database port number
+      user: 'doadmin',
+      password: 'AVNS_ngHlZp3g9AAu1t9qwFG',
+      database: 'defaultdb',
+      ssl: {
+        ca
+      }
+    }
   }
 
 }
