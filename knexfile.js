@@ -48,6 +48,9 @@ module.exports = {
       ssl: {
         ca
       }
+    },
+    migrations: {
+      directory: './migrations'
     }
   }
 
