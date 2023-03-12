@@ -42,8 +42,8 @@ module.exports = {
     client: 'pg',
     // connection: process.env.DATABASE_URL,
     // ssl: true,
-    connection: {
-      host: process.env.HOSTNAME,
+    connection: process.env.DATABASE_URL || {
+      host: 'db-postgresql-xgamesmode-do-user-13719415-0.b.db.ondigitalocean.com',
       port: 25060, // replace with your database port number
       user: process.env.DOUser,
       password: process.env.DOPass,
