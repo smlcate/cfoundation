@@ -43,7 +43,7 @@ module.exports = {
     // connection: process.env.DATABASE_URL,
     // ssl: true,
     connection: {
-      host: 'db-postgresql-xgamesmode-do-user-13719415-0.b.db.ondigitalocean.com',
+      host: process.env.HOSTNAME,
       port: 25060, // replace with your database port number
       user: process.env.DOUser,
       password: process.env.DOPass,
