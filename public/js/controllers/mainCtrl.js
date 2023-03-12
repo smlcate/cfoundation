@@ -163,6 +163,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       }
       buildTestimonials();
     })
+    .catch(function(err) {
+      console.log(err);
+    })
   }
 
   function buildTestimonials() {
@@ -230,6 +233,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
         }
 
       }
+    })
+    .catch(function (err) {
+      console.log(err);
     })
   }
 
