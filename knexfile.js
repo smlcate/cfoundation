@@ -61,6 +61,6 @@ module.exports = {
     }
   }
 
-  production.connection.ssl = ca;
 
 }
+module.exports.production.connection.ssl = ca;
