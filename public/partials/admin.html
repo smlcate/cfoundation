@@ -114,6 +114,7 @@
 
         </div>
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
+
           <p>New Ribbon</p>
           <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name" ng-change="newRibbonPreview()">
           <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[0]" placeholder="Primary" ng-change="newRibbonPreview(); newRibbonColor();">
@@ -125,6 +126,9 @@
           </div>
           <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
           <!-- <img id="newRibbonImage" src="" alt=""> -->
+        </div>
+        <div class="ribbonControllerDivs" id="ribbonControllerPreviewDiv">
+
         </div>
         <div id="" class="ribbonControllerDivs" ng-if="editRibbon == true">
           <h3>Edit Ribbon</h3>

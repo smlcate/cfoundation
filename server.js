@@ -12,8 +12,8 @@ var server = {
   orders: require('./controllers/orders.js'),
   login: require('./controllers/login.js'),
   donations: require('./controllers/donations.js'),
-  profile: require('./controllers/profile.js')
-
+  profile: require('./controllers/profile.js'),
+  reviews: require('./controllers/reviews.js'),
 }
 
 // const axios = require("axios");
@@ -92,6 +92,9 @@ app.post('/updateRecPledge', server.profile.updateRecPledge);
 
 
 app.post('/getUsersDonations', server.profile.getUsersDonations);
+
+
+app.post('/postReview', server.reviews.postReview);
 
 app.set('port', process.env.PORT || 8080);
 app.listen(app.get('port'), function() {

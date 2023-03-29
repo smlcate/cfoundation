@@ -2175,6 +2175,22 @@ input:checked + .slider:after {
   text-align: center;
 }
 
+#giveTestimonialParentDisplay {
+  padding-top: 1em;
+  font-size: 1.5em;
+}
+.testimonialInputDivs {
+  display: flex;
+  flex-direction: column;
+  background: #E7E1FB;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+.testimonialInputDivs input {
+  border-radius: 0.25em;
+}
+
+
 footer {
   display: flex;
   height: 100px;
@@ -2860,6 +2876,12 @@ footer {
       font-size:1.2em;
       height: auto;
       /* border-radius: 20px; */
+    }
+
+
+    #testimonialInputDiv {
+      display: flex;
+      flex-direction: column;
     }
 }
 
