@@ -288,7 +288,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       var rowCounter = 0;
       for (var i = 121; i < parsedRates.length; i++) {
         rateRow.push(parsedRates[i].split('\\')[0]);
-        if (counter < 8) {
+        if (counter < 9) {
           counter ++;
         } else {
           seperatedRates.push(rateRow);

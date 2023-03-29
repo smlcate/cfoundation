@@ -1,0 +1,31 @@
+,,,,,,,,,,
+"Get the cheapest shipping rates for free!
+Start shipping at www.pirateship.com",,,,,,,,,,
+,,,,,,,,,,
+USPS Parcel Select Ground Cubic,,,,,,,,,,
+"USPS Commercial Pricing Rates • Effective January 22nd, 2023",,,,,,,,,,
+,,,,,,,,,,
+"The slowest service USPS offers for packages over 1 lb, with 2-5 day delivery estimates (but shippers often find it takes longer).",,,,,,,,,,
+"Rates are only based on dimensions, not weight, so you can ship up to 20 pounds for no extra cost.",,,,,,,,,,
+Pirate Ship automatically rate shops between Cubic and Weight-Based rates for Parcel Select.,,,,,,,,,,
+Learn more about Parcel Select Ground Cubic here.,,,,,,,,,,
+,,,,,,,,,,
+"To calculate the Cubic Feet of your package, round down the dimensions to the nearest quarter inch and calculate: ",,,,,,,,,,
+"For boxes: Length x Width x Height / 1728 = Cubic Feet (Maximum 18"" in any dimension)",,,,,,,,,,
+For envelopes: Length + Width = Lookup Cubic Tier,,,,,,,,,,
+,,,,,,,,,,
+Commercial Pricing - The cheapest rates USPS offers for this service!,,,,,,,,,,
+"No Monthly Fees - No Markups - No Minimums - Pirate Ship is FREE because we get paid by the carriers, not by you!",,,,,,,,,,
+,,,,,,,,,,
+Rates,National Averages,0-50 miles,51-150 miles,151-300 miles,301-600 miles,601-1000 miles,1001-1400 miles,1401-1800 miles,1801+ miles,Territories
+Cubic Feet (Up To),,Zone 1,Zone 2,Zone 3,Zone 4,Zone 5,Zone 6,Zone 7,Zone 8,Zone 9
+0.1,$7.62,$6.75,$6.95,$7.21,$7.40,$7.52,$7.74,$8.19,$8.56,$8.56
+0.2,$8.46,$7.07,$7.39,$7.60,$7.87,$8.08,$8.98,$9.57,$10.12,$10.12
+0.3,$9.19,$7.16,$7.53,$7.70,$8.06,$8.55,$10.48,$11.01,$11.64,$11.64
+0.4,$9.89,$7.25,$7.62,$7.87,$8.42,$9.53,$11.47,$12.14,$12.76,$12.76
+0.5,$10.44,$7.36,$7.73,$8.08,$8.81,$10.23,$12.16,$12.93,$13.66,$13.66
+0.6,$11.06,$7.53,$7.86,$8.40,$9.26,$11.72,$12.68,$13.45,$14.22,$14.22
+0.7,$11.62,$7.91,$8.23,$9.09,$9.73,$12.56,$13.01,$13.91,$14.86,$14.86
+0.8,$12.18,$8.13,$8.46,$9.73,$10.93,$12.91,$13.48,$14.40,$15.50,$15.50
+0.9,$12.77,$8.78,$9.14,$10.21,$11.68,$13.14,$13.90,$15.09,$16.42,$16.42
+1,$13.38,$9.30,$9.66,$10.74,$11.92,$13.54,$14.33,$16.10,$17.68,$17.68

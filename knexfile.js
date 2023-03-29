@@ -2,6 +2,9 @@
 
 const fs = require('fs');
 const ca = fs.readFileSync('./db/ca-certificate.crt');
+
+require('dotenv').config();
+
 console.log(process.env.DATABASE_URL);
 console.log(process.env);
 
@@ -45,7 +48,7 @@ module.exports = {
     connection: {
       host: 'db-postgresql-xgamesmode-do-user-13719415-0.b.db.ondigitalocean.com',
       port: 25060, // replace with your database port number
-      user: process.env.DOUser,
+      user: 'doadmin',
       password: process.env.DOPass,
       database: process.env.DODb,
       ssl: {
