@@ -286,7 +286,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       var rateRow = [];
       var counter = 0;
       var rowCounter = 0;
-      for (var i = 121; i < parsedRates.length; i++) {
+      for (var i = 134; i < parsedRates.length; i++) {
         rateRow.push(parsedRates[i].split('\\')[0]);
         if (counter < 9) {
           counter ++;
@@ -298,9 +298,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           //
           // angular.element($('#shippingRatesDisplay')).append($compile(html)($scope))
 
+          console.log(i, parsedRates.length);
           rowCounter ++;
           if (i == parsedRates.length - 1) {
             // $scope.newShippingRates = seperatedRates;
+            console.log('hit here');
             $http.post('uploadShippingRates',JSON.stringify({name:$scope.newShippingRatesName,rates:seperatedRates}))
             .then(function (res) {
               console.log(res.data);
@@ -311,7 +313,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           }
         }
       }
-      console.log(parsedRates);
+      // console.log(parsedRates);
       console.log(seperatedRates);
     };
     reader.readAsText(input);
