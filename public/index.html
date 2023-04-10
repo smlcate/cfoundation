@@ -31,11 +31,13 @@
     })();
     </script>
     <script defer src="./js/app.js" charset="utf-8"></script>
+    <script defer src="./qrcodejs/qrcode.min.js" charset="utf-8"></script>
     <script defer src="./js/controllers/mainCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/orderCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/adminCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/donateCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/reviewsCtrl.js" charset="utf-8"></script>
+    <script defer src="./js/controllers/recipientCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/authCtrl.js" charset="utf-8"></script>
     <script defer src="./js/controllers/resetPasswordCtrl.js" charset="utf-8"></script>
     <script defer type="text/javascript" charset="utf-8" src="yellow_bag_loading_anim_1.hyperesources/yellowbagloadinganim1_hype_generated_script.js?63758"></script>
@@ -120,6 +122,8 @@
           <!-- <a class="pageNavAncs" id="browseAnc" href="/#!/browse" ng-click="changePage('browse',false)">The Bag</a> -->
           <a class="pageNavAncs" id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personal Donation</a>
           <a class="pageNavAncs" id="donateAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
+          <a class="pageNavAncs" id="testimonialsAnc" href="/#!/testimonials" ng-click="changePage('testimonials',false)">Testimonials</a>
+          <a class="pageNavAncs" id="reviewsAnc" href="/#!/reviews" ng-click="changePage('reviews',false)">Reviews</a>
 
           <span ng-if="signedIn == false">
             <a id="signInAnc" class="accountNavAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>
@@ -145,6 +149,8 @@
               <!-- <a class="pageNavDropdownAncs" id="browseDropdownAnc" href="/#!/browse" ng-click="changePage('browse',false)">The Bag</a> -->
               <a class="pageNavDropdownAncs" id="purchaseDropdownAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personal Donation</a>
               <a class="pageNavDropdownAncs" id="donateDropdownAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
+              <a class="pageNavDropdownAncs" id="testimonialsDropdownAnc" href="/#!/testimonials" ng-click="changePage('testimonials',false)">Testimonials</a>
+              <a class="pageNavDropdownAncs" id="reviewsDropdownAnc" href="/#!/reviews" ng-click="changePage('reviews',false)">Reviews</a>
 
               <span id="userSettingsNav" ng-if="signedIn == false">
                 <a id="signInDropdownAnc" class="accountNavDropdownAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>

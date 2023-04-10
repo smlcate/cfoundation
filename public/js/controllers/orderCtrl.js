@@ -1,25 +1,6 @@
 
 app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-//   const data = null;
-//
-// const xhr = new XMLHttpRequest();
-// xhr.withCredentials = true;
-//
-// xhr.addEventListener("readystatechange", function () {
-// 	if (this.readyState === this.DONE) {
-// 		console.log(this.responseText);
-// 	}
-// });
-//
-// xhr.open("GET", "https://distanceto.p.rapidapi.com/get?route=%3CREQUIRED%3E&car=false");
-// xhr.setRequestHeader("X-RapidAPI-Key", "fc114bc61dmsh85d1dde27d710b4p170547jsn7ad33d199d24");
-// xhr.setRequestHeader("X-RapidAPI-Host", "distanceto.p.rapidapi.com");
-//
-// xhr.send(data);
-
-
-
   var cities = [
 
   {'city': 'Abbeville', 'state': 'Louisiana'},
@@ -6213,7 +6194,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   var elements = stripe.elements();
 
-
   var style = {
     base: {
       color: "#E7E7E7",
@@ -6234,7 +6214,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   card.mount("#card-element");
 
    var checkoutButton = document.getElementById('checkout-button');
-  //
+
   $scope.order = {
     recipient: {
       name:'',
@@ -6255,9 +6235,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       total:0
     }
   }
-  //
+
   $scope.display = 0;
-  //
 
   $scope.tierShippingRates = [];
   $scope.packageDimensions = {};
@@ -6270,12 +6249,15 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
       return $http.get('getShippingRates')
       .then(function(res) {
+
         var options = res.data;
+
         for (var i = 0; i < options.length; i++) {
           options[i].shippingRate_data = JSON.parse(options[i].shippingRate_data);
         }
-        // console.log(options);
+
         var rateRanges = [];
+
         for (var i = 0; i < options.length; i++) {
           for (var j = 1; j < options[i].shippingRate_data.rates[0].length-1; j++) {
 
@@ -6285,15 +6267,14 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
             } else {
               sep = [Number(sep[0].split('+')[0])];
             }
+
             rateRanges.push(sep);
-            // console.log(sep);
+
             if (j == options[i].shippingRate_data.rates[0].length-2 && i == options.length-1) {
-              // console.log('hit this');
+
               for (var k = 0; k < res.data.length; k++) {
-                // console.log(res.data[i].rates);
                 $scope.tierShippingRates.push([res.data[k].shippingRate_data.rates[Math.floor($scope.shippingTier)+1]]);
               }
-              // console.log($scope.tierShippingRates);
 
               var city = $scope.order.shipping.city;
               var state = $scope.order.shipping.state;
@@ -6303,7 +6284,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
               var lat2;
               var lon2;
-              // Our Coordinates
+
+              // Our Coordinates: Richmond, IN
               // var lat2 = Number(39.806927);
               // var lon2 = Number(-84.884875);
 
@@ -6319,12 +6301,11 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
               };
 
               return $.ajax(settings).done(function (response) {
-                // console.log(response);
+
                 lat1 = Number(response.points[0].geometry.coordinates[0]);
                 lon1 = Number(response.points[0].geometry.coordinates[1]);
                 lat2 = Number(response.points[1].geometry.coordinates[0]);
                 lon2 = Number(response.points[1].geometry.coordinates[1]);
-                // console.log(lat2, lon2);
 
                 function toRad(x) {
                   return x * Math.PI / 180;
@@ -6346,57 +6327,50 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
                 // 5443.486815811564, 2529.0361748428363
                 if(isMiles) d /= 1.60934;
-                // return d;
-                // console.log(d);
-                // console.log(rateRanges);
-                // console.log($scope.tierShippingRates);
+
                 for(var k = 0; k < rateRanges.length; k++) {
                   if(rateRanges[k].length == 1 && rateRanges[k][0] < d) {
-                    // console.log(k);
-                    var shippingTierRow = $scope.tierShippingRates[0];
-                    // $scope.shippingPrice = shippingTierRow[0][k+1];
-                    // console.log(shippingTierRow);
-                    // console.log(shippingTierRow[0][k+1]);
-                    $scope.shippingPrice = shippingTierRow[0][k+1].split('$')[1];
-                    // console.log($scope.shippingPrice.split('$'))
-                    // $scope.order.billing.total += $scope.shippingPrice.pop(1)[0];
-                    return shippingTierRow[0][k+1];
-                  } else if(rateRanges[k][0] <= d && rateRanges[k][1] > d) {
-                    // console.log(k);
+
                     var shippingTierRow = $scope.tierShippingRates[0];
 
-                    // console.log(shippingTierRow);
-                    // console.log(shippingTierRow[0][k+1]);
                     $scope.shippingPrice = shippingTierRow[0][k+1].split('$')[1];
-                    // console.log($scope.shippingPrice.split('$'))
-                    // $scope.order.billing.total += $scope.shippingPrice;
+
                     return shippingTierRow[0][k+1];
+
+                  } else if(rateRanges[k][0] <= d && rateRanges[k][1] > d) {
+
+                    var shippingTierRow = $scope.tierShippingRates[0];
+
+                    $scope.shippingPrice = shippingTierRow[0][k+1].split('$')[1];
+
+                    return shippingTierRow[0][k+1];
+
                   }
                 }
-              });
 
+              });
             }
           }
         }
-
       })
 
     }
 
     function getPackageDimensions() {
       $http.get('getPackageDimensions').then(function(res) {
-        // console.log(res.data);
+
         $scope.packageDimensions = res.data[res.data.length - 1];
         $scope.packageDimensions = JSON.parse($scope.packageDimensions.package_dimensions_data);
         var dim = $scope.packageDimensions;
+
         if(dim.length * dim.width * dim.height / 166 > dim.weight) {
           $scope.shippingTier = dim.length * dim.width * dim.height / 166;
         } else {
           $scope.shippingTier = dim.weight;
         }
-        // console.log($scope.shippingTier);
-        // console.log($scope.packageDimensions);
+
         return findShippingTier();
+
       })
       .catch(function(err) {
         console.log(err);
@@ -6404,7 +6378,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
 
     return getPackageDimensions();
-
 
   }
 
@@ -6429,7 +6402,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
 
   }
-  //
+
   function sendOrder() {
     $http.post('newOrder', {order:JSON.stringify($scope.order)})
     .then(function(res) {
@@ -6441,9 +6414,11 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.selectDiagnosis = function(i) {
+
     if ($scope.order.recipient.diagnosies[i] != '' && $scope.order.recipient.diagnosies[i] != null && $scope.order.recipient.diagnosies.length - 1 == i) {
 
       $scope.order.recipient.diagnosies.push('');
+
     } else if($scope.order.recipient.diagnosies.length != 1) {
 
     }
@@ -6453,15 +6428,13 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getPackagePrice() {
     $http.get('getCarePackagePrice')
     .then(function(res) {
-      console.log(res);
       $scope.order.billing.total += JSON.parse(res.data[0].settingsData);
-      console.log($scope.order.billing.total);
     })
     .catch(function(err) {
       console.log(err);
     })
   }
-  //
+
   $scope.removeDiagnosis = function(i) {
 
     var name = i;
@@ -6482,10 +6455,10 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       }
     }
 
-
   }
-  //
+
   $scope.changeOrderDisplay = function(d) {
+
     if (d == 'b') {
       $scope.display --;
     } else {
@@ -6515,12 +6488,12 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
        $(alert).insertAfter('#shippingCityDropdown');
      }
      if (passes) {
-       // $scope.shippingPrice = findShippingCost();
-       findShippingCost();
 
+       findShippingCost();
 
        $('.packageDisplays').css('display','none');
        $('#receiverCheckoutPackageDisplay').css('display','flex');
+
      } else {
        $scope.display --;
      }
@@ -6529,9 +6502,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.confirmOrder = async (e) => {
 
-
     var alert = '<p class="requireBillingIcons">*</p>';
     var passes = true;
+
     if ($scope.order.billing.email == '' || $scope.order.billing.email == null) {
       console.log('hit');
       passes = false;
@@ -6539,11 +6512,11 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         borderColor:'#F7567C',
         borderWidth: '3px'
       });
-      // $(alert).insertAfter('#billingEmailInput');
+
     }
     if ($scope.order.billing.fName == '' || $scope.order.billing.fName == null) {
       passes = false;
-      // $(alert).insertAfter('#billingFNameInput');
+
       $('#billingFNameInput').css({
         borderColor:'#F7567C',
         borderWidth: '3px'
@@ -6552,19 +6525,21 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
     if ($scope.order.billing.lName == '' || $scope.order.billing.lName == null) {
       passes = false;
-      // $(alert).insertAfter('#billingLNameInput');
+
       $('#billingLNameInput').css({
         borderColor:'#F7567C',
         borderWidth: '3px'
       });
     }
+
     if (passes) {
+
       $('.loading').css('display', 'inline-block');
       $('#billingInfoCheckoutFormDiv input').css({
         borderColor:'#C4B0FF',
         borderWidth: '2px'
       })
-      // e.preventDefault();
+
       const clientSecret = await $http.post('createOrderPaymentIntent', {paymentMethodType:card, currency:'usd'})
       .then(function(res) {
         return res.data.clientSecret;
@@ -6581,20 +6556,23 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
           }
         }
       );
+
       var tempParams = {
         to_name: $scope.order.billing.fName + ' ' + $scope.order.billing.lName,
         to_email: $scope.order.billing.email,
         amount: Number($scope.order.billing.total) + Number($scope.shippingPrice)
       }
-      console.log(tempParams);
+
       if (paymentIntent && paymentIntent.status == 'succeeded') {
+
         $('.HYPE_document').css('display','block');
         $('.loadMask').css('display','flex');
         thankyouLoadingBagAnim();
+
         $scope.order.contents = $scope.careItemsToDisplay;
+
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
-          // console.log(res);
           emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
           .then(function(res) {
             setTimeout(function() {
@@ -6626,19 +6604,17 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
     }
   }
+
   $scope.selectShippingState = function() {
     pickCities();
   }
-  function start() {
 
-    // if ($scope.careItems.length == 0) {
-    //   getItems();
-    // }
-    // $scope.selectDiagnosis(0);
+  function start() {
     getPackagePrice();
     pickCities();
     $scope.changePage('purchase');
   }
+  
   start();
 
 }])

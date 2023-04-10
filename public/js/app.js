@@ -31,9 +31,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/thankyou',
       templateUrl: '../partials/thankyou.html'
   })
-  .state('giveTestimonial', {
-      url: '/givetestimonial',
-      templateUrl: '../partials/giveTestimonial.html'
+  .state('recipient', {
+    url: '/recipient/:id/:uid',
+    templateUrl:'../partials/recipient.html',
+    controller: function($stateParams, $scope) {
+      $scope.recipientId = $stateParams.id;
+      $scope.recipientUid = $stateParams.uid;
+    }
+  })
+  .state('giveFeedback', {
+      url: '/givefeedback',
+      templateUrl: '../partials/giveFeedback.html'
+  })
+  .state('testimonials', {
+      url: '/testimonials',
+      templateUrl: '../partials/testimonials.html'
+  })
+  .state('reviews', {
+      url: '/reviews',
+      templateUrl: '../partials/reviews.html'
   })
 
   .state('signUp', {

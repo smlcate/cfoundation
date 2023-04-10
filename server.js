@@ -16,25 +16,6 @@ var server = {
   reviews: require('./controllers/reviews.js'),
 }
 
-// const axios = require("axios");
-//
-// const options = {
-//   method: 'POST',
-//   url: 'https://distanceto.p.rapidapi.com/distance/point',
-//   headers: {
-//     'content-type': 'application/json',
-//     'X-RapidAPI-Key': '63fa26e228msh908d02ebe27c59fp1d45ffjsn2f1fe639a076',
-//     'X-RapidAPI-Host': 'distanceto.p.rapidapi.com'
-//   },
-//   data: '{"point":{"country":"DEU","name":"Berlin"}}'
-// };
-//
-// axios.request(options).then(function (response) {
-// 	console.log(response.data);
-// }).catch(function (error) {
-// 	console.error(error);
-// });
-
 app.use(compression());
 app.use(express.static('public'));
 app.use(bodyParser.json({limit:1024*1024*20, type:'application/json'}));
@@ -58,9 +39,24 @@ app.get('/getPackageDimensions', server.admin.getPackageDimensions);
 app.get('/getTestimonials', server.admin.getTestimonials);
 app.post('/addTestimonial', server.admin.addTestimonial);
 app.post('/editTestimonial', server.admin.editTestimonial);
-app.post('/removeTestimonial', server.admin.removeTestimonial);
+app.post('/addFavTestimony', server.admin.addFavTestimony);
+app.post('/removeFavTestimony', server.admin.removeFavTestimony);
 
-// app.get('/createCheckoutSession', server.orders.createCheckoutSession);
+app.get('/getCategories', server.admin.getCategories);
+app.post('/addCategory', server.admin.addCategory);
+app.post('/removeCategory', server.admin.removeCategory);
+
+app.get('/getBagPresets', server.admin.getBagPresets);
+app.post('/addBagPreset', server.admin.addBagPreset);
+app.post('/editBagPreset', server.admin.editBagPreset);
+
+app.get('/getBags', server.admin.getBags);
+app.post('/buildBags', server.admin.buildBags);
+
+app.get('/getFulfillments', server.admin.getFulfillments);
+app.post('/markBagsAndBatch', server.admin.markBagsAndBatch);
+
+app.post('/buildQRPrints', server.admin.buildQRPrints);
 
 app.post('/addNewItem', server.admin.addNewItem);
 app.post('/editItem', server.admin.editItem);
@@ -82,7 +78,6 @@ app.post('/checkPermission', server.login.checkPermission);
 app.post('/createPaymentIntent', server.donations.createPaymentIntent);
 app.post('/createOrderPaymentIntent', server.orders.createOrderPaymentIntent);
 
-
 app.get('/getDonations', server.donations.getDonations);
 app.post('/makeDonation', server.donations.makeDonation);
 app.post('/addRecurringDonor', server.donations.addRecurringDonor);
@@ -90,11 +85,14 @@ app.post('/addRecurringDonor', server.donations.addRecurringDonor);
 app.post('/endRecPledge', server.profile.endRecPledge);
 app.post('/updateRecPledge', server.profile.updateRecPledge);
 
-
 app.post('/getUsersDonations', server.profile.getUsersDonations);
 
-
+app.get('/getReviews', server.reviews.getReviews);
 app.post('/postReview', server.reviews.postReview);
+app.post('/addFavReview', server.admin.addFavReview);
+app.post('/removeFavReview', server.admin.removeFavReview);
+
+app.get('/getFeedbackController', server.reviews.getFeedbackController);
 
 app.set('port', process.env.PORT || 8080);
 app.listen(app.get('port'), function() {

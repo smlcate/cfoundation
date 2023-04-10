@@ -4,12 +4,44 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
-exports.postReview = function(req, res, next) {
-  console.log(req.body);
+
+
+exports.checkUid = function(req, res, next) {
+  res.send('success')
+}
+
+exports.getReviews = function(req, res, next) {
   knex('reviews')
-  .insert({review_data:JSON.stringify(req.body)})
+  .select('*')
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+}
+
+exports.postReview = function(req, res, next) {
+  knex('reviews')
+  .insert({review_data:req.body})
   .then(function() {
     res.send('success');
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+}
+
+exports.getFeedbackController = function(req, res, next) {
+  knex('feedback_controller')
+  .select('*')
+  .then(function(data) {
+    if (data.length == 0) {
+      res.send('Empty');
+    } else {
+      res.send(data[0])
+    }
   })
   .catch(function(err) {
     console.log(err);

@@ -5,14 +5,62 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     price: '', //the price we purchase the product for
     image: '',
     description: '',
-    tags:'all'
+    tags:'all',
+    category:{
+      category_data: {
+        name: 'None',
+      },
+    },
+    quantity:0
   };
+
+  $scope.categories = [];
+  $scope.newItemCategory = {
+    name:''
+  }
+
+  $scope.bags = [];
+  $scope.fulfillmentDisplay = {
+    byPreset:[],
+    worthOfBags:0
+  }
+  $scope.bagPresets = [];
+
+  $scope.presetMode = 'none';
+  $scope.presetEditID;
+  $scope.bagPreset = {
+    name:'',
+    categories:[{
+      category_data: {
+        name: 'None',
+      },
+      selectableItems:[],
+      selectedItems:[{
+        name:'Any Category Item',
+      }],
+    }],
+    items:[]
+  }
+
+  $scope.buildingBags = false;
+  $scope.building = {
+    preset:{},
+    categories:[],
+    items:[],
+    individualCost:0,
+    totalCost:0,
+    quantity:0,
+    maxSelectedQuantity:0,
+    maxTotalQuantity:0,
+    displayTotals: false
+  }
+
+  $scope.fulfillments = [];
 
   $scope.newShippingRates = [];
   $scope.newShippingRatesName = '';
 
   $scope.shippingRates = [];
-
   $scope.tierShippingRates = [];
 
   $scope.packageDimensions = {};
@@ -60,11 +108,14 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     inputs:{
       name:'Anonymous',
       testimonial:'',
-      ribbons:[]
+      favorite:false,
+      ribbons:['']
     },
     toEdit:{}, //Selected Testimonial
     mode:'new'
   }
+
+  $scope.displayBuilt = false;
 
   function buildDisplays() {
 
@@ -76,7 +127,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
       angular.element($('#carePackageItemsDiv')).append($compile(html)($scope))
     }
-
+    $scope.displayBuilt = true
   }
 
   function buildOrderCSV() {
@@ -121,13 +172,130 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         $scope.orders.push(res.data[i]);
 
       }
-      console.log($scope.orders);
     })
     .catch(function(err) {
       console.log(err);
     })
   }
 
+  function getBags() {
+    $http.get('getBags')
+    .then(function(res) {
+      $scope.bags = res.data;
+      for (var i = 0; i < $scope.bags.length; i++) {
+        if ($scope.bags[i].status != 'built') {
+
+        } else {
+
+          $scope.bags[i].bag_data = JSON.parse(res.data[i].bag_data);
+          var matchFound = false;
+          if ($scope.fulfillmentDisplay.byPreset.length > 0) {
+            for (var j = 0; j < $scope.fulfillmentDisplay.byPreset.length; j++) {
+              if ($scope.bags[i].bag_data.preset.id == $scope.fulfillmentDisplay.byPreset[j].id) {
+                console.log('pre hit 1');
+                if (JSON.stringify($scope.bags[i].bag_data.items) == JSON.stringify($scope.fulfillmentDisplay.byPreset[j].items)) {
+                  console.log('hit 1');
+                  $scope.fulfillmentDisplay.byPreset[j].bags.push($scope.bags[i]);
+                  matchFound = true;
+                  j = $scope.fulfillmentDisplay.byPreset.length;
+
+                } else if (j == $scope.fulfillmentDisplay.byPreset.length-1 && !matchFound) {
+                  console.log('hit 2');
+                  $scope.fulfillmentDisplay.byPreset.push({
+                    id:$scope.bags[i].bag_data.preset.id,
+                    name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
+                    items:$scope.bags[i].bag_data.items,
+                    bags:[$scope.bags[i]],
+                    qty:0
+                  })
+                  j = $scope.fulfillmentDisplay.byPreset.length;
+                }
+              } else if (j == $scope.fulfillmentDisplay.byPreset.length-1 && !matchFound) {
+                console.log('hit 2');
+                $scope.fulfillmentDisplay.byPreset.push({
+                  id:$scope.bags[i].bag_data.preset.id,
+                  name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
+                  items:$scope.bags[i].bag_data.items,
+                  bags:[$scope.bags[i]],
+                  qty:0
+                })
+                j = $scope.fulfillmentDisplay.byPreset.length;
+              }
+            }
+          } else {
+            console.log('hit 3');
+            $scope.fulfillmentDisplay.byPreset.push({
+              id:$scope.bags[i].bag_data.preset.id,
+              name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
+              items:$scope.bags[i].bag_data.items,
+              bags:[$scope.bags[i]],
+              qty:0
+            })
+          }
+        }
+      }
+      console.log($scope.bags);
+      console.log($scope.fulfillmentDisplay);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  function getFulfillments() {
+    $http.get('getFulfillments')
+    .then(function(res) {
+      $scope.fulfillments = res.data;
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+      };
+
+      for (var i = 0; i < $scope.fulfillments.length; i++) {
+        $scope.fulfillments[i].fulfillment_data = JSON.parse($scope.fulfillments[i].fulfillment_data);
+        $scope.fulfillments[i].fulfillment_data.prettyTime = new Date($scope.fulfillments[i].fulfillment_data.timestamp)
+        $scope.fulfillments[i].fulfillment_data.prettyTime = $scope.fulfillments[i].fulfillment_data.prettyTime.toLocaleString('en-US', options);
+        $scope.fulfillments[i].showBags = false;
+        console.log($scope.fulfillments[i].fulfillment_data);
+      }
+      console.log($scope.fulfillments);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  function getBagPresets() {
+    $http.get('getBagPresets')
+    .then(function(res) {
+      $scope.bagPresets = res.data;
+      console.log(res.data);
+      for (var i = 0; i < $scope.bagPresets.length; i++) {
+        $scope.bagPresets[i].bag_preset_data = JSON.parse($scope.bagPresets[i].bag_preset_data);
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  function getCategories() {
+    $http.get('getCategories')
+    .then(function(res) {
+      $scope.categories = res.data;
+      for (var i = 0; i < $scope.categories.length; i++) {
+        $scope.categories[i].category_data = JSON.parse($scope.categories[i].category_data);
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 
   function getItems() {
     $http.get('getItems')
@@ -135,6 +303,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
+        if (data.category && !data.category.id) data.category = JSON.parse(data.category);
         $scope.careItems.push(data);
         $scope.careItems[i].id = res.data[i].id;
 
@@ -164,7 +333,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
                       })
                       if (j == $scope.careItems.length-1 && k == tags.length-1) {
-                        buildDisplays();
+                        if($scope.displayBuilt == false) buildDisplays();
                       }
                       l = $scope.packageCosts.tags.length;
                     }
@@ -174,9 +343,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
             } else if(j == $scope.careItems.length-1) {
               for (var k = 0; k < $scope.packageCosts.tags.length; k++) {
-                $scope.packageCosts.tags[k].cost = $scope.packageCosts.tags[k].cost.toFixed(2);
+                $scope.packageCosts.tags[k].cost = Number($scope.packageCosts.tags[k].cost).toFixed(2);
               }
-              buildDisplays();
+              if($scope.displayBuilt == false) buildDisplays();
             }
 
           }
@@ -200,7 +369,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         $scope.ribbons.push({id:res.data[i].id, ribbonData:JSON.parse(res.data[i].ribbonData)})
       }
-      console.log($scope.ribbons);
     })
     .catch(function(err) {
       console.log(err);
@@ -209,15 +377,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   function findShippingTier() {
     for (var i = 0; i < $scope.shippingRates.length; i++) {
-      console.log($scope.shippingRates[i].rates);
       $scope.tierShippingRates.push([$scope.shippingRates[i].rates[Math.floor($scope.shippingTier)+1]]);
     }
-    console.log($scope.tierShippingRates);
   }
 
   function getPackageDimensions() {
     $http.get('getPackageDimensions').then(function(res) {
-      console.log(res.data);
       $scope.packageDimensions = res.data[res.data.length - 1];
       $scope.packageDimensions = JSON.parse($scope.packageDimensions.package_dimensions_data);
       var dim = $scope.packageDimensions;
@@ -226,8 +391,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       } else {
         $scope.shippingTier = dim.weight;
       }
-      console.log($scope.shippingTier);
-      console.log($scope.packageDimensions);
       findShippingTier();
     })
     .catch(function(err) {
@@ -236,13 +399,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   function getShippingRates() {
-    $http.get('getShippingRates').then(function(res) {
-      console.log(res.data);
+    $http.get('getShippingRates')
+    .then(function(res) {
       for (var i = 0; i < res.data.length; i++) {
-
         $scope.shippingRates.push(JSON.parse(res.data[i].shippingRate_data));
       }
-      console.log($scope.shippingRates);
     })
     .catch(function(err) {
       console.log(err);
@@ -264,7 +425,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.saveDimensionChanges = function() {
     $http.post('savePackageDimensions', JSON.stringify({length:$scope.boxSize.length,width:$scope.boxSize.width,height:$scope.boxSize.height,weight:$scope.boxSize.weight}))
     .then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
     })
   }
 
@@ -281,7 +442,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     const input = csvFile.files[0];
     const reader = new FileReader();
     reader.onload = function (event) {
-      console.log(event.target.result); // the CSV content as string
+      // console.log(event.target.result); // the CSV content as string
       parsedRates = event.target.result.split(',');
       var rateRow = [];
       var counter = 0;
@@ -294,15 +455,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           seperatedRates.push(rateRow);
           rateRow = [];
           counter = 0;
-          // var html = '<div class="shippingRateRows"><div class="shippingRateCells" ng-repeat="rate in newShippingRates['+rowCounter+']"><p>{{rate}}</p></div></div>';
-          //
-          // angular.element($('#shippingRatesDisplay')).append($compile(html)($scope))
-
-          console.log(i, parsedRates.length);
           rowCounter ++;
           if (i == parsedRates.length - 1) {
-            // $scope.newShippingRates = seperatedRates;
-            console.log('hit here');
             $http.post('uploadShippingRates',JSON.stringify({name:$scope.newShippingRatesName,rates:seperatedRates}))
             .then(function (res) {
               console.log(res.data);
@@ -313,8 +467,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           }
         }
       }
-      // console.log(parsedRates);
-      console.log(seperatedRates);
     };
     reader.readAsText(input);
 
@@ -393,12 +545,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         var dataURL = reader.result;
 
         $scope.ribbonToEdit.ribbonData.image = dataURL;
+
         $('#editRibbonImage').remove();
 
         var html = '<img id="editRibbonImage" src="' + $scope.ribbonToEdit.image + '" alt="">';
 
         angular.element($('#editRibbonImageDiv')).append($compile(html)($scope))
-
 
       };
       reader.readAsDataURL(file);
@@ -409,29 +561,52 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   })
 
-
   $scope.addTestimonial = function() {
     var t = $scope.testimonialSettings.inputs;
 
     $http.post('addTestimonial', {testimonial_data:JSON.stringify(t)})
     .then(function(res) {
       console.log(res);
+      if (t.favorite) {
+        $http.post('addFavTestimony', {id:res.data.id})
+        .then(function(res) {
+          // console.log(res);
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
     })
     .catch(function(err) {
       console.log(err);
     })
   }
 
+  $scope.selectDiagnosis = function(i) {
+    console.log(i);
+    thisRibbon = $scope.testimonialSettings.inputs.ribbons[i];
+    if (
+      thisRibbon !== '' &&
+      thisRibbon !== null &&
+      $scope.testimonialSettings.inputs.ribbons.length === i + 1
+    ) {
+      $scope.testimonialSettings.inputs.ribbons.push('');
+    }
+  }
+
   $scope.thisTestimonial = function(t) {
-    console.log(t);
     var hold = {
       id:t.id,
       index:t.index,
       name:t.testimonial_data.name,
-      testimonial:t.testimonial_data.testimonial
+      testimonial:t.testimonial_data.testimonial,
+      type:t.testimonial_data.type,
+      permissions:t.testimonial_data.permission,
+      ribbons:t.testimonial_data.ribbons
     };
     $scope.testimonialSettings.toEdit = hold;
     $scope.testimonialSettings.inputs = t.testimonial_data;
+
     $scope.testimonialSettings.mode = 'edit';
   }
 
@@ -440,10 +615,50 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $scope.testimonialSettings.toEdit = {};
     $scope.testimonialSettings.inputs = {
       name:'Annonymous',
-      testimonial:''
+      testimonial:'',
+      favorite:false
     };
     $scope.testimonialSettings.mode = 'new';
-    console.log($scope.testimonials)
+  }
+
+  $scope.favTestimony = function(b) {
+    $scope.testimonialSettings.inputs.favorite = b;
+    $scope.testimonialSettings.toEdit.favorite = b;
+
+    if ($scope.testimonialSettings.mode == 'edit') {
+      if (b == true) {
+
+          $http.post('addFavTestimony', {id:$scope.testimonialSettings.toEdit.id})
+          .then(function(res) {
+            $http.post('editTestimonial', {testimonial_data:$scope.testimonialSettings.toEdit,id:$scope.testimonialSettings.toEdit.id})
+            .then(function(res) {
+              // console.log(res);
+            })
+            .catch(function(err) {
+              console.log(err);
+            })
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+
+
+      } else {
+        $http.post('removeFavTestimony', {id:$scope.testimonialSettings.toEdit.id})
+        .then(function(res) {
+          $http.post('editTestimonial', {testimonial_data:$scope.testimonialSettings.toEdit,id:$scope.testimonialSettings.toEdit.id})
+          .then(function(res) {
+            // console.log(res);
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+    }
   }
 
   $scope.editTestimonial = function() {
@@ -451,13 +666,14 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       id: $scope.testimonialSettings.toEdit.id,
       testimonial_data: JSON.stringify($scope.testimonialSettings.inputs)
     }
+
     $http.post('editTestimonial', t)
     .then(function(res) {
-      console.log(res);
       $scope.testimonialSettings.mode = 'new';
       $scope.testimonialSettings.inputs = {
         name:'Annonymous',
-        testimonial:''
+        testimonial:'',
+        favorite:false
       };
     })
     .catch(function(err) {
@@ -468,12 +684,71 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.removeTestimonial = function() {
     $http.post('removeTestimonial', {id:$scope.testimonialSettings.toEdit.id})
     .then(function(res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function(err) {
       console.log(err);
     })
   }
+
+  $scope.favReview = function(b, r) {
+    if (b) {
+      $http.post('addFavReview', {id:r.id})
+      .then(function(res) {
+        // console.log(res.data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    } else {
+      $http.post('removeFavReview', {id:r.id})
+      .then(function(res) {
+        // console.log(res.data);
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    }
+  }
+
+
+  $scope.addCategory = function() {
+    console.log('hit');
+    $http.post('addCategory', JSON.stringify($scope.newItemCategory))
+    .then(function(res) {
+      getCategories();
+      $scope.newItemCategory.name = '';
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  $scope.removeCategory = function(cat) {
+    console.log('hit');
+    $http.post('removeCategory', {id:cat.id})
+    .then(function(res) {
+      getCategories();
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.generateQR = function() {
+    console.log(QRCode);
+    const qrCodeContainer = document.getElementById('qr-code-container');
+
+  // Create a new QRCode object and render the QR code in the container element
+    new QRCode(qrCodeContainer, {
+      text: 'www.yellowbagofhumanity.com',
+      width: 128,
+      height: 128,
+      colorDark : '#000000',
+      colorLight : '#ffffff',
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  }
+
   $scope.newRibbonPreview = function() {
       // colors to add:     all #B395D6, brain #C0C0C0, breast #FF69B4, Childhood #FFD700, colon #06008B, esophageal #B29CD9, head #810020 #FFFFEF, kidney #32CD32, leiomysarcoma #690BD3, leukemia #FFA500, liver #04A86B, lung #E9E0C8, lymphoma #8F00FF, melanoma #151516, multiple myeloma #810020, overian #008080, pancreatic #800080, prostate #AED8E6, sarcoma #E2E130, stomach #C2CCFF, testicular #DA70D6, thyroid #FEC0CA #1500FF #008080, uterine #FFBFA3, rectal #45B7FE, gynecological #800080, bladder #002266 #690BD3 #D8D722, cervical #008080 #F8F8FE
     var ribbon = {
@@ -493,33 +768,25 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     if (ribbon.name.length >= 12) {
       ribbon.fontSize = 90;
     }
-    // if ($scope.ribbons.colors[1].length = 0 && $scope.ribbons.colors[2].length = 0) {
-    //
-    // } else {
-    //   result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[1]);
-    // }
+
     var i = 0;
     var secondHandled = false;
     function handleShader() {
-      console.log($scope.newRibbon.colors);
+
       var result;
       if($scope.newRibbon.colors[1] && $scope.newRibbon.colors[2] && $scope.newRibbon.colors[1].length > 0 && $scope.newRibbon.colors[2].length > 0) {
         // THREE colors
-        console.log('three colors');
         ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
         result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i+1]);
       } else if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[1].length > 0) {
         //TWO colors
-        console.log('two colors');
         ribbon.colors.primary = '#'
         + $scope.newRibbon.colors[0];
         result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i+1]);
       } else {
-        console.log('one color');
           result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($scope.newRibbon.colors[i]);
       }
       if (result != null) {
-        console.log('hit this');
         var r = parseInt(result[1], 16);
         var g = parseInt(result[2], 16);
         var b = parseInt(result[3], 16);
@@ -546,26 +813,19 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         l = Math.round(l);
         h = Math.round(360*h);
 
-
-
         if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[2] && $scope.newRibbon.colors[1].length > 0 && $scope.newRibbon.colors[2].length > 0) {
 
-          console.log('hit three');
-
           ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
-          console.log(l);
 
           if (secondHandled == false) {
             ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)'
             ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
-            console.log(l-15);
           }
-
 
           if (l-25 <= 0) {
             l = l - ((l-15) * -1) + 5;
           }
-          console.log(l);
+
           ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
 
           i++;
@@ -576,40 +836,31 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
         } else if ($scope.newRibbon.colors[1] && $scope.newRibbon.colors[1].length > 0) {
 
-          console.log('hit two');
-
           ribbon.colors.primary = '#' + $scope.newRibbon.colors[0];
-          console.log(l);
 
           ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)';
-          console.log(l-10);
 
           ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
-          console.log(l-15);
 
           if (l-25 <= 0) {
             l = l - ((l-25) * -1) + 5;
           }
-          console.log(l);
+
           ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-25) + '%)';
 
         } else {
 
-          console.log('hit one');
 
           ribbon.colors.primary = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
-          console.log(l);
 
           ribbon.colors.secondary = 'hsl(' + h + ', ' + s + '%, ' + (l-10) + '%)';
-          console.log(l-10);
 
           ribbon.colors.shadow = 'hsl(' + h + ', ' + s + '%, ' + (l-15) + '%)';
-          console.log(l-15);
 
           if (l-25 <= 0) {
             l = l - ((l-25) * -1) + 5;
           }
-          console.log(l);
+
           ribbon.colors.dark = 'hsl(' + h + ', ' + s + '%, ' + (l-25) + '%)';
 
         }
@@ -618,25 +869,18 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     handleShader();
 
     $scope.newRibbon.build = ribbon;
-    // $rootScope.$emit('colorChanged', {colorInHSL});
+
     $('#ribbonPreviewContainer svg').remove();
 
     var svg = '<svg height="" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="3em" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="TextBounds"><rect height="861.588" transform="matrix(0.614981 -0.788542 0.788542 0.614981 -275.584 92.8005)" width="683.244" x="213.828" y="160.239"/></clipPath></defs><clipPath id="ArtboardFrame"><rect height="1024" width="1024" x="0" y="0"/></clipPath><g clip-path="url(#ArtboardFrame)" id="Layer-1" vectornator:layerName="Layer 1"><path d="M337.357 56.1719C337.357 56.1719 364.349 2.38001 499.309 2.38001C634.27 2.38001 661.262 56.1719 661.262 56.1719C661.262 56.1719 688.254 190.652 634.27 217.548C634.27 217.548 602.689 190.652 499.309 190.652C395.93 190.652 364.349 217.548 364.349 217.548C312.902 203.266 337.357 56.1719 337.357 56.1719Z" fill="' + ribbon.colors.dark + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M599.531 277.526C641.962 214.643 665.149 146.542 665.149 115.128C665.149 83.6596 661.262 56.1719 661.262 56.1719C661.262 56.1719 738.405 226.45 761.537 281.452C784.67 336.508 753.818 411.198 722.966 458.347C692.114 505.549 279.459 1024.43 279.459 1024.43L121.42 890.753C121.42 890.753 557.126 340.408 599.531 277.526Z" fill="' + ribbon.colors.secondary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M877.198 890.753L719.16 1024.43C719.16 1024.43 306.532 505.549 275.653 458.347C244.801 411.198 213.949 336.508 237.081 281.452C260.213 226.45 337.357 56.1719 337.357 56.1719C337.357 56.1719 333.47 83.6596 333.47 115.128C333.47 146.542 356.629 214.643 399.088 277.526C441.492 340.408 877.198 890.753 877.198 890.753Z" fill="' + ribbon.colors.primary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M499.309 746.86C452.694 687.769 406.106 628.464 367.318 578.733C355.846 593.338 344.402 607.915 333.011 622.412C372.527 673.057 418.981 732.094 464.921 790.351C476.312 775.988 487.784 761.438 499.309 746.86ZM499.309 409.719C538.421 460.149 584.658 519.293 631.301 578.733C643.555 562.999 654.973 548.287 665.392 534.839C616.941 473.086 571 414.238 533.373 365.664C522.819 379.354 511.429 394.066 499.309 409.719Z" fill="' + ribbon.colors.shadow + '" fill-rule="evenodd" opacity="1" stroke="none"/></g><g id="Name" vectornator:layerName="Name"><text class="ribbonTexts" clip-path="url(#TextBounds)" fill="#efe9f0" font-family="Helvetica-Bold" font-size="' + ribbon.fontSize + '" opacity="1" stroke="none" text-anchor="middle" transform="matrix(0.614981 0.788542 -0.788542 0.614981 242.656 160.239)" vectornator:text="Multiple&#x20;Myeloma" vectornator:width="100%" x="0" y="0"><tspan x="532.062" y="97">' + ribbon.name + '</tspan></text></g></svg>';
 
     angular.element($('#ribbonPreviewContainer')).append($compile(svg)($scope));
 
-    if ($scope.newRibbon.colors) {
-
-    }
-
   }
-  $scope.newRibbonColor = function() {
-    console.log('hit');
-  }
+
   $scope.addNewRibbon = function() {
     $http.post('addNewRibbon', {ribbon:$scope.newRibbon.build})
     .then(function(res) {
-      // $scope.ribbons = res.data;
       $scope.ribbons = [];
       getRibbons();
     })
@@ -644,14 +888,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       console.log(err);
     })
   }
-
-  // function buildRibbons() {
-  //   for (var i = 0; i < $scope.ribbons.length; i++) {
-  //     ribbon = $scope.ribbons[i]
-  //     bag = '<svg class="headerIcons" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="3em" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="TextBounds"><rect height="861.588" transform="matrix(0.614981 -0.788542 0.788542 0.614981 -275.584 92.8005)" width="683.244" x="213.828" y="160.239"/></clipPath></defs><clipPath id="ArtboardFrame"><rect height="1024" width="1024" x="0" y="0"/></clipPath><g clip-path="url(#ArtboardFrame)" id="Layer-1" vectornator:layerName="Layer 1"><path d="M337.357 56.1719C337.357 56.1719 364.349 2.38001 499.309 2.38001C634.27 2.38001 661.262 56.1719 661.262 56.1719C661.262 56.1719 688.254 190.652 634.27 217.548C634.27 217.548 602.689 190.652 499.309 190.652C395.93 190.652 364.349 217.548 364.349 217.548C312.902 203.266 337.357 56.1719 337.357 56.1719Z" fill="' + ribbon.colors.dark + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M599.531 277.526C641.962 214.643 665.149 146.542 665.149 115.128C665.149 83.6596 661.262 56.1719 661.262 56.1719C661.262 56.1719 738.405 226.45 761.537 281.452C784.67 336.508 753.818 411.198 722.966 458.347C692.114 505.549 279.459 1024.43 279.459 1024.43L121.42 890.753C121.42 890.753 557.126 340.408 599.531 277.526Z" fill="' + ribbon.colors.secondary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M877.198 890.753L719.16 1024.43C719.16 1024.43 306.532 505.549 275.653 458.347C244.801 411.198 213.949 336.508 237.081 281.452C260.213 226.45 337.357 56.1719 337.357 56.1719C337.357 56.1719 333.47 83.6596 333.47 115.128C333.47 146.542 356.629 214.643 399.088 277.526C441.492 340.408 877.198 890.753 877.198 890.753Z" fill="' + ribbon.colors.primary + '" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M499.309 746.86C452.694 687.769 406.106 628.464 367.318 578.733C355.846 593.338 344.402 607.915 333.011 622.412C372.527 673.057 418.981 732.094 464.921 790.351C476.312 775.988 487.784 761.438 499.309 746.86ZM499.309 409.719C538.421 460.149 584.658 519.293 631.301 578.733C643.555 562.999 654.973 548.287 665.392 534.839C616.941 473.086 571 414.238 533.373 365.664C522.819 379.354 511.429 394.066 499.309 409.719Z" fill="' + ribbon.colors.shadow + '" fill-rule="evenodd" opacity="1" stroke="none"/></g><g id="Name" vectornator:layerName="Name"><text class="ribbonTexts" clip-path="url(#TextBounds)" fill="#efe9f0" font-family="Helvetica-Bold" font-size="' + ribbon.fontSize + '" opacity="1" stroke="none" text-anchor="middle" transform="matrix(0.614981 0.788542 -0.788542 0.614981 242.656 160.239)" vectornator:text="Multiple&#x20;Myeloma" vectornator:width="100%" x="0" y="0"><tspan x="532.062" y="97">' + ribbon.name + '</tspan></text></g></svg>'
-  //     angular.element($('#ribbonControllerPreviewDiv')).append($compile(bag)($scope))
-  //   }
-  // }
 
   $scope.selectRibbon = function(r) {
     $scope.ribbonToEdit = r;
@@ -666,7 +902,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.saveRibbonEdit = function() {
-    // console.log(r);
     $http.post('saveRibbonEdit', {ribbon:$scope.ribbonToEdit})
     .then(function(res) {
       // console.log(res);
@@ -715,6 +950,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $('#itemImage').remove();
     angular.element($('#itemImageSpan')).append($compile(html)($scope))
   }
+
   $scope.cancel = function() {
     $('#newItemBtn').css('display','flex');
     $('#carePackageItemDiv').css('display','flex');
@@ -731,13 +967,13 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       price: '', //the price we purchase the product for
       image: '',
       description: '',
-      tags:'all'
+      tags:'all',
+      category: 'None',
     };
 
     $scope.mode = 'view';
   }
   $scope.removeCareItem = function(item, index) {
-    // $scope.mode = 'remove';
 
     $http.post('removeItem',{item:item})
     .then(function(res) {
@@ -777,6 +1013,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       if ($scope.mode == 'new') {
         $http.post('addNewItem', {item:$scope.item})
         .then(function(res) {
+          console.log(res.data);
           getItems();
         })
         .catch(function(err) {
@@ -791,14 +1028,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           console.log(err);
         })
       }
-
+      $scope.cancel();
     }
-
-  }
-
-  $scope.showImage = function() {
-    // console.log($scope.itemImageInput);
-    // $scope.item.image = $scope.itemImageInput;
 
   }
 
@@ -826,7 +1057,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
         angular.element($('#itemImageSpan')).append($compile(html)($scope))
 
-
       };
       reader.readAsDataURL(file);
 
@@ -835,6 +1065,329 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     readUrl(files[0])
 
   })
+
+  $scope.selectBagPreset = function(preset) {
+    console.log(preset);
+    $scope.presetEditID = preset.id;
+    for (var k = 0; k < preset.bag_preset_data.categories.length; k++) {
+
+      var count = 0;
+      preset.bag_preset_data.categories[k].selectableItems = [];
+      for (var i = 0; i < $scope.careItems.length; i++) {
+        if ($scope.careItems[i].category) {
+          if ($scope.careItems[i].category.category_data.name == preset.bag_preset_data.categories[k].category_data.name) {
+            // console.log($scope.careItems[i].category.category_data.name, preset.bag_preset_data.categories[k].category_data.name);
+            let item = {
+              line_id: count,
+              cat_id: k,
+              name: $scope.careItems[i].name,
+            }
+            preset.bag_preset_data.categories[k].selectableItems.push(item)
+            count ++;
+          }
+        }
+      }
+
+    }
+    $scope.bagPreset = preset.bag_preset_data;
+    $scope.presetMode = 'edit';
+  }
+  $scope.newBagPreset = function() {
+    $scope.presetMode = 'new';
+    $scope.bagPreset = {
+      name:'',
+      categories:[{
+        category_data: {
+          name: 'None',
+        },
+        selectableItems:[{
+          name:'Any Category Item',
+          line_id:0,
+          cat_id:0
+        }],
+        selectedItems:[],
+      }],
+      items:[]
+    }
+  }
+  $scope.selectPresetCategory = function(cat, index) {
+
+    $scope.bagPreset.categories[index].selectableItems = [];
+    $scope.bagPreset.categories[index].category_data = cat.category_data;
+
+    var count = 0;
+    for (var i = 0; i < $scope.careItems.length; i++) {
+      if ($scope.careItems[i].category) {
+        if ($scope.careItems[i].category.category_data.name == cat.category_data.name) {
+          let item = {
+            line_id: count,
+            cat_id: index,
+            name: $scope.careItems[i].name,
+          }
+          $scope.bagPreset.categories[index].selectableItems.push(item)
+          count ++;
+        }
+      }
+    }
+    $scope.bagPreset.categories[index].selectedItems.push({
+      name:'Any Category Item',
+      line_id:0,
+      cat_id:index
+    });
+    if (index == $scope.bagPreset.categories.length - 1) {
+      $scope.bagPreset.categories.push({
+        category_data: {
+          name: 'None',
+        },
+        selectableItems:[{
+          name:'Any Category Item',
+          line_id:0,
+          cat_id:index+1
+        }],
+        selectedItems:[],
+      })
+    }
+
+  }
+  $scope.selectPresetItem = function(item) {
+    let selectedPresetItem = JSON.parse(item.name);
+    $scope.bagPreset.categories[selectedPresetItem.cat_id].selectedItems.push({
+      name:'Add Category',
+      line_id:$scope.bagPreset.categories[selectedPresetItem.cat_id].selectedItems.length,
+      cat_id:selectedPresetItem.cat_id
+    })
+  }
+  $scope.saveBagPreset = function() {
+    if ($scope.presetMode == 'new') {
+      $http.post('addBagPreset',$scope.bagPreset)
+      .then(function(res) {
+        getBagPresets();
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    } else if($scope.presetMode = 'edit') {
+      $http.post('editBagPreset',{preset:$scope.bagPreset,id:$scope.presetEditID})
+      .then(function(res) {
+        getBagPresets();
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+    }
+    $scope.presetMode = 'none';
+  }
+  $scope.openBuildBags = function() {
+    $scope.buildingBags = $scope.buildingBags? false : true;
+    if ($scope.buildingBags == false) {
+      $scope.building = {
+        preset:{},
+        categories:[],
+        items:[],
+        individualCost:0,
+        totalCost:0,
+        quantity:0,
+        maxSelectedQuantity:0,
+        maxTotalQuantity:0,
+        displayTotals: false
+      }
+    }
+  }
+  $scope.selectBuildPreset = function(preset) {
+    $scope.building = {
+      preset:preset,
+      categories:[],
+      items:[],
+      individualCost:0,
+      totalCost:0,
+      quantity:0,
+      maxSelectedQuantity:0,
+      maxTotalQuantity:0,
+      displayTotals: false
+    }
+    for (var i = 0; i < preset.bag_preset_data.categories.length; i++) {
+      if (i < preset.bag_preset_data.categories.length - 1) {
+        $scope.building.categories[i] = [];
+
+        for (var j = 0; j < preset.bag_preset_data.categories[i].selectedItems.length; j++) {
+
+          if (preset.bag_preset_data.categories[i].selectedItems[j].name[0] != 'A') {
+            var item = JSON.parse(preset.bag_preset_data.categories[i].selectedItems[j].name);
+            $scope.building.categories[i].push(item);
+            if (preset.bag_preset_data.categories[i].selectedItems.length == 2) {
+              $scope.building.items[i] = item;
+              $scope.selectBuildBagItem(i, item);
+            }
+          }
+        }
+      } else {
+        i = preset.bag_preset_data.categories.length;
+      }
+    }
+  }
+
+  function figureBagQuantities(arr) {
+    var minQuantity = null;
+    for (var i = 0; i < arr.length; i++) {
+      if (minQuantity == null) {
+        if (arr[i]) {
+          minQuantity = arr[i].quantity? arr[i].quantity: 0;
+        } else if(arr[i] == null || arr[i] == undefined || !arr[i]) {
+          var multChoiceMinQuantity = 0;
+          for (var j = 0; j < $scope.building.categories[i].length; j++) {
+            multChoiceMinQuantity += $scope.building.categories[i][j].quantity;
+            if (j == $scope.building.categories[i].length - 1) {
+              if (minQuantity > multChoiceMinQuantity) {
+                minQuantity = multChoiceMinQuantity;
+              }
+            }
+          }
+        }
+      } else if(arr[i] == null || arr[i] == undefined || !arr[i]) {
+        var multChoiceMinQuantity = 0;
+        for (var j = 0; j < $scope.building.categories[i].length; j++) {
+          multChoiceMinQuantity += $scope.building.categories[i][j].quantity;
+          if (j == $scope.building.categories[i].length - 1) {
+            if (minQuantity > multChoiceMinQuantity) {
+              minQuantity = multChoiceMinQuantity;
+            }
+          }
+        }
+      } else if(arr[i] && arr[i].quantity == undefined && arr[i].quantity < minQuantity) {
+        minQuantity = arr[i].quantity;
+      } else if(!arr[i].quantity) {
+        minQuantity = 0;
+      } else if(arr[i].quantity < minQuantity) {
+        minQuantity = arr[i].quantity;
+      }
+      if (arr.length-1 == i) {
+        if (i < $scope.building.categories.length-1) {
+          $scope.building.displayTotals = false;
+        } else {
+          $scope.building.displayTotals = true;
+        }
+        return minQuantity;
+      }
+    }
+  }
+  $scope.selectBuildBagItem = function(index, item) {
+    // console.log(JSON.parse($scope.building.items[index]));
+    // if (typeof item.name == 'string') {
+    //   item = JSON.parse(item.name);
+    // }
+    for (var i = 0; i < $scope.careItems.length; i++) {
+      const careItem = {
+        id:$scope.careItems[i].id,
+        name:$scope.careItems[i].name,
+        price:$scope.careItems[i].price,
+        quantity: $scope.careItems[i].quantity? $scope.careItems[i].quantity: 0
+      }
+      // console.log($scope.careItems[i].name, $scope.building.items[index].name);
+      if (careItem.name === $scope.building.items[index].name) {
+        // console.log(item);
+        if ($scope.building.items[index].price) {
+          $scope.building.individualCost -= $scope.building.items[index].price;
+        }
+        $scope.building.individualCost += careItem.price;
+        $scope.building.items[index] = careItem;
+        i = $scope.careItems.length;
+      }
+      if (i == $scope.careItems.length && $scope.building.categories.length == $scope.building.items.length) {
+        $scope.building.maxSelectedQuantity = figureBagQuantities($scope.building.items);
+      }
+    }
+    // $scope.building.items[index] = item;
+  }
+  $scope.setToMax = function() {
+    $scope.building.quantity = $scope.building.maxSelectedQuantity;
+  }
+  $scope.buildBags = function() {
+    $http.post('buildBags', $scope.building)
+    .then(function(res) {
+      getBags();
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  $scope.setFulfillBagsMax = function(index) {
+    $scope.fulfillmentDisplay.byPreset[index].qty = $scope.fulfillmentDisplay.byPreset[index].bags.length;
+  }
+
+  async function generateQRCodes(arr) {
+    var qrCodes = [];
+    await arr.forEach(bag => {
+      code = "www.yellowbagofhumanity.com/recipients/:"+ bag.id + "/:"  + bag.bag_data.uid;
+      const qrCodeContainer = document.createElement('div');
+      const qrCodeWidth = 200;
+      const qrCodeHeight = 200;
+      const qrCode = new QRCode(qrCodeContainer, {
+        text: code,
+        width: qrCodeWidth,
+        height: qrCodeHeight,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      const canvas = qrCodeContainer.querySelector('canvas');
+      const dataUrl = canvas.toDataURL();
+      qrCodes.push(dataUrl);
+    });
+    return qrCodes;
+  }
+  async function makePrints(urls) {
+    $http.post('buildQRPrints', urls)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      log.error(err)
+    })
+  }
+  async function markBagsAndBatch(bags) {
+    $http.post('markBagsAndBatch', bags)
+    .then(function(res) {
+      console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  $scope.fulfillBags = async function(type) {
+    var uids = [];
+    var bagsToFulfill = [];
+    if (type == 'all') {
+      for (var i = 0; i < $scope.fulfillmentDisplay.byPreset.length; i++) {
+        for (var j = 0; j < $scope.fulfillmentDisplay.byPreset[i].bags.length; j++) {
+          uids.push($scope.fulfillmentDisplay.byPreset[i].bags[j].bag_data.uid);
+          bagsToFulfill.push($scope.fulfillmentDisplay.byPreset[i].bags[j]);
+          if (i == $scope.fulfillmentDisplay.byPreset.length-1 && j >= $scope.fulfillmentDisplay.byPreset[i].bags.length-1) {
+            var codeUrls = await generateQRCodes(bagsToFulfill);
+            await makePrints(codeUrls);
+            await markBagsAndBatch(bagsToFulfill);
+          }
+        }
+      }
+    } else {
+      for (var i = 0; i < $scope.fulfillmentDisplay.byPreset.length; i++) {
+        for (var j = 0; j < $scope.fulfillmentDisplay.byPreset[i].qty; j++) {
+          uids.push($scope.fulfillmentDisplay.byPreset[i].bags[j].bag_data.uid);
+          bagsToFulfill.push($scope.fulfillmentDisplay.byPreset[i].bags[j]);
+          if (i == $scope.fulfillmentDisplay.byPreset.length-1 && j >= $scope.fulfillmentDisplay.byPreset[i].qty-1) {
+            var codeUrls = await generateQRCodes(bagsToFulfill);
+            await makePrints(codeUrls);
+            await markBagsAndBatch(bagsToFulfill);
+          }
+        }
+      }
+    }
+
+  }
+
+  $scope.showFulfillmentBags = function(receipt) {
+    receipt.showBags = receipt.showBags? false: true;
+  }
 
   var onFileChanged = function(e) {
     var file = e.target.files[0];
@@ -855,7 +1408,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               $scope.thisAdminPage('carepackage');
 
               getRibbons();
+              getCategories();
+              getBagPresets();
               getItems();
+              getBags();
+              getFulfillments();
               getCarePackagePrice();
               getOrders();
               getDonations();

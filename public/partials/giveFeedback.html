@@ -1,0 +1,113 @@
+<div class="parentDisplays" id="giveTestimonialParentDisplay" ng-controller="reviewsCtrl">
+
+
+  <div class="testimonialInputDivs" id="testimonialInputDiv">
+    <div class="reviewPageDivs" ng-if="reviewController.page == 1">
+      <p>Whether you're a recipient of a Yellow Bag or one of our wonderful donors, we love to hear about your experiences with us! <br> Every story pushes us harder and every idea or suggestion is greatly appreciated. <br>Thank you for your support!</p>
+      <span id="feedbackTypeSelectSpan" class="testimonialTypeSelectSpans">
+        <a href="" id="reviewSelectAnc" ng-click="selectFeedbackType('review')" class="">Review</a>
+        <p><b>or</b></p>
+        <a href="" id="testimonySelectAnc" ng-click="selectFeedbackType('testimony')" class="">Testimony</a>
+      </span>
+      <span id="testimonialTypeSelectSpan" class="testimonialTypeSelectSpans">
+        <a href="" id="recipientSelectAnc" ng-click="selectReviewType('recipient')" class="">Recipient</a>
+        <p><b>or</b></p>
+        <a href="" id="donorSelectAnc" ng-click="selectReviewType('donor')" class="">Donor</a>
+      </span>
+      <a href="" ng-click="feedbackPageChange(1)">Next</a>
+    </div>
+
+    <div class="reviewPageDivs" ng-if="reviewController.page == 2">
+      <a href="" ng-click="feedbackPageChange(-1)">Back</a>
+      <input type="text" name="" value="" placeholder="Name / Alias" ng-model="newReview.name">
+
+      <span>
+        <input type="checkbox" name="anonOption" value="" ng-model="newReview.anonymous">
+        <label for="anonOption">Remain Anonymous?</label>
+      </span>
+      <div class="" id="receiverInfoDiagnosiesDropdownContainer">
+        <div id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in newReview.ribbons track by $index">
+          <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="newReview.ribbons[$index]" ng-change="selectDiagnosis($index)" name="">
+            <option value="" disabled required="required">Add Diagnosis</option>
+            <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+          </select>
+          <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="newReview.ribbons[$index] != '' && newReview.ribbons[$index] != null" href="" ng-click="removeDiagnosis(newReview.ribbons[$index])">X</a>
+        </div>
+      </div>
+
+      <a href="" ng-click="feedbackPageChange(1)">Next</a>
+    </div>
+
+    <div class="reviewPageDivs" ng-if="reviewController.page == 3 && reviewController.type == 'review' && reviewController.thankyou == false">
+      <a href="" ng-click="feedbackPageChange(-1)" ng-if="reviewController.thanked == false">Back</a>
+      <div id="ratingSelectContainer">
+        <h3 for=""><b>How was your Yellow Bag?</b></h3>
+        <label for="itemsSelect">How do you feel about the items?</label>
+        <div id="itemsSelect" name="itemsSelect" class="bagRatingSelectDivs">
+          <a id="itemsSelectAnc1" href="" ng-click="ratingSelect('items',1)">1</a>
+          <a id="itemsSelectAnc2" href="" ng-click="ratingSelect('items',2)">2</a>
+          <a id="itemsSelectAnc3" href="" ng-click="ratingSelect('items',3)">3</a>
+          <a id="itemsSelectAnc4" href="" ng-click="ratingSelect('items',4)">4</a>
+          <a id="itemsSelectAnc5" href="" ng-click="ratingSelect('items',5)">5</a>
+        </div>
+        <label for="bagSelect">What do you think of the bag?</label>
+        <div id="bagSelect" name="bagSelect" class="bagRatingSelectDivs">
+          <a id="bagSelectAnc1" href="" ng-click="ratingSelect('bag',1)">1</a>
+          <a id="bagSelectAnc2" href="" ng-click="ratingSelect('bag',2)">2</a>
+          <a id="bagSelectAnc3" href="" ng-click="ratingSelect('bag',3)">3</a>
+          <a id="bagSelectAnc4" href="" ng-click="ratingSelect('bag',4)">4</a>
+          <a id="bagSelectAnc5" href="" ng-click="ratingSelect('bag',5)">5</a>
+        </div>
+        <label for="websiteSelect">How do you rate our website?</label>
+        <div id="websiteSelect" name="websiteSelect" class="bagRatingSelectDivs">
+          <a id="websiteSelectAnc1" href="" ng-click="ratingSelect('website',1)">1</a>
+          <a id="websiteSelectAnc2" href="" ng-click="ratingSelect('website',2)">2</a>
+          <a id="websiteSelectAnc3" href="" ng-click="ratingSelect('website',3)">3</a>
+          <a id="websiteSelectAnc4" href="" ng-click="ratingSelect('website',4)">4</a>
+          <a id="websiteSelectAnc5" href="" ng-click="ratingSelect('website',5)">5</a>
+        </div>
+        <label for="satisfactionSelect">How satisfied are you?</label>
+        <div id="satisfactionSelect" name="satisfactionSelect" class="bagRatingSelectDivs">
+          <a id="satisfactionSelectAnc1" href="" ng-click="ratingSelect('satisfaction',1)">1</a>
+          <a id="satisfactionSelectAnc2" href="" ng-click="ratingSelect('satisfaction',2)">2</a>
+          <a id="satisfactionSelectAnc3" href="" ng-click="ratingSelect('satisfaction',3)">3</a>
+          <a id="satisfactionSelectAnc4" href="" ng-click="ratingSelect('satisfaction',4)">4</a>
+          <a id="satisfactionSelectAnc5" href="" ng-click="ratingSelect('satisfaction',5)">5</a>
+        </div>
+        <label for="commentInput">Any Comments, Suggestions, or Concerns you'd like us to hear? </label>
+        <textarea name="commentInput" rows="8" cols="80" ng-model="newReview.ratings.comments"></textarea>
+        <span>
+          <input type="checkbox" name="permissionOption" value="" ng-model="newReview.permissionToPost">
+          <label for="permissionOption" ng-if="reviewController.type == 'review'" >Allow us to post your reviews and comments?</label>
+        </span>
+
+      </div>
+
+      <a href="" ng-click="submitReview('review')">Submit</a>
+
+    </div>
+    <div class="reviewPageDivs" ng-if="reviewController.page == 3 && reviewController.type == 'testimony' && reviewController.thankyou == false">
+      <a href="" ng-click="feedbackPageChange(-1)" ng-if="reviewController.thanked == false">Back</a>
+      <label for="testimonyInput">Tell us your story</label>
+      <textarea name="testimonyInput" rows="8" cols="80" ng-model="newReview.testimonial"></textarea>
+      <span>
+        <input name="permissionOption" ng-if="reviewController.type == 'testimony'" type="checkbox" name="" value="" ng-model="newReview.permissionToPost">
+        <label for="permissionOption" ng-if="reviewController.type == 'testimony'" >Allow us to post your testimony?</label>
+      </span>
+      <a href="" ng-click="submitReview('testimony')">Submit</a>
+    </div>
+
+    <div class="reviewPageDivs" id="thankyouReviewPageDiv" ng-if="reviewController.thankyou">
+
+      <p>From all of us at Yellow Bag,</p>
+      <h2>Thank you!</h2>
+      <p ng-if="reviewController.type == 'review'">Your feedback will assist us in improving as we grow, and helps us maintain quality support.</p>
+      <p ng-if="reviewController.type == 'review' && reviewController.thanked == false">If you have a <a href="" ng-click="toTestimony()"><b>Story</b></a> you would like to share, we would love to hear it!</p>
+      <p ng-if="reviewController.type == 'testimony'">You and others with individually unique, yet similar stories are the reason Yellow Bag was started. We very much appreciate you sharing your story with us</p>
+      <p ng-if="reviewController.type == 'testimony' && reviewController.thanked == false">Would you mind giving us a quick <a href="" ng-click="toReview()"><b>Review</b></a>?</p>
+
+    </div>
+
+  </div>
+
+</div>

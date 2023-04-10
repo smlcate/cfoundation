@@ -5,10 +5,6 @@ const ca = fs.readFileSync('./db/ca-certificate.crt');
 
 require('dotenv').config();
 
-console.log(process.env.DATABASE_URL);
-console.log(process.env);
-
-console.log('Knex configuration loaded:', process.env.NODE_ENV);
 module.exports = {
 
   development: {

@@ -4,10 +4,12 @@
   <div class="" id="adminNav">
 
     <a href="" id="carepackageNavAnc" ng-click="thisAdminPage('carepackage')">Care Packages</a>
+    <a href="" id="bagsNavAnc" ng-click="thisAdminPage('bags')">Bags</a>
     <a href="" id="ordersNavAnc" ng-click="thisAdminPage('orders')">Orders</a>
     <a href="" id="shippingRatesNavAnc" ng-click="thisAdminPage('shippingRates')">Shipping Rates</a>
     <a href="" id="donationsNavAnc" ng-click="thisAdminPage('donations')">Donations</a>
     <a href="" id="testimonialsNavAnc" ng-click="thisAdminPage('testimonials')">Testimonials</a>
+    <a href="" id="reviewsNavAnc" ng-click="thisAdminPage('reviews')">Reviews</a>
 
     <!-- <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a> -->
@@ -65,6 +67,18 @@
       <span>
         <p>Name</p>
         <input type="text" name="" value="" ng-model="testimonialSettings.inputs.name">
+        <a href="" ng-if="testimonialSettings.inputs.favorite" ng-click="favTestimony(false)">Favorited</a>
+        <a href="" ng-if="testimonialSettings.inputs.favorite == false" ng-click="favTestimony(true)">Favorite</a>
+        <p>Diagnosies</p>
+        <div class="" id="receiverInfoDiagnosiesDropdownContainer">
+          <div id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in testimonialSettings.inputs.ribbons track by $index">
+            <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="testimonialSettings.inputs.ribbons[$index]" ng-change="selectDiagnosis($index)" name="">
+              <option value="" disabled required="required">Add Diagnosis</option>
+              <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+            </select>
+            <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a>
+          </div>
+        </div>
       </span>
 
       <p>Testimonial</p>
@@ -86,12 +100,113 @@
     </div>
   </div>
 
+  <div class="adminPages" id="bagsAdminPage">
+    <h1>Bags</h1>
+    <div class="adminBagsControllerDivs" ng-if="buildingBags == false">
+      <h3>Presets</h3>
+      <span id="presetAncSpan">
+        <a href="" ng-repeat="preset in bagPresets" ng-click="selectBagPreset(preset)">{{preset.bag_preset_data.name}}</a>
+        <a href="" ng-click="newBagPreset()">New Preset</a>
+      </span>
+      <div class="" id="presetInputDiv" ng-if="presetMode != 'none'">
+        <span>
+          <label for="presetNameInput">Name</label>
+          <input type="text" name="presetNameInput" value="" ng-model="bagPreset.name">
+        </span>
+        <label for="presetCategoriesDiv">Item Categories</label>
+        <div class="" name="presetCategoriesDiv" id="presetCategoriesDiv">
+          <div id="dropdownCell{{$index}}" class="dropdownCells" ng-repeat="dropdown in bagPreset.categories track by $index">
+            <select id="dropdown{{$index}}" class="dropdowns" ng-model="dropdown.category_data.name" ng-change="selectPresetCategory(dropdown, $index)" name="">
+              <option value="{{category.category_data.name}}" ng-repeat="category in categories">{{category.category_data.name}}</option>
+            </select>
+            <!-- <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a> -->
+            <select id="dropdown{{includedItem.cat_id}}_{{includedItem.line_id}}" ng-if="dropdown.category_data.name != 'None'" class="dropdowns" ng-model="dropdown.selectedItems[includedItem.line_id].name" ng-repeat="includedItem in dropdown.selectedItems" ng-change="selectPresetItem(includedItem)">
+              <option value="{{item}}"ng-repeat="item in dropdown.selectableItems">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+        <a href="" ng-click="saveBagPreset()" ng-if="presetMode == 'new'">Add</a>
+        <a href="" ng-click="saveBagPreset()" ng-if="presetMode == 'edit'">Save</a>
+      </div>
+    </div>
+    <div class="adminBagsControllerDivs">
+      <a href="" ng-if="!buildingBags" ng-click="openBuildBags()">Build Bags</a>
+      <a href="" ng-if="buildingBags" ng-click="openBuildBags()">Cancel</a>
+      <div class="" id="buildBagsControls" ng-if="buildingBags">
+        <span>
+          <a href="" ng-repeat="preset in bagPresets" ng-click="selectBuildPreset(preset)">{{preset.bag_preset_data.name}}</a>
+        </span>
+        <div class="" id="buildBagsItemSelection">
+          <span class="buildBagsItemSelectionSpans" ng-repeat="cat in building.categories track by $index">
+            <select ng-if="cat.length > 1" class="dropdowns" name="" ng-model="building.items[$index].name" ng-change="selectBuildBagItem($index,building.items[$index])">
+              <option value="{{item.name}}" ng-repeat="item in cat">{{item.name}}</option>
+            </select>
+            <p ng-if="cat.length == 1"><b>{{cat[0].name}}</b></p>
+            <p ng-if="building.items[$index] != null">${{building.items[$index].price}}/unit</p>
+            <p ng-if="building.items[$index] != null">{{building.items[$index].quantity}} units</p>
+          </span>
+        </div>
+        <!-- <h3>Total Preset Bags Available: {{building.maxTotalQuantity}}</h3> -->
+        <h3 ng-if="building.displayTotals">Total Selected Bags Available: {{building.maxSelectedQuantity}}</h3>
+        <h3 ng-if="building.displayTotals">Cost Per Bag: ${{building.individualCost}}</h3>
+        <span ng-if="building.displayTotals">
+          <label  for="buildBagsAmountInput">Make:</label>
+          <input type="number" name="buildBagsAmount" step="1" min="1" max="{{building.maxSelectedQuantity}}" value="" ng-model="building.quantity" value="">
+          <a href="" ng-click="setToMax()">Max</a>
+        </span>
+        <a ng-if="building.displayTotals" href="" ng-click="buildBags()">Build!</a>
+      </div>
+    </div>
+    <div class="adminBagsControllerDivs">
+      <span>
+        <h1>Ready to Fulfill</h1>
+        <a href="" ng-click="fulfillBags('all')">Fulfill All Available Bags</a>
+      </span>
+      <div class="adminBagsControllerFulfillmentCells" ng-repeat="preset in fulfillmentDisplay.byPreset track by $index">
+        <span>
+          <h2>{{preset.name}}</h2>
+          <h3>{{preset.bags.length}} Bags</h3>
+          <label for="fulfillAmountInput">Qty:</label>
+          <input type="number" name="fulfillAmountInput" value="" step="1" min="0" max="{{preset.bags.length}}" ng-model="preset.qty">
+          <a href="" ng-click="setFulfillBagsMax($index)">Max</a>
+        </span>
+        <span>
+          <p ng-repeat="item in preset.items">{{item.name}}</p>
+        </span>
+      </div>
+      <a href="" ng-click="fulfillBags('selected')">Fulfill Selected Bags</a>
+    </div>
+    <div class="adminBagsControllerDivs">
+      <div class="fulfillmentCells" ng-repeat="receipt in fulfillments">
+        <a href="" class="fulfillmentCellHeaders" ng-click="showFulfillmentBags(receipt)">
+          <h3>Batch #{{receipt.id}}</h3>
+          <p>{{receipt.fulfillment_data.bags.length}} Bags</p>
+          <p>{{receipt.fulfillment_data.prettyTime}}</p>
+        </a>
+        <div ng-if="receipt.showBags" class="fulfillmentCellBagDisplays">
+          <span class="fulfillmentCellHeaders">
+            <a href="">Unbatch All</a>
+            <a href="">Mark All as Sent</a>
+          </span>
+          <span ng-repeat="bag in receipt.fulfillment_data.bags track by $index">
+            <h4>{{bag.bag_data.preset.bag_preset_data.name}}</h4>
+            <h4>{{bag.bag_data.status}}</h4>
+            <p>{{bag.bag_data.items.length}} Items</p>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="adminPages" id="carepackageAdminPage">
 
     <h1>Care Packages</h1>
 
     <div class="" id="carePackageSettingsDiv">
+      <a href="" ng-click="generateQR()">Generate QR</a>
+      <div id="qr-code-container">
 
+      </div>
       <span id="carePackagePriceSpan">
         <p>Care Package Price  $</p>
         <p id="carePackagePriceText">{{carePackagePrice.toFixed(2)}}</p>
@@ -149,6 +264,16 @@
     <span id="ribbonsSpan">
 
     </span>
+    <div id="carepackageItemCategoryDiv">
+      <div class="itemCategoryCells" ng-repeat="cat in categories">
+        <p>{{cat.category_data.name}}</p>
+        <a href="" ng-click="removeCategory(cat)">X</a>
+      </div>
+      <span>
+        <input type="text" name="" value="" ng-model="newItemCategory.name">
+        <a href="" ng-click="addCategory()">Add</a>
+      </span>
+    </div>
 
     <div class="careItemMangementDivs" id="carePackageItemDiv">
       <h3 class="careItemTitles" id="newCareItemTitle" ng-if="mode == 'new'">New Care Item</h3>
@@ -162,10 +287,18 @@
         <p>$</p>
         <input id="careItemPriceInput" ng-model="item.price" class="numberInputs" type="number" name="" value="">
         <p class="validationPrompts" id="priceValidationPrompt">Need Price</p>
+        <label for="itemCategoryInput">Category</label>
+        <select id="category" ng-model="item.category">
+          <option value="{category_data:{name:'None'}}">None</option>
+          <option ng-repeat="category in categories" value="{{category}}" >{{category.category_data.name}}</option>
+        </select>
         <p>Tags (Use "," to seperate tags)</p>
         <input type="text" name="" value="" placeholder="all, melanoma, childhood" ng-model="item.tags">
         <p class="validationPrompts" id="tagValidationPrompt">Need Tag(s)</p>
       </span>
+      <label for="invOnHandInput">Inventory on Hand</label>
+      <input type="number" name="invOnHandInput" value="" ng-model="item.quantity" placeholder="">
+      <label for="invOnHandInput">Unit(s)</label>
       <span id="itemImageSpan">
         <p class="validationPrompts" id="imageValidationPrompt">Need Image</p>
         <input id="newImageInput" type="file" ng-model="item.ImageInput">
@@ -181,44 +314,13 @@
       <button id="editCareItemButton" class="submitButtons" type="button" name="button" ng-click="sendCareItem('edit')">Save Edit</button>
 
     </div>
-    <!-- <div class="careItemMangementDivs" id="editCarePackageItemDiv">
-      <h3>New Care Package Item</h3>
-      <span>
-        <p>Name</p>
-        <input id="careItemNameInput" ng-model="editItem.name" type="text" name="" value="">
-        <p class="validationPrompts" id="nameValidationPrompt">Need Name</p>
-        <p>$</p>
-        <input id="careItemPriceInput" ng-model="editItem.price" class="numberInputs" type="number" name="" value="">
-        <p class="validationPrompts" id="priceValidationPrompt">Need Price</p>
-        <p>Tags (Use "," to seperate tags)</p>
-        <input type="text" name="" value="" placeholder="all, melanoma, childhood" ng-model="editItem.tags">
-        <p class="validationPrompts" id="tagValidationPrompt">Need Tag(s)</p>
-      </span>
-      <span>
-      </span>
-      <span id="item.ImageSpan">
-        <p class="validationPrompts" id="imageValidationPrompt">Need Image</p>
-        <input id="newImageInput" type="file" ng-model="item.ImageInput"> -->
-        <!-- <button type="button" name="button" ng-click="showImage()">Use</button> -->
-        <!-- <img src="{{editItem.image}}" alt=""> -->
 
-      <!-- </span>
-      <p>Description</p>
-      <p class="validationPrompts" id="descriptionValidationPrompt">Description Needed</p>
-      <textarea name="name" rows="8" cols="80" ng-model="editItem.description"></textarea>
-
-      <button id="addCareItemButton" class="submitButtons" type="button" name="button" ng-click="addCareItem()">Add Item</button>
-
-    </div> -->
     <div class="" id="carePackageToolBar">
       <div class="" id="carePackageToolBarLeftDiv">
         <a id="newItemBtn" href="" ng-click="newCareItem()">New Item</a>
         <a id="cancelBtn" href="" ng-click="cancel()">Cancel</a>
       </div>
-      <!-- <div class="" id="carePackageToolBarRightDiv">
-        <a href="">New Item</a>
-        <a href="">Cancel</a>
-      </div> -->
+
     </div>
 
     <div class="" id="carePackageItemsDiv">
@@ -262,6 +364,15 @@
         <p class="donationCellDescriptions">{{donation.invoice.packs}} care packages @ ${{donation.invoice.packagePrice}}per, plus ${{donation.invoice.rollover}} for a total of </p>
         <p class="donationCellTotals">${{donation.invoice.total}}</p>
       </div>
+    </div>
+  </div>
+
+  <div class="adminPages" id="reviewsAdminPage">
+    <h1>Reviews</h1>
+    <div class="reviewCells" ng-repeat="review in reviews">
+      <p>{{review}}</p>
+      <a href="" ng-if="review.review_data.favorite == false" ng-click="favReview(true,review)">Favorite</a>
+      <a href="" ng-if="review.review_data.favorite == true" ng-click="favReview(false,review)">Favorited</a>
     </div>
   </div>
 

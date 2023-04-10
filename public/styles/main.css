@@ -43,6 +43,9 @@ body {
   /* overflow-y: scroll;
   scroll-snap-type: y mandatory; */
 }
+body::-webkit-scrollbar{
+  display: none;
+}
 #greetingIcon {
   height: 5em;
   width: 5em;
@@ -843,6 +846,76 @@ header {
   /* margin-left: -30px; */
   /* height: 3em; */
   /* margin-top: -3em; */
+}
+#bagsAdminPage {
+  gap: 1em;
+}
+.adminBagsControllerDivs {
+  border-top: 2px solid #C4B0FF;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.adminBagsControllerDivs span {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  height: 2em;
+}
+.adminBagsControllerFulfillmentCells {
+  display: flex;
+  flex-direction: column;
+  gap: 0em;
+}
+#buildBagsControls {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+#buildBagsItemSelection {
+  display: flex;
+  flex-direction: column;
+  gap: 0em;
+}
+#buildBagsItemSelection select {
+  height: 2em;
+}
+.buildBagsItemSelectionSpans {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  height:2em;
+}
+#presetAncSpan {
+  display: flex;
+  gap: 0.5em;
+}
+.fulfillmentCellHeaders {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.fulfillmentCells {
+  display:flex;
+  flex-direction: column;
+}
+.fulfillmentCells span {
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+#carepackageItemCategoryDiv {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.itemCategoryCells {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
 }
 #carePackageItemDiv {
   display: none;
@@ -2177,19 +2250,101 @@ input:checked + .slider:after {
 
 #giveTestimonialParentDisplay {
   padding-top: 1em;
+  padding-bottom: 1em;
   font-size: 1.5em;
 }
 .testimonialInputDivs {
   display: flex;
   flex-direction: column;
   background: #E7E1FB;
-  padding: 0.5em;
+  padding: 0.75em;
   border-radius: 0.5em;
+  filter: drop-shadow(0px 2px 2px #222);
+  width: 30em;
+}
+.testimonialInputDivs p {
+  max-width: 100%;
+  text-align: center;
+}
+.testimonialTypeSelectSpans {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+.reviewPageDivs {
+  display: flex;
+  flex-direction: column;
+}
+#ratingSelectContainer {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+}
+.bagRatingSelectDivs {
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.bagRatingSelectDivs a {
+  width: 1em;
 }
 .testimonialInputDivs input {
   border-radius: 0.25em;
 }
 
+#testimonialsParentDisplay {
+
+}
+#testimonialsParentDisplay span {
+  display: flex;
+  align-items:center;
+  margin:0em;
+  padding:0em;
+  filter: drop-shadow(2px 2px 2px #222);
+}
+#testimonialsParentDisplay p {
+  display: flex;
+  margin:0em;
+  padding:0em;
+}
+.testimonialCells {
+  padding: 1em;
+  font-size: 1.5em;
+  background:#E7E1FB;
+}
+.cellNameDivs {
+  display: flex;
+  flex-direction: column;
+  gap: 0em;
+  height: 2em;
+}
+.cellNameDivs h6, .cellNameDivs h3 {
+  margin: 0em;
+}
+#reviewsParentDisplay {
+
+}
+#reviewsParentDisplay span {
+  display: flex;
+  align-items:center;
+  gap:0.5em;
+  margin:0em;
+  padding:0em;
+  filter: drop-shadow(2px 2px 2px #222);
+}
+#reviewsParentDisplay p {
+  display: flex;
+  margin:0em;
+  padding:0em;
+}
+.reviewCells {
+  padding: 1em;
+  font-size: 1.5em;
+  background:#E7E1FB;
+}
 
 footer {
   display: flex;

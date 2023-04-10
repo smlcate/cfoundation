@@ -14,6 +14,7 @@
     "body-parser": "^1.19.0",
     "build:digitalocean": "npm install --production=false && npm run build && npm ci",
     "compression": "^1.7.4",
+    "crypto-random-string": "^5.0.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "emailjs-com": "^3.2.0",
@@ -23,7 +24,10 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.7",
     "npm": "^8.19.4",
+    "pdfkit": "^0.13.0",
     "pg": "^8.5.1",
+    "randomstring": "^1.2.3",
+    "save": "^2.9.0",
     "stripe": "^8.137.0"
   },
   "repository": {

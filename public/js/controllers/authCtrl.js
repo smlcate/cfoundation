@@ -38,7 +38,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   $scope.requestPasswordReset = function() {
     $http.post('requestPasswordReset', {email:$scope.recovery.email})
     .then(function(res) {
-      console.log(res.data.link);
       if (res.data == "Email isn't registered") {
         $scope.recovery.exists = false;
       } else {
@@ -47,7 +46,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
           from_name: 'yellowbagofhumanity.com',
           link:res.data.link
         }
-        console.log(tempParams);
         emailjs.send('service_v3v8m39','template_d9f448g', tempParams)
         .then(function(res) {
           $('#forgotPasswordConfirmationDisplay').css('display','flex');
@@ -73,6 +71,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
   }
 
   $scope.checkPasswords = function() {
+
     if ($scope.auth.checkPassword !== $scope.auth.password) {
       $scope.auth.pass = false;
       $('#passwordSuccessMessage').css('display','none');
@@ -99,19 +98,19 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
       }
 
       if (pass === true) {
+
         $http.post('signUp', {auth:$scope.auth})
         .then(function(res) {
+
           $scope.user = res.data.user_data;
           $scope.user.email = res.data.email;
           $scope.user.donations = [];
-          // $scope.user.permission = res.data.permission;
-          // $scope.user.donations = res.data.donations;
           $scope.signedIn = true;
           sessionStorage.setItem('user',JSON.stringify($scope.user));
           $('#signInUpHeaderInfoCell').css('display','none')
+
           window.location.href = '#!/welcomePage';
           $window.location.reload();
-
         })
 
       }
@@ -134,15 +133,12 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
 
         $('#userHeaderInfoCell').css('display','flex')
         $scope.user = res.data;
-        // $scope.user.permission = res.data.permission;
-        // $scope.user.donations = res.data.donations;
         $scope.signedIn = true;
         sessionStorage.setItem('user',JSON.stringify($scope.user));
         $('#signInUpHeaderInfoCell').css('display','none')
 
         window.location.href = '#!/home';
         $window.location.reload();
-
 
       }
 
@@ -197,7 +193,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     if ($scope.user != null && $scope.user.email) {
       $http.post('getUsersDonations',$scope.user)
       .then(function(res) {
-        // console.log(res.data);
+
         for (var i = 0; i < res.data.length; i++) {
 
           res.data[i].reg.donation_data = JSON.parse(res.data[i].reg.donation_data);
@@ -258,22 +254,6 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
             } else {
               donor = res.data[i].reg.donation_data;
             }
-
-            // if (dateToCheck[2] != creationDate[2]) {
-            //   if (creationDate[1] == 31 && dateToCheck[1] == 30 && monthDays[dateToCheck[0]-1] == 30) {
-            //     creationDate[1] == 30;
-            //   }
-            //   if (dateToCheck[1] == creationDate[1]) {
-            //     charge = true;
-            //   }
-            // } else if(dateToCheck[0] != creationDate[0]) {
-            //   if (creationDate[1] == 31 && dateToCheck[1] == 30 && monthDays[dateToCheck[0]-1] == 30) {
-            //     creationDate[1] == 30;
-            //   }
-            //   if (dateToCheck[1] == creationDate[1]) {
-            //     charge = true;
-            //   }
-            // }
           }
         }
         for (var i = 0; i < res.data.length; i++) {
