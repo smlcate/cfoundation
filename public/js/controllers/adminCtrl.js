@@ -1,5 +1,7 @@
 app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
+  var jsPDF;
+
   $scope.item = {
     name: '',
     price: '', //the price we purchase the product for
@@ -19,9 +21,15 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     name:''
   }
 
+  $scope.careItemsByCategory = [];
+
   $scope.bags = [];
   $scope.fulfillmentDisplay = {
     byPreset:[],
+    availableCount:0,
+    requestedOrders:[],
+    filledOrders:[],
+    fulfillOrders:false,
     worthOfBags:0
   }
   $scope.bagPresets = [];
@@ -100,8 +108,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.mode = 'view';
 
-  $scope.careItems = [];
-
   $scope.itemImageInput = '';
 
   $scope.testimonialSettings = {
@@ -117,21 +123,24 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.displayBuilt = false;
 
+
+
+
   function buildDisplays() {
 
     if($scope.ribbons.length > 0) {
       var svg = '<svg ng-repeat="ribbon in ribbons" height="" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="3em" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><clipPath id="TextBounds"><rect height="861.588" transform="matrix(0.614981 -0.788542 0.788542 0.614981 -275.584 92.8005)" width="683.244" x="213.828" y="160.239"/></clipPath></defs><clipPath id="ArtboardFrame"><rect height="1024" width="1024" x="0" y="0"/></clipPath><g clip-path="url(#ArtboardFrame)" id="Layer-1" vectornator:layerName="Layer 1"><path d="M337.357 56.1719C337.357 56.1719 364.349 2.38001 499.309 2.38001C634.27 2.38001 661.262 56.1719 661.262 56.1719C661.262 56.1719 688.254 190.652 634.27 217.548C634.27 217.548 602.689 190.652 499.309 190.652C395.93 190.652 364.349 217.548 364.349 217.548C312.902 203.266 337.357 56.1719 337.357 56.1719Z" fill="{{ribbon.ribbonData.colors.dark}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M599.531 277.526C641.962 214.643 665.149 146.542 665.149 115.128C665.149 83.6596 661.262 56.1719 661.262 56.1719C661.262 56.1719 738.405 226.45 761.537 281.452C784.67 336.508 753.818 411.198 722.966 458.347C692.114 505.549 279.459 1024.43 279.459 1024.43L121.42 890.753C121.42 890.753 557.126 340.408 599.531 277.526Z" fill="{{ribbon.ribbonData.colors.secondary}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M877.198 890.753L719.16 1024.43C719.16 1024.43 306.532 505.549 275.653 458.347C244.801 411.198 213.949 336.508 237.081 281.452C260.213 226.45 337.357 56.1719 337.357 56.1719C337.357 56.1719 333.47 83.6596 333.47 115.128C333.47 146.542 356.629 214.643 399.088 277.526C441.492 340.408 877.198 890.753 877.198 890.753Z" fill="{{ribbon.ribbonData.colors.primary}}" fill-rule="evenodd" opacity="1" stroke="none"/><path d="M499.309 746.86C452.694 687.769 406.106 628.464 367.318 578.733C355.846 593.338 344.402 607.915 333.011 622.412C372.527 673.057 418.981 732.094 464.921 790.351C476.312 775.988 487.784 761.438 499.309 746.86ZM499.309 409.719C538.421 460.149 584.658 519.293 631.301 578.733C643.555 562.999 654.973 548.287 665.392 534.839C616.941 473.086 571 414.238 533.373 365.664C522.819 379.354 511.429 394.066 499.309 409.719Z" fill="{{ribbon.ribbonData.colors.shadow}}" fill-rule="evenodd" opacity="1" stroke="none"/></g><g id="Name" vectornator:layerName="Name"><text class="ribbonTexts" clip-path="url(#TextBounds)" fill="#efe9f0" font-family="Helvetica-Bold" font-size="{{ribbon.ribbonData.fontSize}}" opacity="1" stroke="none" text-anchor="middle" transform="matrix(0.614981 0.788542 -0.788542 0.614981 242.656 160.239)" vectornator:text="Multiple&#x20;Myeloma" vectornator:width="100%" x="0" y="0"><tspan x="532.062" y="97">{{ribbon.ribbonData.name}}</tspan></text></g></svg>';
       angular.element($('#ribbonsSpan')).append($compile(svg)($scope))
     }
-    if ($scope.careItems.length > 0) {
-      html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
-      angular.element($('#carePackageItemsDiv')).append($compile(html)($scope))
-    }
+    // if ($scope.careItems.length > 0) {
+    //   html = '<div class="careItemCells" id="{{$index}}CareItemCell" ng-repeat="item in careItems track by $index"><img src="{{item.image}}" alt=""><div class="careItemCellInfoDivs"><p>{{item.name}}</p><p>${{item.price}}</p></div><div class="careItemCellHeaders"><a href="" ng-click="removeCareItem(item, $index)">Remove</a><p>|</p><a href="" ng-click="editCareItem(item, $index)">Edit</a></div></div>'
+    //   angular.element($('#carePackageItemsDiv')).append($compile(html)($scope))
+    // }
     $scope.displayBuilt = true
   }
 
-  function buildOrderCSV() {
-    var orders = $scope.orders;
+  async function buildOrderCSV(orders) {
+
     var rows = [
         ["Name", "Address", "City", "State","Zipcode","Country","Weight","Length","width","Height","Diagnosies","Diagnosies2","Diagnosies3"]
     ];
@@ -141,11 +150,10 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       var recipient = orders[i].orderData.recipient;
       rows.push([recipient.name,shipping.address,shipping.city,shipping.state,"47374","US","12","15","10","20",recipient.diagnosies]);
       if (i == orders.length - 1) {
-        let csvContent = "data:text/csv;charset=utf-8,"
-        + rows.map(e => e.join(",")).join("\n");
+        let csvContent = rows.map(e => e.join(",")).join("\n");
 
-        var encodedUri = encodeURI(csvContent);
-        window.open(encodedUri);
+        return csvContent;
+        // window.open(encodedUri);
 
       }
     }
@@ -170,8 +178,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].orderData = JSON.parse(res.data[i].orderData);
         $scope.orders.push(res.data[i]);
+        if (res.data[i].orderData.status != 'batched' && res.data[i].orderData.status != 'sent') {
+          $scope.fulfillmentDisplay.requestedOrders.push(res.data[i]);
+        }
 
       }
+      console.log($scope.fulfillmentDisplay.requestedOrders);
     })
     .catch(function(err) {
       console.log(err);
@@ -182,25 +194,28 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $http.get('getBags')
     .then(function(res) {
       $scope.bags = res.data;
+      $scope.fulfillmentDisplay.byPreset = [];
+      $scope.fulfillmentDisplay.availableCount = 0;
       for (var i = 0; i < $scope.bags.length; i++) {
-        if ($scope.bags[i].status != 'built') {
+        $scope.bags[i].bag_data = JSON.parse(res.data[i].bag_data);
+        if ($scope.bags[i].bag_data.status != 'built') {
 
         } else {
 
-          $scope.bags[i].bag_data = JSON.parse(res.data[i].bag_data);
           var matchFound = false;
           if ($scope.fulfillmentDisplay.byPreset.length > 0) {
             for (var j = 0; j < $scope.fulfillmentDisplay.byPreset.length; j++) {
               if ($scope.bags[i].bag_data.preset.id == $scope.fulfillmentDisplay.byPreset[j].id) {
-                console.log('pre hit 1');
+                // console.log('pre hit 1');
                 if (JSON.stringify($scope.bags[i].bag_data.items) == JSON.stringify($scope.fulfillmentDisplay.byPreset[j].items)) {
-                  console.log('hit 1');
+                  // console.log('hit 1');
                   $scope.fulfillmentDisplay.byPreset[j].bags.push($scope.bags[i]);
                   matchFound = true;
+                  $scope.fulfillmentDisplay.availableCount ++;
                   j = $scope.fulfillmentDisplay.byPreset.length;
 
                 } else if (j == $scope.fulfillmentDisplay.byPreset.length-1 && !matchFound) {
-                  console.log('hit 2');
+                  // console.log('hit 2');
                   $scope.fulfillmentDisplay.byPreset.push({
                     id:$scope.bags[i].bag_data.preset.id,
                     name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
@@ -208,10 +223,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
                     bags:[$scope.bags[i]],
                     qty:0
                   })
+                  $scope.fulfillmentDisplay.availableCount ++;
                   j = $scope.fulfillmentDisplay.byPreset.length;
                 }
               } else if (j == $scope.fulfillmentDisplay.byPreset.length-1 && !matchFound) {
-                console.log('hit 2');
+                // console.log('hit 2');
                 $scope.fulfillmentDisplay.byPreset.push({
                   id:$scope.bags[i].bag_data.preset.id,
                   name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
@@ -219,11 +235,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
                   bags:[$scope.bags[i]],
                   qty:0
                 })
+                $scope.fulfillmentDisplay.availableCount ++;
                 j = $scope.fulfillmentDisplay.byPreset.length;
               }
             }
           } else {
-            console.log('hit 3');
+            // console.log('hit 3');
             $scope.fulfillmentDisplay.byPreset.push({
               id:$scope.bags[i].bag_data.preset.id,
               name:$scope.fulfillmentDisplay.byPreset.length<1?$scope.bags[i].bag_data.preset.bag_preset_data.name:$scope.bags[i].bag_data.preset.bag_preset_data.name + '_' + $scope.fulfillmentDisplay.byPreset.length,
@@ -231,11 +248,12 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               bags:[$scope.bags[i]],
               qty:0
             })
+            $scope.fulfillmentDisplay.availableCount ++;
           }
         }
       }
-      console.log($scope.bags);
-      console.log($scope.fulfillmentDisplay);
+      // console.log($scope.bags);
+      // console.log($scope.fulfillmentDisplay);
     })
     .catch(function(err) {
       console.log(err);
@@ -258,10 +276,15 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
       for (var i = 0; i < $scope.fulfillments.length; i++) {
         $scope.fulfillments[i].fulfillment_data = JSON.parse($scope.fulfillments[i].fulfillment_data);
-        $scope.fulfillments[i].fulfillment_data.prettyTime = new Date($scope.fulfillments[i].fulfillment_data.timestamp)
-        $scope.fulfillments[i].fulfillment_data.prettyTime = $scope.fulfillments[i].fulfillment_data.prettyTime.toLocaleString('en-US', options);
+        if ($scope.fulfillments[i].fulfillment_data.fulfilled_timestamp == null) {
+          $scope.fulfillments[i].fulfillment_data.prettyTime = new Date($scope.fulfillments[i].fulfillment_data.batched_timestamp)
+          $scope.fulfillments[i].fulfillment_data.prettyTime = $scope.fulfillments[i].fulfillment_data.prettyTime.toLocaleString('en-US', options);
+        } else {
+          $scope.fulfillments[i].fulfillment_data.prettyTime = new Date($scope.fulfillments[i].fulfillment_data.fulfilled_timestamp)
+          $scope.fulfillments[i].fulfillment_data.prettyTime = $scope.fulfillments[i].fulfillment_data.prettyTime.toLocaleString('en-US', options);
+        }
         $scope.fulfillments[i].showBags = false;
-        console.log($scope.fulfillments[i].fulfillment_data);
+        // console.log($scope.fulfillments[i].fulfillment_data);
       }
       console.log($scope.fulfillments);
     })
@@ -274,7 +297,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $http.get('getBagPresets')
     .then(function(res) {
       $scope.bagPresets = res.data;
-      console.log(res.data);
+      // console.log(res.data);
       for (var i = 0; i < $scope.bagPresets.length; i++) {
         $scope.bagPresets[i].bag_preset_data = JSON.parse($scope.bagPresets[i].bag_preset_data);
       }
@@ -304,6 +327,25 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
         if (data.category && !data.category.id) data.category = JSON.parse(data.category);
+        if (data.category) {
+          if (i == 0) {
+            $scope.careItemsByCategory = [];
+          }
+          for (var j = 0; j < $scope.categories.length; j++) {
+            if (data.category.category_data.name == $scope.categories[j].category_data.name) {
+              if ($scope.careItemsByCategory[j]) {
+                $scope.careItemsByCategory[j].push(data);
+              } else {
+                $scope.careItemsByCategory[j] = [data];
+              }
+            } else {
+              if (!$scope.careItemsByCategory[j]) {
+                $scope.careItemsByCategory[j] = [];
+              }
+            }
+          }
+        }
+        // console.log($scope.careItemsByCategory);
         $scope.careItems.push(data);
         $scope.careItems[i].id = res.data[i].id;
 
@@ -583,7 +625,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.selectDiagnosis = function(i) {
-    console.log(i);
     thisRibbon = $scope.testimonialSettings.inputs.ribbons[i];
     if (
       thisRibbon !== '' &&
@@ -929,7 +970,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $('#newCareItemButton').css('display','flex');
   }
 
-  $scope.editCareItem = function(item, index) {
+  $scope.editCareItem = function(item) {
     $('.careItemMangementDivs').css('display','none');
     $('#carePackageItemDiv').css('display','flex');
     $('#cancelBtn').css('display','flex');
@@ -941,7 +982,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     $('#editCareItemTitle').css('display','flex');
 
     $scope.item = item;
-    $scope.editItemId = index;
+    // $scope.editItemId = index;
 
     $('.submitButtons').css('display','none');
     $('#editCareItemButton').css('display','flex');
@@ -1334,27 +1375,119 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       const dataUrl = canvas.toDataURL();
       qrCodes.push(dataUrl);
     });
-    return qrCodes;
-  }
-  async function makePrints(urls) {
-    $http.post('buildQRPrints', urls)
+    return $http.post('buildQRPrints', qrCodes)
     .then(function(res) {
       console.log(res.data);
+      return res.data;
     })
     .catch(function(err) {
-      log.error(err)
+      console.log(err)
     })
   }
+
   async function markBagsAndBatch(bags) {
-    $http.post('markBagsAndBatch', bags)
-    .then(function(res) {
-      console.log(res.data);
-    })
-    .catch(function(err) {
-      console.log(err);
-    })
+    for (var i = 0; i < bags.length; i++) {
+      bags[i].bag_data.status = 'batched';
+      if (i == bags.length - 1) {
+        $http.post('markBagsAndBatch', bags)
+        .then(function(res) {
+          console.log(res.data);
+          getFulfillments();
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+    }
   }
+  async function batchOrders(bags) {
+    console.log(bags);
+    if ($scope.fulfillmentDisplay.fulfillOrders) {
+      var markedOrders = [];
+      for (var i = 0; i < bags.length; i++) {
+        $scope.fulfillmentDisplay.requestedOrders[i].orderData.status = 'batched';
+        $scope.fulfillmentDisplay.requestedOrders[i].orderData.contents = bags[i];
+        bags[i].bag_data.order = $scope.fulfillmentDisplay.requestedOrders[i].id;
+        console.log(bags[i]);
+        markedOrders.push($scope.fulfillmentDisplay.requestedOrders[i]);
+        if(i == bags.length - 1) {
+          var codes;
+          var csvData;
+          try {
+            [codes, csvData] = await Promise.all([
+              generateQRCodes(bags),
+              buildOrderCSV(markedOrders)
+            ])
+            console.log(codes, csvData);
+          } catch (err) {
+            console.log(err);
+          }
+
+          $http.post('batchOrders', markedOrders)
+          .then(function(res) {
+            console.log(res.data);
+            generatePDF(codes, csvData);
+            return bags;
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
+        }
+      }
+    } else {
+      return bags;
+    }
+  }
+  async function unbatchOrders(bags) {
+    var markedOrders = [];
+    for (var i = 0; i < bags.length; i++) {
+      $scope.fulfillmentDisplay.requestedOrders[i].orderData.status = 'requested';
+      $scope.fulfillmentDisplay.requestedOrders[i].orderData.contents = bags[i];
+      bags[i].bag_data.order = null;
+      markedOrders.push($scope.fulfillmentDisplay.requestedOrders[i]);
+      if(i == bags.length - 1) {
+        $http.post('batchOrders', markedOrders)
+        .then(function(res) {
+          console.log(res.data);
+          return bags;
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+    }
+  }
+
+  function generatePDF(pdfBuffer, csvData) {
+    // Convert the PDF buffer to a Blob object
+    console.log(pdfBuffer);
+    console.log(csvData);
+    const pdfData = atob(pdfBuffer);
+    const pdfArray = new Uint8Array(pdfData.length);
+    for (let i = 0; i < pdfData.length; i++) {
+      pdfArray[i] = pdfData.charCodeAt(i);
+
+      if (i == pdfData.length - 1) {
+
+        const pdfBlob = new Blob([pdfArray], { type: 'application/pdf' });
+
+        // Use FileSaver.js to download the PDF file
+        saveAs(pdfBlob, 'QR_Codes.pdf');
+      }
+    }
+
+    // Convert the CSV data to a Blob object
+
+    // Use js to download the CSV file
+    if($scope.fulfillmentDisplay.fulfillOrders) {
+      const csvBlob = new Blob([csvData], { type: 'text/csv' });
+      saveAs(csvBlob, 'ShippingCSVs.csv');
+    }
+    return;
+  }
+
   $scope.fulfillBags = async function(type) {
+    console.log('hit');
     var uids = [];
     var bagsToFulfill = [];
     if (type == 'all') {
@@ -1363,23 +1496,94 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           uids.push($scope.fulfillmentDisplay.byPreset[i].bags[j].bag_data.uid);
           bagsToFulfill.push($scope.fulfillmentDisplay.byPreset[i].bags[j]);
           if (i == $scope.fulfillmentDisplay.byPreset.length-1 && j >= $scope.fulfillmentDisplay.byPreset[i].bags.length-1) {
-            var codeUrls = await generateQRCodes(bagsToFulfill);
-            await makePrints(codeUrls);
+            // generatePDF(makePrints(bagsToFulfill),[]);
             await markBagsAndBatch(bagsToFulfill);
+            var codes;
+            var csvData;
+            try {
+              codes = await generateQRCodes(bagsToFulfill);
+              generatePDF(codes, []);
+              console.log(codes, csvData);
+            } catch (err) {
+              console.log(err);
+            }
           }
         }
       }
     } else {
       for (var i = 0; i < $scope.fulfillmentDisplay.byPreset.length; i++) {
-        for (var j = 0; j < $scope.fulfillmentDisplay.byPreset[i].qty; j++) {
-          uids.push($scope.fulfillmentDisplay.byPreset[i].bags[j].bag_data.uid);
-          bagsToFulfill.push($scope.fulfillmentDisplay.byPreset[i].bags[j]);
-          if (i == $scope.fulfillmentDisplay.byPreset.length-1 && j >= $scope.fulfillmentDisplay.byPreset[i].qty-1) {
-            var codeUrls = await generateQRCodes(bagsToFulfill);
-            await makePrints(codeUrls);
-            await markBagsAndBatch(bagsToFulfill);
+        if ($scope.fulfillmentDisplay.byPreset[i].qty != 0) {
+          for (var j = 0; j < $scope.fulfillmentDisplay.byPreset[i].qty; j++) {
+            console.log($scope.fulfillmentDisplay.byPreset[i]);
+
+              uids.push($scope.fulfillmentDisplay.byPreset[i].bags[j].bag_data.uid);
+              bagsToFulfill.push($scope.fulfillmentDisplay.byPreset[i].bags[j]);
+
+            if (i == $scope.fulfillmentDisplay.byPreset.length-1 && $scope.fulfillmentDisplay.byPreset[i].qty == 0) {
+
+
+              console.log(bagsToFulfill);
+              if ($scope.fulfillmentDisplay.fulfillOrders) {
+                bagsToFulfill = await batchOrders(bagsToFulfill)
+                .then(await markBagsAndBatch(bagsToFulfill));
+              } else {
+                await markBagsAndBatch(bagsToFulfill)
+                var codes;
+                var csvData;
+                try {
+                  codes = await generateQRCodes(bagsToFulfill);
+                  generatePDF(codes, []);
+                  console.log(codes, csvData);
+                } catch (err) {
+                  console.log(err);
+                }
+                // generatePDF(makePrints(bagsToFulfill),[])
+              }
+            }
+            if (i == $scope.fulfillmentDisplay.byPreset.length-1 && j >= $scope.fulfillmentDisplay.byPreset[i].qty-1) {
+
+              console.log(bagsToFulfill);
+              if ($scope.fulfillmentDisplay.fulfillOrders) {
+                bagsToFulfill = await batchOrders(bagsToFulfill)
+                .then(await markBagsAndBatch(bagsToFulfill));
+              } else {
+                await markBagsAndBatch(bagsToFulfill)
+                var codes;
+                var csvData;
+                try {
+                  codes = await generateQRCodes(bagsToFulfill);
+                  generatePDF(codes, []);
+                  console.log(codes, csvData);
+                } catch (err) {
+                  console.log(err);
+                }
+                // generatePDF(codeUrls,[])
+              }
+
+            }
           }
-        }
+        } else if (i == $scope.fulfillmentDisplay.byPreset.length-1 && $scope.fulfillmentDisplay.byPreset[i].qty == 0) {
+
+            console.log(bagsToFulfill);
+            if ($scope.fulfillmentDisplay.fulfillOrders) {
+              bagsToFulfill = await batchOrders(bagsToFulfill)
+              .then(await markBagsAndBatch(bagsToFulfill))
+
+            } else {
+              await markBagsAndBatch(bagsToFulfill)
+              var codes;
+              var csvData;
+              try {
+                codes = await generateQRCodes(bagsToFulfill);
+                generatePDF(codes, []);
+                console.log(codes, csvData);
+              } catch (err) {
+                console.log(err);
+              }
+              // generatePDF(makePrints(bagsToFulfill),[])
+
+            }
+          }
       }
     }
 
@@ -1387,6 +1591,34 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
 
   $scope.showFulfillmentBags = function(receipt) {
     receipt.showBags = receipt.showBags? false: true;
+  }
+
+  $scope.sendBags = function(bags, receipt) {
+    var orders = [];
+    for (var i = 0; i < bags.length; i++) {
+      bags[i].bag_data.status = 'sent';
+      if (bags[i].bag_data.order) {
+        orders.push(bags[i].bag_data.order)
+      }
+      if (i == bags.length - 1) {
+        $http.post('sendBags', {bags:bags, receipt: receipt})
+        .then(function(res) {
+          console.log(res.data);
+          if (orders.length > 0) {
+            $http.post('sendOrders', orders)
+            .then(function(res) {
+              console.log(res.data);
+            })
+            .catch(function(err) {
+              console.log(err);
+            })
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+      }
+    }
   }
 
   var onFileChanged = function(e) {
@@ -1418,8 +1650,6 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
               getDonations();
               getShippingRates();
               getPackageDimensions();
-              if ($scope.careItems.length > 0) {
-              }
 
               $scope.changePage('admin',true);
 

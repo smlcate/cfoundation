@@ -1,7 +1,6 @@
 app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location', function($scope, $http, $window, $compile, $location) {
 
-  $scope.careItems = [];
-  $scope.careItemsToDisplay = [];
+
 
   $scope.filterTags = [];
 
@@ -216,7 +215,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
       }
     }
     // console.log($scope.feedback.testimonials);
-    console.log($scope.feedback.reviews);
+    // console.log($scope.feedback.reviews);
     // console.log($scope.ribbons);
 
   }
@@ -240,64 +239,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
   function selectTestimonial(c) {
     $scope.testimonialIndex = c;
   }
-
-  function getItems() {
-    $http.get('getItems')
-    .then(function(res) {
-      $scope.careItems = [];
-      for (var i = 0; i < res.data.length; i++) {
-        var data = JSON.parse(res.data[i].itemData)
-        $scope.careItems.push(data);
-        $scope.careItems[i].id = res.data[i].id;
-        if (data.tags.split(',')[0] != 'all') {
-          tags = data.tags.split(',');
-          if ($scope.filterTags.length > 0) {
-            for (var k = 0; k < tags.length; k++) {
-              var exists = false;
-              for (var j = 0; j < $scope.filterTags.length; j++) {
-
-                if ($scope.filterTags[j] == tags[k][0].toLowerCase() + tags[k].slice(1)) {
-                  exists == true;
-                  j = $scope.filterTags.length;
-                } else if(j == $scope.filterTags.length-1 && exists == false) {
-                  $scope.filterTags.push(tags[k]);
-                }
-
-              }
-            }
-          } else {
-            $scope.filterTags = data.tags.split(',');
-          }
-
-        }
-        if (i == res.data.length-1) {
-          buildItemDisplay('all');
-          console.log($scope.careItems);
-        }
-
-      }
-    })
-    .catch(function (err) {
-      console.log(err);
-    })
-  }
-
-  function buildItemDisplay(tag) {
-    $scope.careItemsToDisplay = [];
-    for (var i = 0; i < $scope.careItems.length; i++) {
-      var tags = $scope.careItems[i].tags.split(',');
-      if (tags[0] == 'all') {
-        $scope.careItemsToDisplay.push($scope.careItems[i])
-      } else {
-        for (var j = 0; j < tags.length; j++) {
-          if (tags[j] == tag) {
-            $scope.careItemsToDisplay.push($scope.careItems[i])
-          }
-        }
-      }
-    }
-  }
-
 
   $scope.changeTestimonial = function(c) {
     changeTestimonial(c);
@@ -388,7 +329,6 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     }
 
     getReviews();
-    getItems();
     getRibbons();
     checkSignIn();
 

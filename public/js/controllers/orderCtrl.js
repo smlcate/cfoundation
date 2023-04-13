@@ -6189,8 +6189,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
   ]
   $scope.citiesToShow = [];
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
-  // var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
 
   var elements = stripe.elements();
 
@@ -6220,7 +6220,6 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       name:'',
       diagnosies:['']
     },
-    contents:[],
     card_message:'',
     shipping: {
       address:'',
@@ -6233,7 +6232,8 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       fName:'',
       lName:'',
       total:0
-    }
+    },
+    status:'requested'
   }
 
   $scope.display = 0;
@@ -6569,11 +6569,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         $('.loadMask').css('display','flex');
         thankyouLoadingBagAnim();
 
-        $scope.order.contents = $scope.careItemsToDisplay;
-
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
-          emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+          emailjs.send('service_9681ulb','template_ez6lj4v', tempParams)
           .then(function(res) {
             setTimeout(function() {
               window.location.href = '/#!/thankyou';
@@ -6614,7 +6612,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
     pickCities();
     $scope.changePage('purchase');
   }
-  
+
   start();
 
 }])

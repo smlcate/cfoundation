@@ -1,7 +1,7 @@
 app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function($scope, $http, $window, $compile) {
 
-  var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
-  // var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
+  // var stripe = Stripe('pk_live_51JpLEKHS4sILE1hO6mCqrgNCRlrwsfrlZNnCiGk10HW35KUS3exg2TOhmjvlh7QgUQy9X3QKJ5MLKUmpRRaNLyDv006YJKAwq9');
+  var stripe = Stripe('pk_test_51JpLEKHS4sILE1hOo0Pobyo8MhuazGd6DFXzi0pMXj1oaSkP1MZHblgDrYIAVi7H5xL0K3IBhjPW44UMejOctYVt00hnckXsJK');
 
   var elements = stripe.elements();
 
@@ -295,7 +295,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                             to_email: donation.email,
                             amount: donation.invoice.total
                           }
-                          emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+                          emailjs.send('service_9681ulb','template_ez6lj4v', tempParams)
                           .then(function(res) {
                             $('.loading').css('display', 'none');
                             window.location.href = '/#!/thankyou';
@@ -337,7 +337,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                 amount: donation.invoice.total
               }
               $('.loading').css('display', 'none');
-              emailjs.send('service_v3v8m39','template_a1ap4fh', tempParams)
+              emailjs.send('service_9681ulb','template_ez6lj4v', tempParams)
               .then(function(res) {
                 setTimeout(function() {
                   window.location.href = '/#!/thankyou';

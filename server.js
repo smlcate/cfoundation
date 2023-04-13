@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var jwt = require('jsonwebtoken');
 
+const { jsPDF } = require("jspdf");
+
 var server = {
   admin: require('./controllers/admin.js'),
   orders: require('./controllers/orders.js'),
@@ -27,8 +29,11 @@ app.post('/addNewRibbon', server.admin.addNewRibbon);
 app.post('/saveRibbonEdit', server.admin.saveRibbonEdit);
 app.get('/getRibbons', server.admin.getRibbons);
 
-app.post('/newOrder', server.orders.newOrder);
 app.get('/getOrders', server.orders.getOrders);
+app.post('/newOrder', server.orders.newOrder);
+
+app.post('/batchOrders', server.admin.batchOrders);
+app.post('/sendOrders', server.admin.sendOrders);
 
 app.post('/uploadShippingRates', server.admin.uploadShippingRates);
 app.get('/getShippingRates', server.admin.getShippingRates);
@@ -52,6 +57,8 @@ app.post('/editBagPreset', server.admin.editBagPreset);
 
 app.get('/getBags', server.admin.getBags);
 app.post('/buildBags', server.admin.buildBags);
+
+app.post('/sendBags', server.admin.sendBags);
 
 app.get('/getFulfillments', server.admin.getFulfillments);
 app.post('/markBagsAndBatch', server.admin.markBagsAndBatch);

@@ -3,20 +3,59 @@
 
   <div class="" id="adminNav">
 
-    <a href="" id="carepackageNavAnc" ng-click="thisAdminPage('carepackage')">Care Packages</a>
+    <a href="" id="carepackageNavAnc" ng-click="thisAdminPage('carepackage')">Items</a>
     <a href="" id="bagsNavAnc" ng-click="thisAdminPage('bags')">Bags</a>
     <a href="" id="ordersNavAnc" ng-click="thisAdminPage('orders')">Orders</a>
-    <a href="" id="shippingRatesNavAnc" ng-click="thisAdminPage('shippingRates')">Shipping Rates</a>
     <a href="" id="donationsNavAnc" ng-click="thisAdminPage('donations')">Donations</a>
     <a href="" id="testimonialsNavAnc" ng-click="thisAdminPage('testimonials')">Testimonials</a>
     <a href="" id="reviewsNavAnc" ng-click="thisAdminPage('reviews')">Reviews</a>
+    <a href="" id="settingsNavAnc" ng-click="thisAdminPage('settings')">Settings</a>
 
     <!-- <a href="" ng-click="thisAdminPage('news')">News</a>
     <a href="" ng-click="thisAdminPage('events')">Events</a> -->
 
   </div>
 
-  <div class="adminPages" id="shippingRatesAdminPage">
+  <div class="adminPages" id="settingsAdminPage">
+
+    <div class="" id="adminRibbonController">
+      <div class="" id="ribbonPreviewContainer">
+
+      </div>
+      <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
+
+        <p>New Ribbon</p>
+        <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name" ng-change="newRibbonPreview()">
+        <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[0]" placeholder="Primary" ng-change="newRibbonPreview(); newRibbonColor();">
+        <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[1]" placeholder="Secondary" ng-change="newRibbonPreview(); newRibbonColor();">
+        <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[2]" placeholder="Third/Accent" ng-change="newRibbonPreview(); newRibbonColor();">
+        <!-- <input id="newRibbonImageInput" type="file" name="" value=""> -->
+        <div id="newRibbonImageDiv">
+
+        </div>
+        <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
+        <!-- <img id="newRibbonImage" src="" alt=""> -->
+      </div>
+      <div class="ribbonControllerDivs" id="ribbonControllerPreviewDiv">
+
+      </div>
+      <div id="" class="ribbonControllerDivs" ng-if="editRibbon == true">
+        <h3>Edit Ribbon</h3>
+        <input class="ribbonNameInputs" type="text" name="" value="" ng-model="ribbonToEdit.ribbonData.name" placeholder="Name">
+        <input id="editRibbonImageInput" type="file" name="" value="">
+        <div id="editRibbonImageDiv">
+
+        </div>
+        <button type="button" name="button" ng-click="saveRibbonEdit()">Save</button>
+        <button type="button" name="button" ng-click="cancelRibbonEdit()">Cancel</button>
+        <!-- <img id="newRibbonImage" src="" alt=""> -->
+      </div>
+
+      <span id="ribbonsSpan">
+
+      </span>
+
+    </div>
 
     <div class="shippingRateInfoDisplays" id="shippingBoxSizeForm">
 
@@ -131,6 +170,7 @@
     </div>
     <div class="adminBagsControllerDivs">
       <a href="" ng-if="!buildingBags" ng-click="openBuildBags()">Build Bags</a>
+      <h4 href="" ng-if="buildingBags" ng-click="openBuildBags()">Build Bags</h4>
       <a href="" ng-if="buildingBags" ng-click="openBuildBags()">Cancel</a>
       <div class="" id="buildBagsControls" ng-if="buildingBags">
         <span>
@@ -159,25 +199,32 @@
     </div>
     <div class="adminBagsControllerDivs">
       <span>
-        <h1>Ready to Fulfill</h1>
-        <a href="" ng-click="fulfillBags('all')">Fulfill All Available Bags</a>
+        <h2>{{fulfillmentDisplay.availableCount}} Bags on Hand</h2>
       </span>
+      <span>
+        <h4>{{fulfillmentDisplay.requestedOrders.length}} Bags Requested</h4>
+        <label for="forOrdersCheckbox">For Orders</label>
+        <input type="checkbox" name="forOrdersCheckbox" value="" ng-model="fulfillmentDisplay.fulfillOrders">
+      </span>
+      <a href="" ng-if="fulfillmentDisplay.availableCount > 0 && !fulfillmentDisplay.fulfillOrders" ng-click="fulfillBags('all')">Use All Available Bags</a>
       <div class="adminBagsControllerFulfillmentCells" ng-repeat="preset in fulfillmentDisplay.byPreset track by $index">
         <span>
           <h2>{{preset.name}}</h2>
           <h3>{{preset.bags.length}} Bags</h3>
           <label for="fulfillAmountInput">Qty:</label>
           <input type="number" name="fulfillAmountInput" value="" step="1" min="0" max="{{preset.bags.length}}" ng-model="preset.qty">
-          <a href="" ng-click="setFulfillBagsMax($index)">Max</a>
+          <a href=""  ng-click="setFulfillBagsMax($index)">Max</a>
         </span>
         <span>
           <p ng-repeat="item in preset.items">{{item.name}}</p>
         </span>
       </div>
-      <a href="" ng-click="fulfillBags('selected')">Fulfill Selected Bags</a>
+      <span ng-if="fulfillmentDisplay.availableCount > 0">
+        <a href=""  ng-click="fulfillBags('selected')">Use Selected Bags</a>
+      </span>
     </div>
     <div class="adminBagsControllerDivs">
-      <div class="fulfillmentCells" ng-repeat="receipt in fulfillments">
+      <div ng-if="receipt.fulfillment_data.fulfilled_timestamp == null" class="fulfillmentCells" ng-repeat="receipt in fulfillments">
         <a href="" class="fulfillmentCellHeaders" ng-click="showFulfillmentBags(receipt)">
           <h3>Batch #{{receipt.id}}</h3>
           <p>{{receipt.fulfillment_data.bags.length}} Bags</p>
@@ -186,12 +233,14 @@
         <div ng-if="receipt.showBags" class="fulfillmentCellBagDisplays">
           <span class="fulfillmentCellHeaders">
             <a href="">Unbatch All</a>
-            <a href="">Mark All as Sent</a>
+            <a href="" ng-if="receipt.fulfillment_data.fulfilled_timestamp == null" ng-click="sendBags(receipt.fulfillment_data.bags, receipt)">Mark All as Sent</a>
           </span>
           <span ng-repeat="bag in receipt.fulfillment_data.bags track by $index">
             <h4>{{bag.bag_data.preset.bag_preset_data.name}}</h4>
             <h4>{{bag.bag_data.status}}</h4>
+            <p ng-if="bag.bag_data.order">Personal</p>
             <p>{{bag.bag_data.items.length}} Items</p>
+            <!-- <a href="" ng-if="bag.bag_data.status != 'sent'" ng-click="sendBags([bag], receipt)">Send</a> -->
           </span>
         </div>
       </div>
@@ -203,10 +252,10 @@
     <h1>Care Packages</h1>
 
     <div class="" id="carePackageSettingsDiv">
-      <a href="" ng-click="generateQR()">Generate QR</a>
-      <div id="qr-code-container">
+      <!-- <a href="" ng-click="generateQR()">Generate QR</a> -->
+      <!-- <div id="qr-code-container">
 
-      </div>
+      </div> -->
       <span id="carePackagePriceSpan">
         <p>Care Package Price  $</p>
         <p id="carePackagePriceText">{{carePackagePrice.toFixed(2)}}</p>
@@ -215,7 +264,7 @@
         <button id="saveCPPriceBtn" type="button" name="button" ng-click="saveCarePackagePrice()">Save</button>
         <button id="cancelCPEditBtn" type="button" name="button" ng-click="cancelEditCarePackagePrice()">Cancel</button>
       </span>
-      <span id="packageCostsSpan">
+      <!-- <span id="packageCostsSpan">
         <h3>Package Costs</h3>
         <span class="packageCostsDiv" ng-repeat="tag in packageCosts.tags">
 
@@ -223,47 +272,12 @@
           <p>${{tag.cost}}</p>
 
         </span>
-      </span>
-      <div class="" id="adminRibbonController">
-        <div class="" id="ribbonPreviewContainer">
+      </span> -->
 
-        </div>
-        <div id="" class="ribbonControllerDivs" ng-if="editRibbon == false">
-
-          <p>New Ribbon</p>
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.name" placeholder="Name" ng-change="newRibbonPreview()">
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[0]" placeholder="Primary" ng-change="newRibbonPreview(); newRibbonColor();">
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[1]" placeholder="Secondary" ng-change="newRibbonPreview(); newRibbonColor();">
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="newRibbon.colors[2]" placeholder="Third/Accent" ng-change="newRibbonPreview(); newRibbonColor();">
-          <!-- <input id="newRibbonImageInput" type="file" name="" value=""> -->
-          <div id="newRibbonImageDiv">
-
-          </div>
-          <button type="button" name="button" ng-click="addNewRibbon()">Add</button>
-          <!-- <img id="newRibbonImage" src="" alt=""> -->
-        </div>
-        <div class="ribbonControllerDivs" id="ribbonControllerPreviewDiv">
-
-        </div>
-        <div id="" class="ribbonControllerDivs" ng-if="editRibbon == true">
-          <h3>Edit Ribbon</h3>
-          <input class="ribbonNameInputs" type="text" name="" value="" ng-model="ribbonToEdit.ribbonData.name" placeholder="Name">
-          <input id="editRibbonImageInput" type="file" name="" value="">
-          <div id="editRibbonImageDiv">
-
-          </div>
-          <button type="button" name="button" ng-click="saveRibbonEdit()">Save</button>
-          <button type="button" name="button" ng-click="cancelRibbonEdit()">Cancel</button>
-          <!-- <img id="newRibbonImage" src="" alt=""> -->
-        </div>
-
-      </div>
 
 
     </div>
-    <span id="ribbonsSpan">
 
-    </span>
     <div id="carepackageItemCategoryDiv">
       <div class="itemCategoryCells" ng-repeat="cat in categories">
         <p>{{cat.category_data.name}}</p>
@@ -324,7 +338,19 @@
     </div>
 
     <div class="" id="carePackageItemsDiv">
-
+      <div class="careItemCategoryCells" id="categoryCell{{$index}}" ng-repeat="cat in categories track by $index">
+        <h3>{{cat.category_data.name}}</h3>
+        <span>
+          <a href="" ng-click="editCareItem(item)" class="careItemCells" id="careItemCell{{item.id}}" ng-repeat="item in careItemsByCategory[$index]">
+            <img src="{{item.image}}" alt="">
+            <div class="careItemCellInfoDivs">
+              <p>{{item.name}}</p>
+              <p>{{item.quantity}} in Stock</p>
+              <p>${{item.price}} per.</p>
+            </div>
+          </a>
+        </span>
+      </div>
     </div>
 
   </div>

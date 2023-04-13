@@ -46,7 +46,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
           from_name: 'yellowbagofhumanity.com',
           link:res.data.link
         }
-        emailjs.send('service_v3v8m39','template_d9f448g', tempParams)
+        emailjs.send('service_9681ulb','template_3ht8x29', tempParams)
         .then(function(res) {
           $('#forgotPasswordConfirmationDisplay').css('display','flex');
           $('#forgotPasswordFormDisplay').css('display','none');
@@ -193,7 +193,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     if ($scope.user != null && $scope.user.email) {
       $http.post('getUsersDonations',$scope.user)
       .then(function(res) {
-
+        console.log(res.data);
         for (var i = 0; i < res.data.length; i++) {
 
           res.data[i].reg.donation_data = JSON.parse(res.data[i].reg.donation_data);

@@ -9,6 +9,8 @@ const randomString = require('randomstring');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
+const { jsPDF } = require("jspdf");
+
 exports.savePackageDimensions = function(req, res, send) {
   knex('package_dimensions')
   .insert({package_dimensions_data:req.body})
@@ -431,12 +433,12 @@ exports.getFulfillments = function(req, res, send) {
 exports.markBagsAndBatch = function(req, res, send) {
   var bags = req.body;
   const now = new Date();
-  const timestamp = now.getTime();
   var iteration = 0;
   function batch(bags) {
     var batchReceipt = {
       bags: bags,
-      timestamp: now
+      batched_timestamp: now,
+      fulfilled_timestamp: null
     }
     knex('fulfillments')
     .insert({fulfillment_data: batchReceipt},'*')
@@ -454,26 +456,15 @@ exports.markBagsAndBatch = function(req, res, send) {
     knex('bags')
     .select('*')
     .where({id:bags[iteration].id})
-    .then(function(data) {
-      data[0].bag_data = JSON.parse(data[0].bag_data);
-      data[0].bag_data.status = 'batched';
-      bags[iteration].bag_data = data[0].bag_data;
-      knex('bags')
-      .where({id:bags[iteration].id})
-      .update({bag_data: JSON.stringify(data[0].bag_data)})
-      .then(function() {
-        if (iteration == bags.length-1) {
-          console.log('marked');
-          batch(bags);
-        } else {
-          iteration ++;
-          markBag(bags);
-        }
-      })
-      .catch(function(err) {
-        console.log(err);
-        res.send(err);
-      })
+    .update({bag_data: JSON.stringify(bags[iteration].bag_data)})
+    .then(function() {
+      if (iteration == bags.length-1) {
+        console.log('marked');
+        batch(bags);
+      } else {
+        iteration ++;
+        markBag(bags);
+      }
     })
     .catch(function(err) {
       console.log(err);
@@ -482,7 +473,68 @@ exports.markBagsAndBatch = function(req, res, send) {
   }
   markBag(bags)
 }
-exports.buildQRPrints = function(req, res, send) {
+exports.sendBags = function(req, res, send) {
+  var bags = req.body.bags;
+  var iteration = 0;
+  function markBag(bags) {
+    knex('bags')
+    .select('*')
+    .where({id:bags[iteration].id})
+    .update({bag_data: JSON.stringify(bags[iteration].bag_data)})
+    .then(function() {
+      if (iteration == bags.length-1) {
+        console.log('marked');
+        knex('fulfillments')
+        .where({id:req.body.receipt.id})
+        .select('*')
+        .then(function(data) {
+          data[0].fulfillment_data = JSON.parse(data[0].fulfillment_data);
+          var fulfilled = true;
+          for (var i = 0; i < bags.length; i++) {
+            if (bags[i].bag_data.status != 'sent') {
+              fulfilled = false;
+            }
+            for (var j = 0; j < data[0].fulfillment_data.bags.length; j++) {
+              if (bags[i].id == data[0].fulfillment_data.bags[j].id) {
+                data[0].fulfillment_data.bags[j] = bags[i]
+              }
+              if (i == bags.length - 1 && j == data[0].fulfillment_data.bags.length - 1) {
+                if (fulfilled == true) {
+                  const now = new Date();
+                  data[0].fulfillment_data.fulfilled_timestamp = now;
+
+                }
+                knex('fulfillments')
+                .where({id:data[0].id})
+                .update({fulfillment_data: JSON.stringify(data[0].fulfillment_data)})
+                .then(function() {
+                  res.send('success');
+                })
+                .catch(function(err) {
+                  console.log(err);
+                  res.send(err);
+                })
+              }
+            }
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+          res.send(err);
+        })
+      } else {
+        iteration ++;
+        markBag(bags);
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+      res.send(err);
+    })
+  }
+  markBag(bags)
+}
+exports.buildQRPrints = function(req, res) {
   var qrCodeImages = req.body;
   const pageWidth = 612;
   const pageHeight = 792;
@@ -515,20 +567,77 @@ exports.buildQRPrints = function(req, res, send) {
     x += qrCodeSize + margin;
   }
 
-  doc.end();
-
-  return new Promise((resolve, reject) => {
-    const stream = fs.createWriteStream('QRCodeFilename');
-    doc.pipe(stream);
-    doc.on('end', () => {
-      resolve();
-      res.send('success');
-    });
-    doc.on('error', (error) => {
-      reject(error);
-      res.send('error');
-    });
+  const chunks = [];
+  doc.on('data', (chunk) => {
+    chunks.push(chunk);
   });
+
+  doc.on('end', () => {
+    const pdfBuffer = Buffer.concat(chunks);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=QR_Codes.pdf');
+    console.log(pdfBuffer);
+    const base64 = pdfBuffer.toString('base64');
+    res.send(base64);
+  });
+
+  doc.end();
+};
+
+exports.batchOrders = function(req, res, next) {
+  var iteration = 0;
+  function markOrder(orders) {
+    console.log(orders);
+    knex('orders')
+    .where({id:orders[iteration].id})
+    .update({orderData:JSON.stringify(orders[iteration].orderData)})
+    .then(function() {
+      if (iteration == orders.length-1) {
+        res.send('success');
+      } else {
+        iteration ++;
+        markOrder(orders);
+      }
+    })
+    .catch(function(err) {
+      console.log(err);
+      res.send(err);
+    })
+  }
+  markOrder(req.body);
+}
+exports.sendOrders = function(req, res, next) {
+  var iteration = 0;
+  function markOrder(orders) {
+    console.log(orders);
+    knex('orders')
+    .where({id:orders[iteration]})
+    .select('*')
+    .then(function(data) {
+      var order = JSON.parse(data[0].orderData);
+      order.status = 'sent';
+      knex('orders')
+      .where({id:orders[iteration]})
+      .update({orderData:JSON.stringify(order)})
+      .then(function() {
+        if (iteration == orders.length-1) {
+          res.send('success');
+        } else {
+          iteration ++;
+          markOrder(orders);
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+        res.send(err);
+      })
+    })
+    .catch(function(err) {
+      console.log(err);
+      res.send(err);
+    })
+  }
+  markOrder(req.body);
 }
 exports.getCategories = function(req, res, send) {
   knex('item_categories')
