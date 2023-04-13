@@ -1358,7 +1358,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   async function generateQRCodes(arr) {
     var qrCodes = [];
     await arr.forEach(bag => {
-      code = "www.yellowbagofhumanity.com/recipients/:"+ bag.id + "/:"  + bag.bag_data.uid;
+      code = "www.yellowbagofhumanity.com/#!/recipient/:"+ bag.id + "/:"  + bag.bag_data.uid;
       const qrCodeContainer = document.createElement('div');
       const qrCodeWidth = 200;
       const qrCodeHeight = 200;
