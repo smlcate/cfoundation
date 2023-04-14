@@ -6567,9 +6567,9 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
 
       if (paymentIntent && paymentIntent.status == 'succeeded') {
 
-        $('.HYPE_document').css('display','block');
-        $('.loadMask').css('display','flex');
-        thankyouLoadingBagAnim();
+        // $('.HYPE_document').css('display','block');
+        // $('.loadMask').css('display','flex');
+        // thankyouLoadingBagAnim();
 
         $http.post('newOrder',{order:$scope.order})
         .then(function(res) {
