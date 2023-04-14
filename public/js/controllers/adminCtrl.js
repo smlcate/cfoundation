@@ -174,10 +174,22 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   function getOrders() {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    };
     $http.get('getOrders')
     .then(function(res) {
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].orderData = JSON.parse(res.data[i].orderData);
+
+        res.data[i].orderData.prettyTime = new Date(res.data[i].orderData.timestamp);
+        res.data[i].orderData.prettyTime = res.data[i].orderData.prettyTime.toLocaleString('en-US', options);
         $scope.orders.push(res.data[i]);
         if (res.data[i].orderData.status != 'batched' && res.data[i].orderData.status != 'sent') {
           $scope.fulfillmentDisplay.requestedOrders.push(res.data[i]);

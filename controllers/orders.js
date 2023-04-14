@@ -22,7 +22,7 @@ exports.createOrderPaymentIntent = async function(req, res, next) {
 }
 
 exports.newOrder = function(req, res, send) {
-
+  req.body.order.timestamp = new Date();
   knex('orders')
   .insert({orderData:JSON.stringify(req.body.order)})
   .then(function() {

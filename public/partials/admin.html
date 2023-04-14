@@ -284,7 +284,7 @@
         <a href="" ng-click="removeCategory(cat)">X</a>
       </div>
       <span>
-        <input type="text" name="" value="" ng-model="newItemCategory.name">
+        <input type="text" name="" value="" placeholder="New Category" ng-model="newItemCategory.name">
         <a href="" ng-click="addCategory()">Add</a>
       </span>
     </div>
@@ -351,7 +351,7 @@
           </a>
         </span>
       </div>
-      <div class="careItemCategoryCells" id="categoryCell{{$index}}">
+      <div ng-if="uncategorized.length > 0" class="careItemCategoryCells" id="categoryCell{{$index}}">
         <h3>All Other</h3>
         <span>
           <a href="" ng-click="editCareItem(item)" class="careItemCells" id="careItemCell{{item.id}}" ng-repeat="item in uncategorized">
@@ -371,10 +371,29 @@
   <div class="adminPages" id="ordersAdminPage">
     <h1>Orders</h1>
 
-    <button id="buildOrderCSVBtn" type="button" name="button" ng-click="buildOrderCSV()">To CSV</button>
+    <!-- <button id="buildOrderCSVBtn" type="button" name="button" ng-click="buildOrderCSV()">To CSV</button> -->
     <div class="" id="ordersDisplay">
 
-      <div class="orderCells" ng-repeat="order in orders">
+      <h2>Requested Orders</h2>
+      <div class="orderCells" ng-repeat="order in fulfillmentDisplay.requestedOrders">
+        <h3 ng-if="fulfillmentDisplay.requestedOrders.length == 0">No Orders</h3>
+        <div class="orderCellRecipientDivs">
+          <p>{{order.orderData.prettyTime}}</p>
+          <p>{{order.orderData.recipient.name}}</p>
+        </div>
+        <div class="orderCellRecipientDiagnosiesDivs" ng-repeat="dio in order.orderData.recipient.diagnosies">
+          <!-- <p ng-if="dio.name">{{dio.name}}</p> -->
+          <p>{{dio}}</p>
+        </div>
+        <div class="orderCellShippingDivs">
+          <p>{{order.orderData.shipping.address}} {{order.orderData.shipping.city}}, {{order.orderData.shipping.state}}</p>
+
+          <p ng-if="order.orderData.shipping.room != ''">{{order.orderData.shipping.room}}</p>
+        </div>
+      </div>
+      <h2>Fulfilled Orders</h2>
+      <div class="orderCells" ng-repeat="order in fulfillmentDisplay.filledOrders">
+        <h3 ng-if="fulfillmentDisplay.filledOrders.length == 0">No Orders Filled</h3>
         <div class="orderCellRecipientDivs">
           <p>{{order.orderData.recipient.name}}</p>
         </div>

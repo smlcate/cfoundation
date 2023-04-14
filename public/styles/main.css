@@ -686,8 +686,10 @@ header {
 }
 #ordersDisplay {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: space-between; */
+  /* flex-wrap: wrap; */
 }
 #buildOrderCSVBtn {
   font-size: 1em;
@@ -730,6 +732,7 @@ header {
 }
 .orderCellRecipientDivs {
   display: flex;
+  gap: 0.5em;
   margin-right: 2em;
   /* justify-content: space-between; */
   /* width: 50%; */

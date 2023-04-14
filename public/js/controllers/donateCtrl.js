@@ -19,7 +19,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   var checkoutButton = document.getElementById('checkout-button');
 
-  paypal.Buttons().render('#paypal-button-container');
+  // paypal.Buttons().render('#paypal-button-container');
 
   function setDonationAmount() {
 

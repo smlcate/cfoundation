@@ -6233,6 +6233,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
       lName:'',
       total:0
     },
+    timestamp:'',
     status:'requested'
   }
 
@@ -6562,6 +6563,7 @@ app.controller('orderCtrl', ['$scope', '$http', '$window', '$compile', function(
         to_email: $scope.order.billing.email,
         amount: Number($scope.order.billing.total) + Number($scope.shippingPrice)
       }
+
 
       if (paymentIntent && paymentIntent.status == 'succeeded') {
 
