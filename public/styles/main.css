@@ -680,6 +680,35 @@ header {
   padding-left: 20px;
   margin-top:0px;
 }
+#reviewsAdminPage h1 {
+  padding-left: 30px;
+}
+#reviewsAdminPage span {
+  display: flex;
+  align-items: center;
+  height: 2em;
+  margin-bottom: 0px;
+}
+#reviewsAdminPage textarea {
+  margin-top:-.5em;
+  height: 10em;
+  width: 80vw;
+  font-size: 1em;
+}
+#reviewsAdminPage input {
+  margin-bottom: 0px;
+  /* height: 30px; */
+  font-size: 1em;
+}
+#reviewsAdminPage p {
+  /* height: 30px; */
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#reviewSettingsDiv {
+  padding-left: 20px;
+  margin-top:0px;
+}
 
 #ordersAdminPage {
   width:100vw;
@@ -2350,7 +2379,7 @@ input:checked + .slider:after {
   margin: 0em;
 }
 #reviewsParentDisplay {
-
+  padding-top: 1.5em;
 }
 #reviewsParentDisplay span {
   display: flex;
@@ -2372,6 +2401,7 @@ input:checked + .slider:after {
   /* padding: 1em; */
   font-size: 1.5em;
   background:#E7E1FB;
+  min-width: 80vw;
 }
 
 footer {

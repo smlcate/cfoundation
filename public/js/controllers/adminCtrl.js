@@ -114,6 +114,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   $scope.testimonialSettings = {
     inputs:{
       name:'Anonymous',
+      type:'recipient',
       testimonial:'',
       favorite:false,
       ribbons:['']
@@ -122,6 +123,20 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     mode:'new'
   }
 
+  $scope.reviewSettings = {
+    inputs:{
+      name:'Anonymous',
+      type:'recipient',
+      favorite:false,
+      permission:true,
+      ratings:{
+        comments:''
+      },
+      ribbons:['']
+    },
+    toEdit:{}, //Selected Testimonial
+    mode:'new'
+  }
   $scope.displayBuilt = false;
 
 
@@ -198,7 +213,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         }
 
       }
-      console.log($scope.fulfillmentDisplay.requestedOrders);
+      // console.log($scope.fulfillmentDisplay.requestedOrders);
     })
     .catch(function(err) {
       console.log(err);
@@ -301,7 +316,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         $scope.fulfillments[i].showBags = false;
         // console.log($scope.fulfillments[i].fulfillment_data);
       }
-      console.log($scope.fulfillments);
+      // console.log($scope.fulfillments);
     })
     .catch(function(err) {
       console.log(err);
@@ -338,11 +353,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
-        console.log(data);
+        // console.log(data);
         // if (data.category && !data.category.id && data.category.name != 'None') data.category = JSON.parse(data.category);
         if (data.category) {
           if (i == 0) {
@@ -524,7 +539,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           if (i == parsedRates.length - 1) {
             $http.post('uploadShippingRates',JSON.stringify({name:$scope.newShippingRatesName,rates:seperatedRates}))
             .then(function (res) {
-              console.log(res.data);
+              // console.log(res.data);
             })
             .catch(function (err) {
               console.log(err);
@@ -755,6 +770,9 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
+  $scope.favNewReview = function() {
+    $scope.reviewSettings.inputs.favorite = $scope.reviewSettings.inputs.favorite? false: true;
+  }
   $scope.favReview = function(b, r) {
     if (b) {
       $http.post('addFavReview', {id:r.id})
@@ -775,9 +793,45 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     }
   }
 
+  function getReviews() {
+    $http.get('getReviews')
+    .then(function(res) {
+      $scope.reviews = res.data;
+      for (var i = 0; i < $scope.reviews.length; i++) {
+        $scope.reviews[i].review_data = JSON.parse($scope.reviews[i].review_data);
+      }
+      // getTestimonials()
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.addReview = function() {
+    $http.post('postReview', $scope.reviewSettings.inputs)
+    .then(function(res) {
+      getReviews();
+      // console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+
+  $scope.selectReviewDiagnosis = function(i) {
+    thisRibbon = $scope.reviewSettings.inputs.ribbons[i];
+    if (
+      thisRibbon !== '' &&
+      thisRibbon !== null &&
+      $scope.reviewSettings.inputs.ribbons.length === i + 1
+    ) {
+      $scope.reviewSettings.inputs.ribbons.push('');
+    }
+  }
+
 
   $scope.addCategory = function() {
-    console.log('hit');
+    // console.log('hit');
     $http.post('addCategory', JSON.stringify($scope.newItemCategory))
     .then(function(res) {
       getCategories();
@@ -788,7 +842,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
   $scope.removeCategory = function(cat) {
-    console.log('hit');
+    // console.log('hit');
     $http.post('removeCategory', {id:cat.id})
     .then(function(res) {
       getCategories();
@@ -799,7 +853,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   }
 
   $scope.generateQR = function() {
-    console.log(QRCode);
+    // console.log(QRCode);
     const qrCodeContainer = document.getElementById('qr-code-container');
 
   // Create a new QRCode object and render the QR code in the container element

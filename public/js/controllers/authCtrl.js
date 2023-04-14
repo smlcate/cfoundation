@@ -193,7 +193,7 @@ app.controller('authCtrl',  ['$scope', '$http','$window', '$compile','$location'
     if ($scope.user != null && $scope.user.email) {
       $http.post('getUsersDonations',$scope.user)
       .then(function(res) {
-        console.log(res.data);
+        // console.log(res.data);
         for (var i = 0; i < res.data.length; i++) {
 
           res.data[i].reg.donation_data = JSON.parse(res.data[i].reg.donation_data);

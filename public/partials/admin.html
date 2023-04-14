@@ -427,11 +427,46 @@
 
   <div class="adminPages" id="reviewsAdminPage">
     <h1>Reviews</h1>
-    <div class="reviewCells" ng-repeat="review in reviews">
-      <p>{{review}}</p>
-      <a href="" ng-if="review.review_data.favorite == false" ng-click="favReview(true,review)">Favorite</a>
-      <a href="" ng-if="review.review_data.favorite == true" ng-click="favReview(false,review)">Favorited</a>
+    <div class="" id="reviewSettingsDiv">
+      <span>
+        <p>Name</p>
+        <input type="text" name="" value="" ng-model="reviewSettings.inputs.name">
+        <a href="" ng-if="reviewSettings.inputs.favorite" ng-click="favNewReview()">Favorited</a>
+        <a href="" ng-if="reviewSettings.inputs.favorite == false" ng-click="favNewReview()">Favorite</a>
+        <p>Diagnosies</p>
+        <div class="" id="receiverInfoDiagnosiesDropdownContainer">
+          <div id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in reviewSettings.inputs.ribbons track by $index">
+            <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="reviewSettings.inputs.ribbons[$index]" ng-change="selectReviewDiagnosis($index)" name="">
+              <option value="" disabled required="required">Add Diagnosis</option>
+              <option value="{{dio.ribbonData}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+            </select>
+            <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a>
+          </div>
+        </div>
+      </span>
+
+      <p>Review</p>
+      <textarea id="reviewTextInput" type="text" name="" value="" ng-model="reviewSettings.inputs.ratings.comments"></textarea>
+
+      <span>
+        <button ng-if="reviewSettings.mode == 'new' && reviewSettings.inputs.review != ''" type="button" name="button" ng-click="addReview()">Add Review</button>
+        <button ng-if="reviewSettings.mode == 'edit'" type="button" name="button" ng-click="editReview()">Save Edit</button>
+        <button ng-if="reviewSettings.mode == 'edit'" type="button" name="button" ng-click="cancelReviewEdit()">Cancel</button>
+      </span>
+      <button ng-if="reviewSettings.mode == 'edit'" type="button" name="button" ng-click="removeReview()">Delete</button>
+
     </div>
+    <div class="" id="adminTestimonialsDisplay">
+      <div href="" class="adminTestimonialCells" ng-repeat="r in reviews track by $index" ng-click="thisReview(t)">
+        <p>Name: {{r.review_data.name}}</p>
+        <p>Review: {{r.review_data.ratings.comments}}</p>
+        <a href="" ng-if="r.review_data.favorite == false" ng-click="favReview(true,review)">Favorite</a>
+        <a href="" ng-if="r.review_data.favorite == true" ng-click="favReview(false,review)">Favorited</a>
+      </div>
+    </div>
+    <!-- <div class="reviewCells" ng-repeat="review in reviews">
+      <p>{{review}}</p>
+    </div> -->
   </div>
 
   <div class="adminPages" id="newsAdminPage">
