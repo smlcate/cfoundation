@@ -17,6 +17,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   };
 
   $scope.categories = [];
+  $scope.uncategorized = [];
   $scope.newItemCategory = {
     name:''
   }
@@ -180,6 +181,8 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
         $scope.orders.push(res.data[i]);
         if (res.data[i].orderData.status != 'batched' && res.data[i].orderData.status != 'sent') {
           $scope.fulfillmentDisplay.requestedOrders.push(res.data[i]);
+        } else {
+          $scope.fulfillmentDisplay.filledOrders.push(res.data[i]);
         }
 
       }
@@ -328,21 +331,26 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
         console.log(data);
-        if (data.category && !data.category.id) data.category = JSON.parse(data.category);
+        // if (data.category && !data.category.id && data.category.name != 'None') data.category = JSON.parse(data.category);
         if (data.category) {
           if (i == 0) {
             $scope.careItemsByCategory = [];
           }
-          for (var j = 0; j < $scope.categories.length; j++) {
-            if (data.category.category_data.name == $scope.categories[j].category_data.name) {
-              if ($scope.careItemsByCategory[j]) {
-                $scope.careItemsByCategory[j].push(data);
+          if (data.category.category_data.name == 'None') {
+            $scope.uncategorized.push(data);
+          } else {
+
+            for (var j = 0; j < $scope.categories.length; j++) {
+              if (data.category.category_data.name == $scope.categories[j].category_data.name) {
+                if ($scope.careItemsByCategory[j]) {
+                  $scope.careItemsByCategory[j].push(data);
+                } else {
+                  $scope.careItemsByCategory[j] = [data];
+                }
               } else {
-                $scope.careItemsByCategory[j] = [data];
-              }
-            } else {
-              if (!$scope.careItemsByCategory[j]) {
-                $scope.careItemsByCategory[j] = [];
+                if (!$scope.careItemsByCategory[j]) {
+                  $scope.careItemsByCategory[j] = [];
+                }
               }
             }
           }

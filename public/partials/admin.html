@@ -351,6 +351,19 @@
           </a>
         </span>
       </div>
+      <div class="careItemCategoryCells" id="categoryCell{{$index}}">
+        <h3>All Other</h3>
+        <span>
+          <a href="" ng-click="editCareItem(item)" class="careItemCells" id="careItemCell{{item.id}}" ng-repeat="item in uncategorized">
+            <img src="{{item.image}}" alt="">
+            <div class="careItemCellInfoDivs">
+              <p>{{item.name}}</p>
+              <p>{{item.quantity}} in Stock</p>
+              <p>${{item.price}} per.</p>
+            </div>
+          </a>
+        </span>
+      </div>
     </div>
 
   </div>
