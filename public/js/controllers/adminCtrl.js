@@ -323,9 +323,11 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
   function getItems() {
     $http.get('getItems')
     .then(function(res) {
+      console.log(res.data);
       $scope.careItems = [];
       for (var i = 0; i < res.data.length; i++) {
         var data = JSON.parse(res.data[i].itemData)
+        console.log(data);
         if (data.category && !data.category.id) data.category = JSON.parse(data.category);
         if (data.category) {
           if (i == 0) {
