@@ -348,6 +348,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
           if (i == 0) {
             $scope.careItemsByCategory = [];
           }
+          if(typeof data.category == 'string') data.category = JSON.parse(data.category);
           if (data.category.category_data.name == 'None') {
             $scope.uncategorized.push(data);
           } else {
