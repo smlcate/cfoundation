@@ -96,6 +96,7 @@ app.post('/getUsersDonations', server.profile.getUsersDonations);
 
 app.get('/getReviews', server.reviews.getReviews);
 app.post('/postReview', server.reviews.postReview);
+app.post('/editReview', server.reviews.editReview);
 app.post('/addFavReview', server.admin.addFavReview);
 app.post('/removeFavReview', server.admin.removeFavReview);
 

@@ -113,7 +113,7 @@
           <div id="receiverInfoDiagnosiesDropdownCell{{$index}}" class="receiverInfoDiagnosiesDropdownCells" ng-repeat="dropdown in testimonialSettings.inputs.ribbons track by $index">
             <select id="receiverInfoDiagnosiesDropdown{{$index}}" class="receiverInfoDiagnosiesDropdowns" ng-model="testimonialSettings.inputs.ribbons[$index]" ng-change="selectDiagnosis($index)" name="">
               <option value="" disabled required="required">Add Diagnosis</option>
-              <option value="{{dio.ribbonData.name}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
+              <option value="{{dio.ribbonData}}" ng-repeat="dio in ribbons">{{dio.ribbonData.name}}</option>
             </select>
             <a id="receiverInfoDiagnosiesRemoveAnc{{$index}}" ng-if="order.recipient.diagnosies[$index] != '' && order.recipient.diagnosies[$index] != null" href="" ng-click="removeDiagnosis(order.recipient.diagnosies[$index])">X</a>
           </div>
@@ -457,12 +457,12 @@
 
     </div>
     <div class="" id="adminTestimonialsDisplay">
-      <div href="" class="adminTestimonialCells" ng-repeat="r in reviews track by $index" ng-click="thisReview(t)">
-        <p>Name: {{r.review_data.name}}</p>
-        <p>Review: {{r.review_data.ratings.comments}}</p>
-        <a href="" ng-if="r.review_data.favorite == false" ng-click="favReview(true,review)">Favorite</a>
-        <a href="" ng-if="r.review_data.favorite == true" ng-click="favReview(false,review)">Favorited</a>
-      </div>
+      <a href="" class="adminTestimonialCells" ng-repeat="r in reviews track by $index" ng-click="thisReview(r)">
+        <h2>{{r.review_data.name}}</h2>
+        <p>{{r.review_data.ratings.comments}}</p>
+        <!-- <a href="" ng-if="r.review_data.favorite == false" ng-click="favReview(true,review)">Favorite</a>
+        <a href="" ng-if="r.review_data.favorite == true" ng-click="favReview(false,review)">Favorited</a> -->
+      </a>
     </div>
     <!-- <div class="reviewCells" ng-repeat="review in reviews">
       <p>{{review}}</p>

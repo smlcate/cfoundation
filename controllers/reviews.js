@@ -21,6 +21,19 @@ exports.getReviews = function(req, res, next) {
   })
 }
 
+exports.editReview = function(req, res, next) {
+  knex('reviews')
+  .where({id:req.body.id})
+  .update({review_data:req.body.data})
+  .then(function() {
+    res.send('success')
+  })
+  .catch(function(err) {
+    console.log(err);
+    res.send('error');
+  })
+}
+
 exports.postReview = function(req, res, next) {
   knex('reviews')
   .insert({review_data:req.body})

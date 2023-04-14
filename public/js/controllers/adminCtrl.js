@@ -778,6 +778,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       $http.post('addFavReview', {id:r.id})
       .then(function(res) {
         // console.log(res.data);
+        getReviews();
       })
       .catch(function(err) {
         console.log(err);
@@ -786,6 +787,7 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
       $http.post('removeFavReview', {id:r.id})
       .then(function(res) {
         // console.log(res.data);
+        getReviews();
       })
       .catch(function(err) {
         console.log(err);
@@ -807,6 +809,38 @@ app.controller('adminCtrl', ['$scope', '$http', '$window', '$compile', function(
     })
   }
 
+  $scope.thisReview = function(t) {
+    console.log(t);
+    var hold = {
+      id:t.id,
+      index:t.index,
+      name:t.review_data.name,
+      ratings: {
+        comments: t.review_data.ratings.comments
+      },
+      type:t.review_data.type,
+      permission:t.review_data.permission,
+      ribbons:t.review_data.ribbons
+    };
+    $scope.reviewSettings.toEdit = hold;
+    $scope.reviewSettings.inputs = t.review_data;
+
+    $scope.reviewSettings.mode = 'edit';
+  }
+
+  $scope.editReview = function() {
+    $http.post('editReview', {data:$scope.reviewSettings.inputs, id:  $scope.reviewSettings.toEdit.id})
+    .then(function(res) {
+      getReviews();
+      // console.log(res.data);
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
+  $scope.cancelReviewEdit = function() {
+    $scope.reviewSettings.mode = 'new';
+  }
   $scope.addReview = function() {
     $http.post('postReview', $scope.reviewSettings.inputs)
     .then(function(res) {
