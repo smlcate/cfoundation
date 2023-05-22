@@ -120,8 +120,8 @@
           <!-- <a class="pageNavAncs" id="browseAnc" href="/#!/browse" ng-click="changePage('browse',false)">The Bag</a> -->
           <a class="pageNavAncs" id="purchaseAnc" href="/#!/packages" ng-click="changePage('purchase',false)">Personal Donation</a>
           <a class="pageNavAncs" id="donateAnc" href="/#!/donate" ng-click="changePage('donate',false)">Donate</a>
-          <a class="pageNavAncs" id="testimonialsAnc" href="/#!/testimonials" ng-click="changePage('testimonials',false)">Testimonials</a>
-          <a class="pageNavAncs" id="reviewsAnc" href="/#!/reviews" ng-click="changePage('reviews',false)">Reviews</a>
+          <a class="pageNavAncs" id="testimonialsAnc" href="/#!/testimonials" ng-if="feedback.testimonials.length > 0" ng-click="changePage('testimonials',false)">Testimonials</a>
+          <a class="pageNavAncs" id="reviewsAnc" href="/#!/reviews" ng-if="feedback.reviews.length > 0" ng-click="changePage('reviews',false)">Reviews</a>
 
           <span ng-if="signedIn == false">
             <a id="signInAnc" class="accountNavAncs" href="/#!/signIn" ng-click="changePage('signIn',true)">Sign In</a>
