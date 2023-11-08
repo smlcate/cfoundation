@@ -57,14 +57,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$window', '$compile', '$location
     for (let i = 0; i < numBags; i++) {
       var type = iconTypes[Math.floor(Math.random() * iconTypes.length)]
       let bag;
-      let pos = {
-        left: `${Math.floor(Math.random() * 60)+15}vw`,
-        top: `${Math.floor(Math.random() * 2)}vh`,
-        transform: `scale(${Math.random()})`,
-        width: `${Math.random()+0.5}em`,
-        height: ''
-      }
-      pos.height = pos.width;
+
 
       if (type != 'ribbon' && type != 'heart') {
 

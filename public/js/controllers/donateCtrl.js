@@ -212,9 +212,16 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
   $scope.confirmDonation  = async (e) => {
 
+    // $('#submit').disabled = true;
+    $('#submit').attr('disabled', 'disabled');
+    console.log('hit');
+
     const clientSecret = await $http.post('createPaymentIntent', {paymentMethodType:card, currency:'usd', amount:$scope.donations.totalAmount*100})
     .then(function(res) {
       return res.data.clientSecret;
+    })
+    .catch(function(err) {
+      console.log(err);
     });
 
     const {paymentIntent} = await stripe.confirmCardPayment(
@@ -227,8 +234,10 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
           }
         }
       }
-    );
-    if (paymentIntent.status == 'succeeded') {
+    ).catch(function(err) {
+      console.log(err);
+    });
+    if (paymentIntent && paymentIntent.status == 'succeeded') {
 
       // $('.HYPE_document').css('display','block');
       // $('.loadMask').css('display','flex');
@@ -316,6 +325,9 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
                       })
                     }
                   })
+                  .catch(function(err) {
+                    console.log(err);
+                  })
                 }
 
               } else {
@@ -373,6 +385,8 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
       }
     } else {
       $('.loading').css('display', 'none');
+      $('#submit').removeAttr('disabled');
+
       console.log('Payment Failed');
     }
 
@@ -390,6 +404,7 @@ app.controller('donateCtrl', ['$scope', '$http', '$window', '$compile', function
 
 
   function init() {
+    console.log("hit here");
     $scope.changePage('donate');
     $scope.selectDonationType();
     $scope.selectBillingType('credit');
